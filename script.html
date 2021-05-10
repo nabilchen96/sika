@@ -1,0 +1,65 @@
+//1. ambil total poin bulanan dan semester
+$poin_bulanan    = CatatanPelanggaran::where('id_mahasiswa', $request->input('id_mahasiswa'))
+                    ->where('id_semester', $semester->id_semester)
+                    ->whereMonth('tgl_pelanggaran', '=', date('m'))
+                    ->sum('poin_pelanggaran');
+
+                    //4. ambil batas poin kritis dan maksimal bulanan dan semester
+                    $batas_bulananI = DB::table('batas_pelanggarans')->where('tingkat', 'Tingkat I')->where('periode', 'Bulanan')->first();
+                    $batas_bulananII   = DB::table('batas_pelanggarans')->where('tingkat', 'Tingkat II')->where('periode', 'Bulanan')->first();
+            
+                    //5. jika mahasiswa angkatan 1 dan melebihi batas kritis poin bulanan
+                    if($tingkat_mhs == 1 && $poin_bulanan >= $batas_bulananI->batas_kritis){
+                        $sisa_poin      = $poin_bulanan - $batas_bulananI->batas_kritis;
+                        $kelipatan      = ($sisa_poin - $sisa_poin % 5 )/5;
+            
+                        CatatanHukuman::create([
+                            'id_mahasiswa'      => $request->input('id_mahasiswa'),
+                            'tgl_hukuman'       => $request->input('tgl_pelanggaran'),
+                            'is_dikerjakan'     => "0",
+                            'id_semester'       => $semester->id_semester,
+                            'keterangan'        => 'Sanksi Tambahan Kerja Bakti dan Tugas Disiplin Lainnya selama '.($kelipatan+1).' Jam'
+                        ]);
+                    }
+            
+                    //7. jika mahasiswa angkatan 2 dan melebihi batas maksimal poin bulanan
+                    if($tingkat_mhs == 1 && $poin_bulanan >= $batas_bulananI->batas_maksimal){
+                        $sisa_poin      = $poin_bulanan - $batas_bulananI->batas_maksimal;
+                        $kelipatan      = ($sisa_poin - $sisa_poin % 5 )/5;
+                        CatatanHukuman::create([
+                            'id_mahasiswa'      => $request->input('id_mahasiswa'),
+                            'tgl_hukuman'       => $request->input('tgl_pelanggaran'),
+                            'is_dikerjakan'     => "0",
+                            'id_semester'       => $semester->id_semester,
+                            'keterangan'        => 'Sanksi Tambahan Tahanan Kampus Selama '.($kelipatan+1).' Minggu'
+                        ]);
+                    }
+            
+                    if($tingkat_mhs > 1 && $poin_bulanan >= $batas_bulananII->batas_kritis){
+                        $sisa_poin      = $poin_bulanan - $batas_bulananII->batas_kritis;
+                        $kelipatan      = ($sisa_poin - $sisa_poin % 5 )/5;
+                        CatatanHukuman::create([
+                            'id_mahasiswa'      => $request->input('id_mahasiswa'),
+                            'tgl_hukuman'       => $request->input('tgl_pelanggaran'),
+                            'is_dikerjakan'     => "0",
+                            'id_semester'       => $semester->id_semester,
+                            'keterangan'        => 'Sanksi Tambahan Kerja Bakti dan Tugas Disiplin Lainnya selama'.($kelipatan+1).'Jam'
+                        ]);
+                    }
+            
+                    if($tingkat_mhs > 1 && $poin_bulanan >= $batas_bulananII->batas_maksimal){
+                        $sisa_poin      = $poin_bulanan - $batas_bulananII->batas_maksimal;
+                        $kelipatan      = ($sisa_poin - $sisa_poin % 5 )/5;
+                        CatatanHukuman::create([
+                            'id_mahasiswa'      => $request->input('id_mahasiswa'),
+                            'tgl_hukuman'       => $request->input('tgl_pelanggaran'),
+                            'is_dikerjakan'     => "0",
+                            'id_semester'       => $semester->id_semester,
+                            'keterangan'        => 'Sanksi Tambahan Tahanan Kampus Selama'.($kelipatan+1).'Minggu'
+                        ]);
+                    }\
+
+                    <pre class="line-numbers language-markup" data-codetype="php" title="SCRIPT" style="color: rgb(169, 183, 198); background: rgb(40, 43, 46); display: block; overflow-x: auto; padding: 0.5em;">
+                        <br></br>composer <span class="hljs-keyword" style="color: rgb(204, 120, 50);">create</span>-<span class="hljs-keyword" style="color: rgb(204, 120, 50);">project</span> laravel/laravel example-app</pre>
+
+
