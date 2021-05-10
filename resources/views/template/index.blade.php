@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SIAKAD PoltekbangPLG</title>
+  <title>Sistem Informasi Ketarunaan</title>
 
   <!-- Custom fonts for this template-->
   <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -163,11 +163,11 @@
               ?>
 
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{{url('ubahpassword')}}/{{$id_user}}">
+                {{-- <a class="dropdown-item" href="{{url('ubahpassword')}}/{{$id_user}}">
                   <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                   Ubah Username & Password
-                </a>
-                <div class="dropdown-divider"></div>
+                </a> --}}
+                {{-- <div class="dropdown-divider"></div> --}}
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                   {{ __('Logout') }}
