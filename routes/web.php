@@ -79,7 +79,7 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
     Route::get('/hapustarunapengasuh/{id}', 'AsuhanController@destroy'); 
 });
 
-Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);
+Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh']);
 Route::get('/tarunakamar-json', 'TarunaKamarController@kamarjson')->middleware(['checkRole:pengasuh,admin']);
 Route::get('/kelompokkamartaruna-json', 'TarunaKamarController@kelompokkamarjson')->middleware(['checkRole:pengasuh,admin']);
 Route::get('/tambah-tarunakamar-json', 'TarunaKamarController@tambahtarunajson')->middleware(['checkRole:pengasuh,admin']);
