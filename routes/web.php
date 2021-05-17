@@ -23,6 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['checkRole:admin' ]], function () { 
 
+    // Route::get('/testcron', 'HomeController@testcron');
+
     Route::get('/update-taruna-server', 'TarunaController@updatetarunaserver');
     Route::get('/taruna-json', 'TarunaController@json');
     Route::get('/taruna', 'TarunaController@index');
