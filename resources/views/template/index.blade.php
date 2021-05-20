@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   @stack('style')
 
-  
+
 </head>
 
 <body id="page-top">
@@ -47,7 +47,31 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
+      <?php 
+        if (@$_GET['aplikasi'] != null) {
+          session()->put('aplikasi', $_GET['aplikasi']);
+        }else{
+          session()->put('aplikasi', 'ketarunaan');
+        }
+      ?>
+
       <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="#">
+          <form action="{{ url('home') }}" id="form">
+            <select name="aplikasi" class="form-control" onChange="document.getElementById('form').submit();">
+              <option {{ session()->get('aplikasi') == 'ketarunaan' ? 'selected' : ''}} value="ketarunaan">Bag.
+                Ketarunaan
+              </option>
+              <option {{ session()->get('aplikasi') == 'alumni' ? 'selected' : ''}} value="alumni">Bag. Alumni</option>
+            </select>
+          </form>
+        </a>
+      </li>
+
+      <hr class="sidebar-divider">
+
+      @if (session()->get('aplikasi') == 'ketarunaan')
       <li class="nav-item active">
         <a class="nav-link" href="{{url('home')}}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -55,22 +79,22 @@
         </a>
       </li>
 
-
-      <hr class="sidebar-divider">
-
       @if (auth::user()->role == 'admin')
       <li class="nav-item @stack('master')">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+          aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Master Data</span>
         </a>
-        <div id="collapseOne" class="collapse @stack('sub-master')" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseOne" class="collapse @stack('sub-master')" aria-labelledby="headingTwo"
+          data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item @stack('taruna')" href="{{ url('taruna') }}">Data Taruna</a>
             <a class="collapse-item @stack('kamar')" href="{{ url('kamar') }}">Kamar</a>
             <a class="collapse-item @stack('pelanggaran')" href="{{ url('pelanggaran') }}">Pelanggaran</a>
             <a class="collapse-item @stack('penghargaan')" href="{{ url('penghargaan') }}">Penghargaan</a>
-            <a class="collapse-item @stack('bataspelanggaran')" href="{{ url('bataspelanggaran ')}}">Batas Pelanggaran</a>
+            <a class="collapse-item @stack('bataspelanggaran')" href="{{ url('bataspelanggaran ')}}">Batas
+              Pelanggaran</a>
             <a class="collapse-item @stack('pengasuh')" href="{{ url('pengasuh') }}">Pengasuh</a>
             <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
           </div>
@@ -91,17 +115,22 @@
         </a>
       </li>
       <li class="nav-item @stack('catatan')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+          aria-controls="collapseTwo">
           <i class="fas fa-clipboard"></i>
           <span>Catatan</span>
         </a>
-        <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+          data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan Pelanggaran</a>
+            <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+              Pelanggaran</a>
             <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
-            <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan Penghargaan</a>
+            <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+              Penghargaan</a>
             <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
-            <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan Perizinan</a>
+            <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+              Perizinan</a>
           </div>
         </div>
       </li>
@@ -111,6 +140,39 @@
           <span>Penilaian</span>
         </a>
       </li>
+      @else
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url('home')}}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url('home')}}">
+          <i class="fas fa-user-graduate"></i>
+          <span>Data Alumni</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url('home')}}">
+          <i class="fas fa-question"></i>
+          <span>Kuesioner</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url('home')}}">
+          <i class="fas fa-chart-area"></i>
+          <span>Laporan Tracer Study</span>
+        </a>
+      </li>
+      @endif
+      <li class="nav-item">
+        <a class="nav-link" href="{{url('home')}}">
+          <i class="fas fa-bullhorn"></i>
+          <span>Pengumuman & Berita</span>
+        </a>
+      </li>
+
     </ul>
     <!-- End of Sidebar -->
 
@@ -148,13 +210,74 @@
               </div>
             </li>
 
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">7</span>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  Message Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                    <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                      problem I've been having.</div>
+                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                    <div class="status-indicator"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">I have the photos that you ordered last month, how
+                      would you like them sent to you?</div>
+                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+                    <div class="status-indicator bg-warning"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with
+                      the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                      told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              </div>
+            </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="30" height="30">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                  width="30" height="30">
                 {{-- <i class="fas fa-user" width="200px"></i> --}}
               </a>
               <!-- Dropdown - User Information -->
@@ -164,8 +287,8 @@
 
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 {{-- <a class="dropdown-item" href="{{url('ubahpassword')}}/{{$id_user}}">
-                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Ubah Username & Password
+                <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                Ubah Username & Password
                 </a> --}}
                 {{-- <div class="dropdown-divider"></div> --}}
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

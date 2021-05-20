@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 alert alert-primary">
-        <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Master Data / Data Taruna</h2>
+          <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Master Data / Data Taruna</h2>
         </div>
 
         <div class="card mb-12">
