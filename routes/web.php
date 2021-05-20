@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('pengumuman', 'PengumumanController@index');
+Route::get('peraturan', 'PeraturanController@index');
 
 Auth::routes();
 
@@ -77,6 +78,12 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
     Route::get('/tambah-tarunapengasuh', 'AsuhanController@create');
     Route::post('/simpan-tarunapengasuh', 'AsuhanController@store');
     Route::get('/hapustarunapengasuh/{id}', 'AsuhanController@destroy'); 
+
+    Route::get('/alumni', 'AlumniController@index');
+    Route::get('/alumni-json', 'AlumniController@json');
+    Route::get('/tambah-alumni', 'AlumniController@create');
+
+    Route::get('/kuesioner', 'KuesionerController@index');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);

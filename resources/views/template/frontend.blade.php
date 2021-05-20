@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('frontend/vendors/mdi/css/materialdesignicons.min.css') }}">
   <link rel="stylesheet" href="{{ asset('frontend/vendors/aos/css/aos.css') }}">
   <link rel="stylesheet" href="{{ asset('frontend/css/style.min.css') }}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
   <style>
     .contact-us .contact-us-bgimage {
       padding: 20px !important;
@@ -69,7 +70,7 @@
               <a class="nav-link" href="{{ url('pengumuman') }}">Pengumuman</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="prestasi.html">PT3</a>
+              <a class="nav-link" href="{{ url('peraturan') }}">PT3</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="pelanggaran.html">Prestasi</a>
@@ -91,6 +92,15 @@
   <script src="{{ asset('frontend/vendors/owl-carousel/js/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('frontend/vendors/aos/js/aos.js') }}"></script>
   <script src="{{ asset('frontend/js/landingpage.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js "></script>
+  <script>
+      $(document).ready(function () {
+          $('#example').DataTable();
+          $('#example1').DataTable();
+      });
+  </script>
 </body>
 
 </html>

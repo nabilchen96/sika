@@ -50,8 +50,6 @@
       <?php 
         if (@$_GET['aplikasi'] != null) {
           session()->put('aplikasi', $_GET['aplikasi']);
-        }else{
-          session()->put('aplikasi', 'ketarunaan');
         }
       ?>
 
@@ -71,104 +69,106 @@
 
       <hr class="sidebar-divider">
 
-      @if (session()->get('aplikasi') == 'ketarunaan')
-      <li class="nav-item active">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
+      {{-- {{ url()->current() }} --}}
 
-      @if (auth::user()->role == 'admin')
-      <li class="nav-item @stack('master')">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Master Data</span>
-        </a>
-        <div id="collapseOne" class="collapse @stack('sub-master')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('taruna')" href="{{ url('taruna') }}">Data Taruna</a>
-            <a class="collapse-item @stack('kamar')" href="{{ url('kamar') }}">Kamar</a>
-            <a class="collapse-item @stack('pelanggaran')" href="{{ url('pelanggaran') }}">Pelanggaran</a>
-            <a class="collapse-item @stack('penghargaan')" href="{{ url('penghargaan') }}">Penghargaan</a>
-            <a class="collapse-item @stack('bataspelanggaran')" href="{{ url('bataspelanggaran ')}}">Batas
-              Pelanggaran</a>
-            <a class="collapse-item @stack('pengasuh')" href="{{ url('pengasuh') }}">Pengasuh</a>
-            <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
-          </div>
-        </div>
-      </li>
-      @endif
+      @if (session()->get('aplikasi') == 'ketarunaan' or session()->get('aplikasi') == null)
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url('home')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
 
-      <li class="nav-item @stack('tarunakamar')">
-        <a class="nav-link" href="{{url('tarunakamar')}}">
-          <i class="fas fa-layer-group"></i>
-          <span>Taruna Kamar</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('tarunapengasuh')">
-        <a class="nav-link" href="{{url('tarunapengasuh')}}">
-          <i class="fas fa-layer-group"></i>
-          <span>Taruna Pengasuh</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('catatan')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-clipboard"></i>
-          <span>Catatan</span>
-        </a>
-        <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
-              Pelanggaran</a>
-            <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
-            <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
-              Penghargaan</a>
-            <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
-            <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
-              Perizinan</a>
+        @if (auth::user()->role == 'admin')
+        <li class="nav-item @stack('master')">
+          <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Master Data</span>
+          </a>
+          <div id="collapseOne" class="collapse @stack('sub-master')" aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item @stack('taruna')" href="{{ url('taruna') }}">Data Taruna</a>
+              <a class="collapse-item @stack('kamar')" href="{{ url('kamar') }}">Kamar</a>
+              <a class="collapse-item @stack('pelanggaran')" href="{{ url('pelanggaran') }}">Pelanggaran</a>
+              <a class="collapse-item @stack('penghargaan')" href="{{ url('penghargaan') }}">Penghargaan</a>
+              <a class="collapse-item @stack('bataspelanggaran')" href="{{ url('bataspelanggaran ')}}">Batas
+                Pelanggaran</a>
+              <a class="collapse-item @stack('pengasuh')" href="{{ url('pengasuh') }}">Pengasuh</a>
+              <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
+            </div>
           </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-star"></i>
-          <span>Penilaian</span>
-        </a>
-      </li>
+        </li>
+        @endif
+
+        <li class="nav-item @stack('tarunakamar')">
+          <a class="nav-link" href="{{url('tarunakamar')}}">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Taruna Kamar</span>
+          </a>
+        </li>
+        <li class="nav-item @stack('tarunapengasuh')">
+          <a class="nav-link" href="{{url('tarunapengasuh')}}">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Taruna Pengasuh</span>
+          </a>
+        </li>
+        <li class="nav-item @stack('catatan')">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-clipboard"></i>
+            <span>Catatan</span>
+          </a>
+          <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+                Pelanggaran</a>
+              <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
+              <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+                Penghargaan</a>
+              <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
+              <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+                Perizinan</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('home')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Penilaian</span>
+          </a>
+        </li>
       @else
-      <li class="nav-item active">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-user-graduate"></i>
-          <span>Data Alumni</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-question"></i>
-          <span>Kuesioner</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-chart-area"></i>
-          <span>Laporan Tracer Study</span>
-        </a>
-      </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url('home') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @stack('alumni') href="{{ url('alumni') }}">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            <span> Data Alumni</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('kuesioner')}}">
+            <i class="fas fa-fw fa-question"></i>
+            <span>Kuesioner</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('home')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Laporan Tracer Study</span>
+          </a>
+        </li>
       @endif
       <li class="nav-item">
         <a class="nav-link" href="{{url('home')}}">
-          <i class="fas fa-bullhorn"></i>
+          <i class="fas fa-fw fa-bullhorn"></i>
           <span>Pengumuman & Berita</span>
         </a>
       </li>
