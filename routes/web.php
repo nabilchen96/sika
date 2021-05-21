@@ -81,6 +81,7 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
 
     Route::get('/alumni', 'AlumniController@index');
     Route::get('/alumni-json', 'AlumniController@json');
+    Route::get('/tambah-alumni-json', 'AlumniController@tarunajson');
     Route::get('/tambah-alumni', 'AlumniController@create');
 
     Route::get('/kuesioner', 'KuesionerController@index');

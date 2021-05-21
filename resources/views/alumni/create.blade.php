@@ -30,10 +30,11 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Program Studi</label>
                         <div class="col-sm-4">
-                            <select name="id_prodi" class="form-control">
-                                <option value="">Manajemen Bandar Udara</option>
-                                <option value="">Penyelamatan Pemadam Kebakaran Penerbangan</option>
-                                <option value="">Teknologi Rekayasa Bandar Udara</option>
+                            <select  onchange="prodi()" name="id_prodi" id="id_prodi" class="form-control">
+                                <option value="">--Pilih Prodi--</option>
+                                <option value="c40d9f90-2a98-4b08-9947-a02e660ef7ff">Manajemen Bandar Udara</option>
+                                <option value="ed1f301a-f97d-4186-a8ea-647122b1f68e">Penyelamatan dan Pemadam Kebakaran Penerbangan</option>
+                                <option value="c0d0034a-70ec-436d-b88f-b85182ba6fe1">Teknologi Rekayasa Bandar Udara</option>
                             </select>
                         </div>
                     </div>
@@ -86,29 +87,39 @@
     @endif
 </script>
 <script>
-    $(function() {
-          let id
-          $('#table-taruna').DataTable({
-              processing: true,
-              serverSide: true,
-              ajax: 'tambah-tarunakamar-json',
-              columns: [
-                    { data: 'id_mahasiswa', render: function (data){
-                        return '<input style="vertical-align: middle;" type="checkbox" class="form-control" name="id_mahasiswa[]" value="'+data+'">'
-                    }},
-                  { data: 'id_mahasiswa', name:'id_mahasiswa', render: function (data, type, row, meta) {
-                      id = data
-                      return meta.row + meta.settings._iDisplayStart + 1;
-                  }},
-                  { data: 'nim', name:'nim'},
-                  { data: 'nama_mahasiswa', name:'nama_mahasiswa'},
-                  { data: 'jenis_kelamin', name:'jenis_kelamin', render: function(data){
-                    return (data == 'L' ? 'Laki-laki' : 'Perempuan')
-                  }},
-                  { data: 'nama_program_studi', name:'nama_program_studi'},
-                  { data: 'nama_kelas', name: 'nama_kelas'},
-              ]
-          });
-      });
+    function prodi(){
+        var id_prodi = document.getElementById('id_prodi').value 
+        let id
+        $('#table-taruna').DataTable({
+            bDestroy: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'tambah-alumni-json',
+                data: {
+                    'id_prodi': id_prodi
+                }
+            },
+            columns: [
+                { data: 'id_mahasiswa', render: function (data){
+                    return '<input style="vertical-align: middle;" type="checkbox" name="id_mahasiswa[]" value="'+data+'">'
+                }},
+                { data: 'id_mahasiswa', name:'id_mahasiswa', render: function (data, type, row, meta) {
+                    id = data
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }},
+                { data: 'nim', name:'nim'},
+                { data: 'nama_mahasiswa', name:'nama_mahasiswa'},
+                { data: 'jenis_kelamin', name:'jenis_kelamin', render: function(data){
+                return (data == 'L' ? 'Laki-laki' : 'Perempuan')
+                }},
+                { data: 'nama_program_studi', name:'nama_program_studi'},
+                { data: 'nama_kelas', name: 'nama_kelas'},
+            ]
+        });
+
+    }
+
+    
 </script>
 @endpush

@@ -35,18 +35,14 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size: 14px;">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Kamar tidur, ruang belajar, kamar mandi dan koridor asrama tidak atau kotor</td>
-                                    <td>Pelanggaran Ringan</td>
-                                    <td>5 poin</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Tata letak perlengkapan tidak sesuai ketentuan peraturan urusan dinas dalam</td>
-                                    <td>Pelanggaran Ringan</td>
-                                    <td>5 poin</td>
-                                </tr>
+                               @foreach ($pelanggaran as $k => $item)
+                                   <tr>
+                                       <td>{{ $k+1 }}</td>
+                                       <td>{{ $item->pelanggaran }}</td>
+                                       <td>{{ $item->kategori_pelanggaran }}</td>
+                                       <td>{{ $item->poin_pelanggaran }} Poin</td>
+                                   </tr>
+                               @endforeach
                             </tbody>
                         </table>
                         <div>
@@ -71,18 +67,14 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size: 14px;">
+                                @foreach ($penghargaan as $k => $item)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Peringkat kelas no 1 s/d 5</td>
-                                    <td>Akademik</td>
-                                    <td>25 poin</td>
+                                    <td>{{ $k+1 }}</td>
+                                    <td>{{ $item->penghargaan }}</td>
+                                    <td>{{ $item->bidang_penghargaan }}</td>
+                                    <td>{{ $item->poin_penghargaan }} Poin</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Menang Lomba Cerdas Cermat</td>
-                                    <td>Akademik</td>
-                                    <td>25 poin</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div>
