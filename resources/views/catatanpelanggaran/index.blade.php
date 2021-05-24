@@ -1,3 +1,4 @@
+
 @extends('template.index')
 
 @push('catatan') active @endpush

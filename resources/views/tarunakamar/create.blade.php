@@ -92,7 +92,7 @@
               ajax: 'tambah-tarunakamar-json',
               columns: [
                     { data: 'id_mahasiswa', render: function (data){
-                        return '<input style="vertical-align: middle;" type="checkbox" class="form-control" name="id_mahasiswa[]" value="'+data+'">'
+                        return '<input style="vertical-align: middle;" type="checkbox" name="id_mahasiswa[]" value="'+data+'">'
                     }},
                   { data: 'id_mahasiswa', name:'id_mahasiswa', render: function (data, type, row, meta) {
                       id = data

@@ -83,8 +83,11 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
     Route::get('/alumni-json', 'AlumniController@json');
     Route::get('/tambah-alumni-json', 'AlumniController@tarunajson');
     Route::get('/tambah-alumni', 'AlumniController@create');
+    Route::post('/simpan-alumni', 'AlumniController@store');
 
     Route::get('/kuesioner', 'KuesionerController@index');
+    Route::post('/tambah-kuesioner', 'KuesionerController@store');
+    Route::get('/detail-kuesioner/{id}', 'KuesionerController@detail');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);

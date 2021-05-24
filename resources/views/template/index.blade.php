@@ -147,13 +147,13 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" @stack('alumni') href="{{ url('alumni') }}">
+        <li class="nav-item @stack('alumni')">
+          <a class="nav-link" href="{{ url('alumni') }}">
             <i class="fas fa-fw fa-user-graduate"></i>
             <span> Data Alumni</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item @stack('kuesioner')">
           <a class="nav-link" href="{{url('kuesioner')}}">
             <i class="fas fa-fw fa-question"></i>
             <span>Kuesioner</span>

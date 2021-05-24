@@ -18,7 +18,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" width="100%" id="table-taruna" cellspacing="0">
+                    <table class="table table-bordered table-striped" width="100%" id="table-alumni" cellspacing="0">
                       <thead>
                         <tr>
                           <th style="width: 20px">No</th>
@@ -52,5 +52,30 @@
         toastr.error("{{ $message }}")
     @endif
   </script>
-
+  <script>
+      $(function() {
+        let id
+        $('#table-alumni').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'alumni-json',
+            columns: [
+                { data: 'id_alumni', name:'id_alumni', render: function (data, type, row, meta) {
+                    id = data
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }},
+                { data: 'nim', name:'nim'},
+                { data: 'nama_mahasiswa', name:'nama_mahasiswa'},
+                { data: 'jenis_kelamin', name:'jenis_kelamin', render: function(data){
+                  return (data == 'L' ? 'Laki-laki' : 'Perempuan')
+                }},
+                { data: 'nama_program_studi', name:'nama_program_studi'},
+                { data: 'tgl_lulus', name: 'tgl_lulus'},
+                { name:'detail', render: function(data){
+                  return '<a href={{ url("alumni") }}/'+id+' class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>'
+                }},
+            ]
+        });
+    });
+  </script>
 @endpush

@@ -26,11 +26,10 @@
                             <input type="date" name="tgl_lulus" class="form-control">
                         </div>
                     </div>
-                    <br>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Program Studi</label>
                         <div class="col-sm-4">
-                            <select  onchange="prodi()" name="id_prodi" id="id_prodi" class="form-control">
+                            <select  onchange="prodi()" id="id_prodi" class="form-control">
                                 <option value="">--Pilih Prodi--</option>
                                 <option value="c40d9f90-2a98-4b08-9947-a02e660ef7ff">Manajemen Bandar Udara</option>
                                 <option value="ed1f301a-f97d-4186-a8ea-647122b1f68e">Penyelamatan dan Pemadam Kebakaran Penerbangan</option>
@@ -38,7 +37,6 @@
                             </select>
                         </div>
                     </div>
-                    <br>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Nama Taruna</label>
                         <div class="col-sm-10">
