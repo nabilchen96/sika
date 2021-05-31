@@ -66,7 +66,11 @@
                             <td>{{ $k+1 }}</td>
                             <td>{{ $item->judul_kuesioner }}</td>
                             <td> 0 </td>
-                            <td> 0 </td>
+                            <td>
+                              <?php 
+                                echo $total_soal = DB::table('detail_kuesioners')->where('id_kuesioner', $item->id_kuesioner)->count();  
+                              ?>
+                            </td>
                             <td>
                               {{ $item->status == 0 ? 'Tidak Aktif' : 'Aktif' }}
                             </td>
@@ -77,7 +81,7 @@
                               <a href="#" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
                             </td>
                             <td>
-                              <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                              <a href="{{ url('hapuskuesioner') }}/{{ $item->id_kuesioner }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                             </td>
                           </tr>
                         @endforeach

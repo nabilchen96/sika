@@ -41,7 +41,7 @@
     <nav class="navbar navbar-expand-lg pl-3 pl-sm-0" id="navbar">
       <div class="container">
         <div class="navbar-brand-wrapper d-flex w-100">
-          <img src="{{ asset('frontend/images/logo.png') }}" style="width: 20%;" alt="">
+          <img src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -74,6 +74,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="pelanggaran.html">Prestasi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pelanggaran.html">Kuesioner</a>
             </li>
             <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
               <a href="{{ url('login') }}" class="btn btn-info">

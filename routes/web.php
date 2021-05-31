@@ -87,7 +87,12 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
 
     Route::get('/kuesioner', 'KuesionerController@index');
     Route::post('/tambah-kuesioner', 'KuesionerController@store');
-    Route::get('/detail-kuesioner/{id}', 'KuesionerController@detail');
+    Route::get('/hapuskuesioner/{id}', 'KuesionerController@destroy');
+
+    Route::get('/detail-kuesioner/{id}', 'DetailKuesionerController@index');
+    Route::post('/tambah-soal-kuesioner', 'DetailKuesionerController@store');
+    Route::post('/edit-soal-kuesioner', 'DetailKuesionerController@update');
+    Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);
