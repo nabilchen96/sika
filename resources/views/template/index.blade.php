@@ -159,12 +159,12 @@
             <span>Kuesioner</span>
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link" href="{{url('home')}}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Laporan Tracer Study</span>
           </a>
-        </li>
+        </li> --}}
       @endif
       <li class="nav-item">
         <a class="nav-link" href="{{url('home')}}">

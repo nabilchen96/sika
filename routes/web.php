@@ -131,3 +131,5 @@ Route::get('/catatanperizinan', 'CatatanPerizinanController@index')->middleware(
 Route::post('/tambah-catatanperizinan', 'CatatanPerizinanController@store');
 Route::post('/edit-catatanperizinan', 'CatatanPerizinanController@update')->middleware(['checkRole:pengasuh,admin']);
 Route::get('/hapus-catatanperizinan/{id}', 'CatatanPerizinanController@destroy')->middleware(['checkRole:pengasuh,admin']);
+
+Route::get('isikuesioner', 'JawabanKuesionerController@index');

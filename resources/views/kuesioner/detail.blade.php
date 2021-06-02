@@ -32,6 +32,7 @@
                 <th>Jawaban</th>
                 <th style="width: 20px"></th>
                 <th style="width: 20px"></th>
+                <th style="width: 20px"></th>
               </tr>
             </thead>
             <tbody>
@@ -58,6 +59,7 @@
                   -
                   @endforelse
                 </td>
+                <td class="text-center"><a href="#" class="btn btn-sm btn-primary"><i class="fas fa-chart-bar"></i></a></td>
                 <td>
                   <a href="#" class="btn btn-sm btn-success" data-array="{{ $soal[$k] }}" data-toggle="modal"
                     data-target=".modal"><i class="fas fa-edit"></i></a>
@@ -179,7 +181,7 @@
 
       if(data.jenis_soal === '1'){
         $("#tombol-tambah").html('<button id="button_tambah" onclick="tambah()" class="btn btn-sm btn-success" type="button"><i class="fas fa-plus"></i> Tambah Jawaban</button>')
-        for (let index = 1; index <= Object.keys(jawaban).length; index++) {
+        for (let index = 0; index < Object.keys(jawaban).length; index++) {
           var html = `<div class="form-group">
                 <div class="row mt-2">
                   <div class="col-10">
