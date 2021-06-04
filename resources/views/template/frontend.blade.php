@@ -95,7 +95,7 @@
   <script src="{{ asset('frontend/vendors/owl-carousel/js/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('frontend/vendors/aos/js/aos.js') }}"></script>
   <script src="{{ asset('frontend/js/landingpage.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
   <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js "></script>
   <script>

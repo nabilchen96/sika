@@ -93,6 +93,8 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
     Route::post('/tambah-soal-kuesioner', 'DetailKuesionerController@store');
     Route::post('/edit-soal-kuesioner', 'DetailKuesionerController@update');
     Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
+    Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
+
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);
@@ -133,3 +135,4 @@ Route::post('/edit-catatanperizinan', 'CatatanPerizinanController@update')->midd
 Route::get('/hapus-catatanperizinan/{id}', 'CatatanPerizinanController@destroy')->middleware(['checkRole:pengasuh,admin']);
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
+Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');

@@ -59,7 +59,7 @@
                   -
                   @endforelse
                 </td>
-                <td class="text-center"><a href="#" class="btn btn-sm btn-primary"><i class="fas fa-chart-bar"></i></a></td>
+                <td class="text-center"><a href="{{ url('statistikdetailkuesioner') }}/{{ $item->id_detail_kuesioner }}" class="btn btn-sm btn-primary"><i class="fas fa-chart-bar"></i></a></td>
                 <td>
                   <a href="#" class="btn btn-sm btn-success" data-array="{{ $soal[$k] }}" data-toggle="modal"
                     data-target=".modal"><i class="fas fa-edit"></i></a>

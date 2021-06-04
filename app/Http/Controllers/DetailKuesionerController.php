@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kuesioner;
 use App\DetailKuesioner;
+use DB;
 
 class DetailKuesionerController extends Controller
 {
@@ -62,5 +63,55 @@ class DetailKuesionerController extends Controller
         $data->delete();
 
         return back()->with(['sukses' => 'Data berhasil dihapus!']);
+    }
+
+    public function statistik($id){
+
+        $data = DB::table('kuesioners')
+                ->join('detail_kuesioners', 'detail_kuesioners.id_kuesioner', '=', 'kuesioners.id_kuesioner')
+                ->join('jawaban_kuesioners', 'jawaban_kuesioners.id_detail_kuesioner', '=', 'detail_kuesioners.id_detail_kuesioner')
+                ->join('alumnis', 'alumnis.id_alumni', '=', 'jawaban_kuesioners.id_alumni')
+                ->where('detail_kuesioners.id_detail_kuesioner', $id)
+                ->get();
+
+        
+        $soal = DB::table('detail_kuesioners')
+                ->where('id_detail_kuesioner', $id)
+                ->first();
+
+        $jawaban = array();
+        $label  = array();
+
+        if($soal->jenis_soal == '1'){
+
+            $label[] = unserialize($soal->jawaban);
+
+            for($i=0; $i<count($label[0]); $i++){
+                $jawaban[] = DB::table('jawaban_kuesioners')
+                                ->where('jawaban', $label[0][$i])
+                                ->count();
+            }
+
+        }elseif($soal->jenis_soal == '2'){
+            //isian singkat
+            //label in array
+            //data in array
+        }elseif($soal->jenis_soal == '3'){
+            //benar salah
+            //label in array
+            //data in array
+        }else{
+            //skala
+            //label in array
+            //data in array
+        }
+
+        // dd($jawaban);
+
+
+        return view('kuesioner.statistik')
+            ->with('jawaban', $jawaban)
+            ->with('label', $label)
+            ->with('data', $data);
     }
 }

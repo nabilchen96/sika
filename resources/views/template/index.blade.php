@@ -24,6 +24,12 @@
   @stack('style')
 
 
+  <style>
+    .bg-gradient-primary{
+      background-image: linear-gradient(180deg,#4e73df 10%,#4caf50 100%);
+    }
+  </style>
+
 </head>
 
 <body id="page-top">
