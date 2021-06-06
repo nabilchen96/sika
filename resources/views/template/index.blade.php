@@ -26,7 +26,7 @@
 
   <style>
     .bg-gradient-primary{
-      background-image: linear-gradient(180deg,#4e73df 10%,#4caf50 100%);
+      background-image: linear-gradient(to top, rgb(76 175 80 / 80%), #3f51b5), url(https://poltekbangplg.ac.id/wp-content/uploads/2020/05/gedung-trbu-new.png)
     }
   </style>
 

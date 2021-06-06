@@ -107,10 +107,10 @@
         </div>
         <div class="col-12 col-md-6 col-lg-3 grid-margin">
           <h5 class="pb-2">Akses Akademik</h5>
-          <a href="#">
+          <a href="https://siakad.poltekbangplg.ac.id">
             <p class="m-0 pt-1 pb-2">Sistem Informasi Akademik</p>
           </a>
-          <a href="#">
+          <a href="https://feedeer.poltekbangplg.ac.id:8082">
             <p class="m-0 pt-1 pb-2">Feeder Dikti</p>
           </a>
           <a href="#">
@@ -134,7 +134,7 @@
           <a href="#">
             <p class="m-0 pt-1 pb-2">Skemaraja</p>
           </a>
-          <a href="#">
+          <a href="https://marketing.poltekbangplg.ac.id">
             <p class="m-0 pt-1 pb-2">E-marketing</p>
           </a>
           <a href="#">
@@ -144,8 +144,13 @@
       </div>
     </section>
     <footer class="border-top">
-      <p class="text-center text-muted pt-4">© Copyright Subbag Aktar Politeknik Penerbangan Palembang. Designed by<a
-          href="https://www.bootstrapdash.com/" class="px-1">Bootstrapdash.</a>All rights reserved.</p>
+      <p class="text-center text-muted pt-4">Copyright © <?php echo date('Y'); ?> Subbag Aktar Politeknik Penerbangan Palembang. 
+        
+        {{-- Designed by<a
+          href="https://www.bootstrapdash.com/" class="px-1">Bootstrapdash.</a>All rights reserved.</p> --}}
+
+          Developed by<a
+          href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
     </footer>
     
   </div>

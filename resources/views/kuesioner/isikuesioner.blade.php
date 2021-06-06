@@ -179,7 +179,7 @@
         <section class="contact-details" id="contact-details-section">
             <div class="row text-center text-md-left">
                 <div class="col-12 col-md-6 col-lg-3 grid-margin">
-                    <img src="images/Group2.svg" alt="" class="pb-2">
+                    <img src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
                     <div class="pt-2">
                         <p class="text-muted m-0">Jl. Adi Sucipto No.3012, Sukodadi, Kec. Sukarami, Palembang, Sumatera
                             Selatan,
