@@ -49,12 +49,18 @@
                                         <th>Nama Alumni</th>
                                         <th>Jawaban</th>
                                         <th>Tanggal Pengisian</th>
-                                        <th style="width: 20px"></th>
-                                        <th style="width: 20px"></th>
-                                        <th style="width: 20px"></th>
                                     </tr>
                                 </thead>
-
+                                <tbody>
+                                    @foreach ($data as $k => $item)
+                                        <tr>
+                                            <td>{{ $k+1 }}</td>
+                                            <td>{{ $item->nama_mahasiswa }}</td>
+                                            <td>{{ $item->jawaban }}</td>
+                                            <td>{{ $item->created_at }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>

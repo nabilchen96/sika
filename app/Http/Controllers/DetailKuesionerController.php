@@ -71,7 +71,9 @@ class DetailKuesionerController extends Controller
                 ->join('detail_kuesioners', 'detail_kuesioners.id_kuesioner', '=', 'kuesioners.id_kuesioner')
                 ->join('jawaban_kuesioners', 'jawaban_kuesioners.id_detail_kuesioner', '=', 'detail_kuesioners.id_detail_kuesioner')
                 ->join('alumnis', 'alumnis.id_alumni', '=', 'jawaban_kuesioners.id_alumni')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'alumnis.id_mahasiswa')
                 ->where('detail_kuesioners.id_detail_kuesioner', $id)
+                ->select('tarunas.nama_mahasiswa', 'jawaban_kuesioners.*', 'detail_kuesioners.soal')
                 ->get();
 
         
@@ -98,15 +100,24 @@ class DetailKuesionerController extends Controller
             //data in array
         }elseif($soal->jenis_soal == '3'){
             //benar salah
-            //label in array
-            //data in array
+            $label[] = ['Ya', 'Tidak'];
+
+            for($i=0; $i<count($label[0]); $i++){
+                $jawaban[] = DB::table('jawaban_kuesioners')
+                                ->where('jawaban', $label[0][$i])
+                                ->count();
+            }
         }else{
             //skala
-            //label in array
-            //data in array
+            $label[] = [1,2,3,4,5];
+            for($i=0; $i<count($label[0]); $i++){
+                $jawaban[] = DB::table('jawaban_kuesioners')
+                                ->where('jawaban', $label[0][$i])
+                                ->count();
+            }
+
         }
 
-        // dd($jawaban);
 
 
         return view('kuesioner.statistik')
