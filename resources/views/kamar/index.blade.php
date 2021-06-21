@@ -91,14 +91,6 @@
                             <td>{{ $item->nama_kamar }}</td>
                             <td>{{ $item->nama_asrama }}</td>
                             <td>{{ $item->batas_kamar }}</td>
-                            {{-- <td>
-                              {{
-                                DB::table('taruna_kamars')
-                                  ->where('id_kamar', $item->id_kamar)
-                                  ->count()
-                              }}
-                              Taruna
-                            </td> --}}
                             <td>
                               <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#editkamar{{ $item->id_kamar }}"><i class="fas fa-edit"></i></a>
                               <div class="modal fade" id="editkamar{{ $item->id_kamar }}" tabindex="-1" role="dialog"

@@ -95,6 +95,9 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
     Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
     Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
 
+
+    Route::get('/berita', 'BeritaController@index');
+    Route::get('/tambahberita', 'BeritaController@create');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin']);
@@ -136,3 +139,11 @@ Route::get('/hapus-catatanperizinan/{id}', 'CatatanPerizinanController@destroy')
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');
+
+Route::get('pengajuansurat', 'PengajuanSuratController@index')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::get('/tambahpengajuansurat', 'PengajuanSuratController@create')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::post('/simpanpengajuansurat', 'PengajuanSuratController@store')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::get('/editpengajuansurat/{id}', 'PengajuanSuratController@edit')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::post('/updatepengajuansurat', 'PengajuanSuratController@update')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::get('/hapuspengajuansurat/{id}', 'PengajuanSuratController@destroy')->middleware(['checkRole:pengasuh,admin,taruna']);
+Route::post('/jawabpengajuan', 'PengajuanSuratController@jawabpengajuan')->middleware(['checkRole:pengasuh,admin,taruna']);

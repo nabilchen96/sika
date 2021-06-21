@@ -23,7 +23,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tanggal Lulus</label>
                         <div class="col-sm-4">
-                            <input type="date" name="tgl_lulus" class="form-control">
+                            <input type="date" name="tgl_lulus" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row">

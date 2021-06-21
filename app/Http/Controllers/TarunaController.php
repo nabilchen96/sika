@@ -6,24 +6,17 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\User;
 use App\Taruna;
-
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class TarunaController extends Controller
 {
     public function updatetarunaserver(){
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost/project/siakadpoltekbang-backup/public/api/taruna");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, 
-         array('Accept: application/json', 'Authorization: Bearer 1|KoFesST4tV889DCcWoCBLmcm0YJuXqKFLIEQnggv')
-        );
-      
-        $result = curl_exec($ch);
-        $data   = json_decode($result, true);
-
-        foreach($data as $item){
-            //jika data ada maka update
+        $response = Http::get('http://127.0.0.1:8080/api/gettaruna');
+        $response = json_decode($response, true);
+        
+        foreach($response['data'] as $item){
             $cek_taruna     = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->count();
             $update_taruna  = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->first();
 
@@ -58,6 +51,19 @@ class TarunaController extends Controller
                     'semester'              => $item['semesteraktif'],
                     'agama'                 => $item['nama_agama'],
                     'alamat'                => $item['alamat'],
+                ]);
+
+                //create akun
+                User::create([
+                    'name'                  => $item['nama_mahasiswa'],
+                    'email'                 => $item['nim'],
+                    'password'              => Hash::make($item['nim']),
+                    'jk'                    => $item['jenis_kelamin'] == 'L' ? '1' : '0',
+                    'role'                  => 'taruna',
+                    'alamat'                => $item['alamat'],
+                    'nip'                   => $item['nim'],
+                    'tempat_lahir'          => $item['tempat_lahir'],
+                    'tgl_lahir'             => $item['tanggal_lahir']
                 ]);
             }
         }

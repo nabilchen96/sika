@@ -16,7 +16,7 @@ class AddColumnToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->enum('jk', [1,0])->default(1);
             $table->string('no_telp')->nullable();
-            $table->enum('role', ['admin', 'pusbangkar', 'pengasuh']);
+            $table->enum('role', ['admin', 'pusbangkar', 'pengasuh', 'taruna']);
             $table->text('alamat');
             $table->string('nip')->unique();
             $table->string('tempat_lahir')->nullable();

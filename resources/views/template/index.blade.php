@@ -120,6 +120,12 @@
             <span>Taruna Pengasuh</span>
           </a>
         </li>
+        <li class="nav-item @stack('pengajuansurat')">
+          <a class="nav-link" href="{{url('pengajuansurat')}}">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Pengajuan Surat</span>
+          </a>
+        </li>
         <li class="nav-item @stack('catatan')">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
@@ -173,7 +179,7 @@
         </li> --}}
       @endif
       <li class="nav-item">
-        <a class="nav-link" href="{{url('home')}}">
+        <a class="nav-link" href="{{url('berita')}}">
           <i class="fas fa-fw fa-bullhorn"></i>
           <span>Pengumuman & Berita</span>
         </a>
@@ -325,7 +331,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Developed By Mustechs 2020</span>
+            <span>Copyright &copy; Developed By Mustechs {{  date('Y') }}</span>
           </div>
         </div>
       </footer>
@@ -373,6 +379,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
+  
   @stack('scripts')
 </body>
 
