@@ -13,7 +13,7 @@ class PengajuanSuratController extends Controller
     public function index(){
 
         $data = DB::table('pengajuan_surats')
-                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                 ->get();
 
         return view('pengajuansurat.index')->with('data', $data);
@@ -31,6 +31,8 @@ class PengajuanSuratController extends Controller
 
     public function store(Request $request){
 
+        // dd($request);
+
         if($request->jenis_pengajuan == 'surat izin'){
             $request->validate([
                 'id'                => 'required',
@@ -41,6 +43,8 @@ class PengajuanSuratController extends Controller
                 'kembali_tanggal'   => 'required',
                 'keterangan'        => 'required',
             ]);
+
+            // dd($request->id);
 
 
             $data_keterangan = array(
@@ -53,7 +57,7 @@ class PengajuanSuratController extends Controller
 
 
             PengajuanSurat::create([
-                'id'                => $request->id,
+                'id_mahasiswa'       => $request->id,
                 'id_semester'       => $request->id_semester,
                 'jenis_pengajuan'   => $request->jenis_pengajuan,
                 'keterangan'        => \serialize($data_keterangan),
@@ -70,7 +74,7 @@ class PengajuanSuratController extends Controller
             ]);
 
             PengajuanSurat::create([
-                'id'                => $request->id,
+                'id_mahasiswa'      => $request->id,
                 'id_semester'       => $request->id_semester,
                 'jenis_pengajuan'   => $request->jenis_pengajuan,
                 'keterangan'        => $request->keterangan,
@@ -86,7 +90,7 @@ class PengajuanSuratController extends Controller
     public function edit($id){
 
         $data = DB::table('pengajuan_surats')
-                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                 ->join('semesters', 'semesters.id_semester', '=', 'pengajuan_surats.id_semester')
                 ->where('id_pengajuan_surat', $id)
                 ->first();
@@ -168,18 +172,95 @@ class PengajuanSuratController extends Controller
             ]);
 
             // kirim data ke catatan perizinan
-            if($data->jenis_pengajuan == 'surat izin'){
-                $keterangan = unserialize($data->keterangan);
-                Perizinan::create([
-                    'id_mahasiswa'      => $data->id,
-                    'tgl_izin_keluar'   => $keterangan[2],
-                    'keterangan_izin'   => 'Tujuan: '.$keterangan[0].", Keperluan: ".$keterangan[1].", Keterangan: ".$keterangan[4],
-                    'id_semester'       => $data->id_semester
-                ]);
-            }
+            // if($data->jenis_pengajuan == 'surat izin'){
+            //     $keterangan = unserialize($data->keterangan);
+            //     Perizinan::create([
+            //         'id_mahasiswa'      => $data->id,
+            //         'tgl_izin_keluar'   => $keterangan[2],
+            //         'keterangan_izin'   => 'Tujuan: '.$keterangan[0].", Keperluan: ".$keterangan[1].", Keterangan: ".$keterangan[4],
+            //         'id_semester'       => $data->id_semester
+            //     ]);
+            // }
         }
 
         return redirect('pengajuansurat')->with(['sukses' => 'Data berhasil diperbarui']);
+
+    }
+
+    public function terbitkansurat(Request $request){
+        
+        $request->validate([
+            'id_pengajuan_surat'    => 'required',
+            'ttd'                   => 'required',
+            'jenis_pengajuan'       => 'required'
+        ]);
+
+        // dd($request->jenis_pengajuan);
+
+
+        if($request->jenis_pengajuan == 'surat izin'){
+
+            //membuat ttd menjadi gambar
+            $encode_image = explode(",", $request->ttd)[1];
+            $decoded_image = base64_decode($encode_image);
+            file_put_contents("signature.png", $decoded_image);
+
+            $template = DB::table('templates')->where('kategori', '1')->first();
+
+            //mengambil template surat
+            $document = file_get_contents("templatesurat/".$template->template);
+
+            $data = DB::table('pengajuan_surats')
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                    ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
+                    ->first();
+
+            //pecah array
+            $detail_keterangan = unserialize($data->keterangan);
+
+            //memindahkan surat
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor("templatesurat/".$template->template);
+
+            $templateProcessor->setValues([
+                'NOMOR'             => '1',
+                'JENISSURAT'        => 'IJ',
+                'BULAN'             => date('m'),
+                'TAHUN'             => date('Y'),
+                'NAMA'              => $data->nama_mahasiswa,
+                'NIT'               => $data->nim,
+                'TEMPATTUJUAN'      => $detail_keterangan[0],
+                'KEPERLUAN'         => $detail_keterangan[1],
+                'BERANGKATTANGGAL'  => $detail_keterangan[2],
+                'KEMBALITANGGAL'    => $detail_keterangan[3],
+                'CATATAN'           => $detail_keterangan[4],
+                'TANGGALSURAT'      => date('d-m-Y'),
+            ]);
+
+            $templateProcessor->setImageValue('TTD', 'signature.png');
+
+
+            // header("Content-Disposition: attachment; filename=template.docx");
+            // $templateProcessor->saveAs('php://output');
+
+            $nama_file = date('YmdHis').'.doc';
+
+            //memindahkan surat
+            // file_put_contents("surat/".$nama_file, $templateProcessor);
+            $templateProcessor->saveAs('surat/'.$nama_file);
+
+            //menyimpan surat ke database
+            DB::table('pengajuan_surats')
+            ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
+            ->update([
+                'surat' => $nama_file
+            ]);
+
+            return redirect('pengajuansurat')->with(['sukses' => 'data berhasil disimpan']);
+
+        }else{
+
+            return redirect('pengajuansurat')->with(['sukses' => 'fitur belum tersedia']);
+        }
 
     }
 }

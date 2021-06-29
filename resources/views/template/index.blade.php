@@ -103,6 +103,7 @@
                 Pelanggaran</a>
               <a class="collapse-item @stack('pengasuh')" href="{{ url('pengasuh') }}">Pengasuh</a>
               <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
+              <a class="collapse-item @stack('templatesurat')" href="{{ url('temasurat') }}">Template Surat</a>
             </div>
           </div>
         </li>
@@ -123,7 +124,10 @@
         <li class="nav-item @stack('pengajuansurat')">
           <a class="nav-link" href="{{url('pengajuansurat')}}">
             <i class="fas fa-fw fa-layer-group"></i>
-            <span>Pengajuan Surat</span>
+            <span>Pengajuan Surat 
+              @if (auth::user()->role != 'taruna')
+              <sup class="badge badge-danger">{{ DB::table('pengajuan_surats')->where('status_pengajuan', '0')->count() }}</sup></span>
+              @endif
           </a>
         </li>
         <li class="nav-item @stack('catatan')">

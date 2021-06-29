@@ -4,29 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Semester;
+use DB;
+use Illuminate\Support\Facades\Http;
 
 class SemesterController extends Controller
 {
     public function index(){
-        $semester = Semester::where('a_periode_aktif', "1")->get();
+        $semester = Semester::where('is_semester_aktif', "1")->get();
         return view('semester.index')->with('semester', $semester);
     }
 
     public function updatesemesterserver(){
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost/project/siakadpoltekbang-backup/public/api/semester");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, 
-         array('Accept: application/json', 'Authorization: Bearer 1|KoFesST4tV889DCcWoCBLmcm0YJuXqKFLIEQnggv')
-        );
-      
-        $result = curl_exec($ch);
-        $data   = json_decode($result, true);
+        $response = Http::get('https://siakad.poltekbangplg.ac.id/api/getsemester');
+        $response = json_decode($response, true);
 
-        // dd($data);
 
-        foreach($data as $item){
+        // dd($response);
+        foreach($response['data'] as $item){
             //jika data ada maka update
             $cek_semester   = Semester::where('id_semester_siakad', $item['id_semester'])->count();
             $update_semester= Semester::where('id_semester_siakad', $item['id_semester'])->first();

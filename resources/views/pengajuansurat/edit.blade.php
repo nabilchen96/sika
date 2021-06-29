@@ -1,5 +1,9 @@
 @extends('template.index')
 
+@push('style')
+{{-- <link rel="stylesheet" href="{{ asset('signature_pad/signature-pad.css') }}"> --}}
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -9,11 +13,19 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="{{url('pengajuansurat')}}" class="btn btn-sm btn-success"><i
-                        class="fas fa-arrow-left"></i> Kembali</a>
+                <a href="{{url('pengajuansurat')}}" class="btn btn-sm btn-success"><i class="fas fa-arrow-left"></i>
+                    Kembali</a>
             </div>
             <div class="card-body">
-                <form action="@if(auth::user()->role != 'taruna') {{ url('jawabpengajuan    ') }} @else {{ url('updatepengajuansurat') }} @endif" method="POST" enctype="multipart/form-data">
+                <form
+                    action="@if(auth::user()->role != 'taruna' and auth::user()->role != 'pusbangkar') 
+                                {{ url('jawabpengajuan') }} 
+                            @elseif(auth::user()->role == 'pusbangkar')  
+                                {{ url('terbitkansurat') }}
+                            @else 
+                                {{ url('updatepengajuansurat') }} 
+                            @endif"
+                    method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_pengajuan_surat" value="{{ $data->id_pengajuan_surat }}">
                     <div class="form-group row">
@@ -37,7 +49,8 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Jenis Surat Pengajuan</label>
                         <div class="col-sm-5">
-                            <input type="text" name="jenis_pengajuan" value="{{ $data->jenis_pengajuan }}" class="form-control" readonly>
+                            <input type="text" name="jenis_pengajuan" value="{{ $data->jenis_pengajuan }}"
+                                class="form-control" readonly>
                         </div>
                     </div>
                     @if ($data->jenis_pengajuan == 'surat izin')
@@ -46,69 +59,95 @@
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
                             <div class="col-sm-5">
-                                <input type="text" name="tempat_tujuan" class="form-control" value="{{ $keterangan[0] }}" required>
+                                <input type="text" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                    name="tempat_tujuan" class="form-control" value="{{ $keterangan[0] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Keperluan</label>
                             <div class="col-sm-5">
-                                <input type="text" name="keperluan" class="form-control" value="{{ $keterangan[1] }}" required>
+                                <input type="text" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                    name="keperluan" class="form-control" value="{{ $keterangan[1] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Berangkat Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" name="berangkat_tanggal" class="form-control" value="{{ $keterangan[2] }}" required>
+                                <input type="date" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                    name="berangkat_tanggal" class="form-control" value="{{ $keterangan[2] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Kembali Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" name="kembali_tanggal" class="form-control" value="{{ $keterangan[3] }}" required>
+                                <input type="date" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                    name="kembali_tanggal" class="form-control" value="{{ $keterangan[3] }}" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" cols="30" rows="5" class="form-control" required>{{ $keterangan[4] }}</textarea>
+                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                cols="30" rows="5" class="form-control" required>{{ $keterangan[4] }}</textarea>
                         </div>
                     </div>
                     @else
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" cols="30" rows="5" class="form-control" required>{{ $data->keterangan }}</textarea>
+                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                cols="30" rows="5" class="form-control" required>{{ $data->keterangan }}</textarea>
                         </div>
                     </div>
                     @endif
 
-                    @if (auth::user()->role != 'taruna')
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">ACC/Tolak Pengajuan</label>
+                        <label class="col-sm-3 col-form-label">ACC/Tolak Pengajuan <br>Oleh Pengasuh</label>
                         <div class="col-sm-5">
-                            <select name="status_pengajuan" id="status_pengajuan" onchange="pilihstatuspengajuan()" class="form-control">
-                                <option value="0">Sedang Diproses</option>
-                                <option value="1">Pengajuan Diterima</option>
-                                <option value="2">Pengajuan Ditolak</option>
+                            <select name="status_pengajuan" id="status_pengajuan"
+                                {{ auth::user()->role == 'pusbangkar' ? 'disabled' : '' }}
+                                onchange="pilihstatuspengajuan()" class="form-control">
+                                <option {{ $data->status_pengajuan == '0' ? 'selected' : '' }} value="0">Sedang Diproses
+                                </option>
+                                <option {{ $data->status_pengajuan == '1' ? 'selected' : '' }} value="1">Pengajuan
+                                    Diterima</option>
+                                <option {{ $data->status_pengajuan == '2' ? 'selected' : '' }} value="2">Pengajuan
+                                    Ditolak</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="d-none" id="input_file_pengajuan">
+
+                    @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
+                    @if ($data->jenis_pengajuan == 'surat izin' and $data->status_pengajuan == '1')
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Input File</label>
-                            <div class="col-sm-5">
-                                <input type="file" class="form-control" name="surat">
+                            <label class="col-sm-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
+                            <div class="col-sm-4">
+                                <canvas style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
+                                <input type="hidden" name="ttd" id="nilaittd">
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="row">
+                                    <button type="button" class="btn btn-block btn-sm btn-danger" onclick="hapusttd()"
+                                        data-action="clear"><i class="fas fa-trash"></i> Clear</button>
+                                    <button type="button" class="btn btn-block btn-sm btn-primary" onclick="undottd()"
+                                        data-action="clear"><i class="fas fa-undo"></i> Undo</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     @endif
 
+                    {{-- area untuk pusbangkar --}}
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-5">
-                            <button type="submit" class="btn btn-success">Edit</button>
+                            <button type="submit" 
+                            @if (auth::user()->role == 'pusbangkar' and $data->status_pengajuan != '1')
+                                disabled
+                            @endif 
+                            class="btn btn-success">Edit</button>
                         </div>
                     </div>
                 </form>
@@ -126,18 +165,50 @@
     @elseif($message = Session::get('gagal'))
         toastr.error("{{ $message }}")
     @endif
-
-    document.addEventListener("DOMContentLoaded", function() {
-        pilihform()
-    });
-
-    function pilihstatuspengajuan(){
-        var status_pengajuan = document.getElementById('status_pengajuan').value
-        if(status_pengajuan == '1'){
-            document.getElementById('input_file_pengajuan').removeAttribute('class')
-        }else{
-            document.getElementById('input_file_pengajuan').setAttribute('class', 'd-none')
-        }
-    }
 </script>
+<script src="{{ asset('signature_pad/signaturepad.js') }}"></script>
+<script>
+    var canvas = document.querySelector("canvas");
+
+var signaturePad = new SignaturePad(canvas);
+
+signaturePad.toDataURL(); // save image as PNG
+
+
+// Returns signature image as an array of point groups
+const data = signaturePad.toData();
+
+// Draws signature image from an array of point groups
+signaturePad.fromData(data);
+
+// Returns true if canvas is empty, otherwise returns false
+signaturePad.isEmpty();
+
+// Unbinds all event handlers
+signaturePad.off();
+
+// Rebinds all event handlers
+signaturePad.on();
+
+
+function hapusttd(){
+    // Clears the canvas
+    signaturePad.clear();
+}
+
+function undottd(){
+    if (data) {
+    data.pop(); // remove the last dot or line
+    signaturePad.fromData(data);
+  }
+}
+
+$(document).on('click','.btn',function(){
+    $( "#nilaittd" ).val(signaturePad.toDataURL())
+
+    // console.log('tes')
+})
+
+</script>
+
 @endpush

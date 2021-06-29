@@ -7,88 +7,33 @@
         <div class="content-header">
           <h2>Pengumuman & Berita</h2>
           <h6 class="section-subtitle text-muted">
-            One theme that serves as an easy-to-use operational toolkit<br>that
-            meets customer's needs.</h6>
+            Pengumuman dan informasi untuk taruna dan alumni
+            <br>Politeknik Penerbangan Palembang</h6>
         </div>
         <div class="row">
-          <div class="col-lg-4">
+          <?php
+          $data = DB::table('beritas')->paginate(6);  
+          ?>
+          @foreach ($data as $k => $item)
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">
             <div class=>
               <div class="card">
                 <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Lowongan Kerja</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
+                  <img src="{{  asset('gambar_berita') }}/{{ $item->gambar_utama }}" width="100%" alt="" class="img-fluid mb-3 img-proporsional" style="border-radius: 15px;">
+                  <h5 class="card-title">{{ substr($item->judul_berita, 0, 50) }}</h5>
+                  <p class="card-text">
+                    {{ strip_tags(substr($item->isi_berita, 0, 90)) }}
+                  </p>
+                  <a href="{{ url('detailberita') }}/{{ $item->id_berita }}" class="btn btn-primary">Detail</a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class=>
-              <div class="card">
-                <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Pengambilan Ijazah</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class=>
-              <div class="card">
-                <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Beasiswa Ketarunaan</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class=>
-              <div class="card">
-                <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Beasiswa Ketarunaan</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class=>
-              <div class="card">
-                <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Beasiswa Ketarunaan</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class=>
-              <div class="card">
-                <div class="card-body">
-                  <img src="{{  asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                  <h5 class="card-title">Beasiswa Ketarunaan</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+          {{ $data->links() }}
         </div>
       </section>
 

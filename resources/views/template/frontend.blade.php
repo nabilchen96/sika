@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="{{ asset('frontend/vendors/aos/css/aos.css') }}">
   <link rel="stylesheet" href="{{ asset('frontend/css/style.min.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  @stack('style')
   <style>
     .contact-us .contact-us-bgimage {
       padding: 20px !important;
@@ -33,13 +35,26 @@
     .font-weight-semibold {
       padding-top: 50px;
     }
+
+    .img-proporsional {
+      float: center;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: all 0.3s ease;
+    }
+
+    .img-proporsional:hover,
+    .img-proporsional:focus {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 
 <body id="body" data-spy="scroll" data-target=".navbar" data-offset="100">
   <header id="header-section">
     <nav class="navbar navbar-expand-lg pl-3 pl-sm-0" id="navbar">
-      <div class="container">
+      <div class="container" data-aos="fade-down">
         <div class="navbar-brand-wrapper d-flex w-100">
           <img src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
@@ -49,7 +64,7 @@
           </button>
           <p style="font-size: 14px; margin-top: 15px;">
             <strong> Unit Ketarunaan</strong>
-          <br>Poltekbang Palembang</p>
+            <br>Poltekbang Palembang</p>
         </div>
         <div class="collapse navbar-collapse navbar-menu-wrapper" id="navbarSupportedContent">
           <ul class="navbar-nav align-items-lg-center align-items-start ml-auto right">
@@ -98,8 +113,12 @@
   {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
   <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js "></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-      $(document).ready(function () {
+    AOS.init();
+  </script>
+  <script>
+    $(document).ready(function () {
           $('#example').DataTable();
           $('#example1').DataTable();
       });

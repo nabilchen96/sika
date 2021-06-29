@@ -34,10 +34,26 @@
                             @foreach ($data as $k => $item)
                                 <tr>
                                     <td>{{ $k+1 }}</td>
-                                    <td>{{ $item->gambar }}</td>
+                                    <td><img src="{{ asset('gambar_berita') }}/{{ $item->gambar_utama }}" width="50px"></td>
                                     <td>{{ $item->judul_berita }}</td>
-                                    <td>{{ $item->kategori }}</td>
+                                    <td>
+                                        @if ($item->kategori == "1")
+                                            pendidikan
+                                        @elseif ($item->kategori == '2')
+                                            Lowongan Kerja
+                                        @elseif ($item->kategori == '3')
+                                            Layanan
+                                        @else
+                                            Lainnya
+                                        @endif
+                                    </td>
                                     <td>{{ $item->created_at }}</td>
+                                    <td>
+                                        <a href="{{ url('editberita') }}/{{ $item->id_berita }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target=".modalhapus" data-idberita="{{ $item->id_berita }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -48,6 +64,27 @@
     </div>
 
 </div>
+
+<div class="modal fade modalhapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hapus Data Pengajuan Surat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Yakin Ingin Menghapus Beita ini ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a id="url" href="" class="btn btn-danger">Hapus</a>
+            </div>
+        </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('scripts')
@@ -56,5 +93,21 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('template/js/demo/datatables-demo.js') }}"></script>
+
+<script>
+    @if($message = Session::get('sukses'))
+        toastr.success("{{ $message }}")
+    @elseif($message = Session::get('gagal'))
+        toastr.error("{{ $message }}")
+    @endif
+
+    $('.modalhapus').on('show.bs.modal', function (event) {
+      var button  = $(event.relatedTarget)
+      var data    = button.data('idberita');
+      var modal   = $(this)
+
+      $('#url').attr('href', "{{ url('hapusberita') }}/"+data)
+    })
+  </script>
 
 @endpush

@@ -8,14 +8,37 @@ use App\User;
 use App\Taruna;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class TarunaController extends Controller
 {
     public function updatetarunaserver(){
 
-        $response = Http::get('http://127.0.0.1:8080/api/gettaruna');
+        $response = Http::get('https://siakad.poltekbangplg.ac.id/api/gettaruna');
         $response = json_decode($response, true);
-        
+
+        // $data = array_map(function($item){
+        //     $data = [
+        //         'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
+        //         'jenis_kelamin'         => $item['jenis_kelamin'],
+        //         'tempat_lahir'          => $item['tempat_lahir'],
+        //         'tanggal_lahir'         => $item['tanggal_lahir'],
+        //         'nama_mahasiswa'        => $item['nama_mahasiswa'],
+        //         'nim'                   => $item['nim'],
+        //         'id_kelas'              => $item['id_kelas'],
+        //         'nama_kelas'            => $item['nama_kelas'],
+        //         'id_prodi'              => $item['id_prodi'],
+        //         'nama_program_studi'    => $item['nama_program_studi'],
+        //         'semester'              => $item['semesteraktif'],
+        //         'agama'                 => $item['nama_agama'],
+        //         'alamat'                => $item['alamat'],
+        //     ];
+
+        //     return $data; 
+        // }, $response['data'] );
+
+        // DB::table('tarunas')->insert($data);
+
         foreach($response['data'] as $item){
             $cek_taruna     = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->count();
             $update_taruna  = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->first();

@@ -1,6 +1,6 @@
 @extends('template.index')
 
-
+@push('pengajuansurat') active @endpush
 
 @push('style')
   <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -15,7 +15,9 @@
 
         <div class="card mb-12">
             <div class="card-header">
-              <a href="{{ url('tambahpengajuansurat') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Tambah</a>
+              @if (auth::user()->role == 'taruna')
+                <a href="{{ url('tambahpengajuansurat') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Tambah</a>
+              @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -54,9 +56,9 @@
                                   </td>
                                   <td>
                                     @if ($item->status_pengajuan == '1')
-                                      <span class="badge badge-success">Pengajuan diterima</span>
+                                      <span class="badge badge-success text-left">Pengajuan diterima</span>
                                     @elseif ($item->status_pengajuan == '0')
-                                      <span class="badge badge-danger">Pengajuan diproses</span>
+                                      <span class="badge badge-warning">Pengajuan diproses</span>
                                     @elseif ($item->status_pengajuan == '2')
                                       <span class="badge badge-danger">Pengajuan Ditolak</span>
                                     @endif

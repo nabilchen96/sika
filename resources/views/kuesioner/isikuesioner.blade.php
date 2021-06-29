@@ -6,9 +6,9 @@
         <section class="features-overview" id="features-section" style="padding-top: 50px;">
             <div class="content-header">
                 <h2>Kuesioner Alumni</h2>
-                <h6 class="section-subtitle text-muted">One theme that serves as an easy-to-use operational
-                    toolkit<br>that
-                    meets customer's needs.</h6>
+                <h6 class="section-subtitle text-muted">
+                Silahkan Login untuk Mengisi Data Kuesioner Alumni
+                <br>Politeknik Penerbangan Palembang</h6>
                 <br><br>
             </div>
 

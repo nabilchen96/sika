@@ -2,69 +2,46 @@
 @section('content')
 <div class="banner">
   <div class="container">
-    <h1 class="font-weight-semibold">Sistem Informasi <br> Ketarunaan & Alumni</h1>
-    <!-- <h6 class="font-weight-normal text-muted pb-3">Simple is a simple template with a creative design that solves all your marketing and SEO queries.</h6> -->
-    <!-- <div>
-      <button class="btn btn-opacity-light mr-1">Get started</button>
-      <button class="btn btn-opacity-success ml-1">Learn more</button>
-    </div> -->
-    <img src="{{ asset('frontend/images/undrawx.png') }}" alt="" class="img-fluid">
+    <h1 class="font-weight-semibold" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi <br> Ketarunaan & Alumni</h1>
+    <img src="{{ asset('frontend/images/undrawx.png') }}" alt="" class="img-fluid" data-aos="zoom-in" data-aos-delay="200">
     <br><br>
   </div>
 </div>
 <div class="content-wrapper">
   <div class="container">
-
     <section class="features-overview" id="features-section">
       <div class="content-header">
         <h2>Pengumuman</h2>
-        <h6 class="section-subtitle text-muted">One theme that serves as an easy-to-use operational toolkit<br>that
-          meets customer's needs.</h6>
+        <h6 class="section-subtitle text-muted">
+          Pengumuman dan informasi untuk taruna dan alumni
+          <br>Politeknik Penerbangan Palembang</h6>
       </div>
       <div class="d-md-flex justify-content-between">
-        <div class="grid-margin d-flex justify-content-start">
-          <div class=>
+        <?php
+          
+          $data = DB::table('beritas')->limit(3)->get();
+
+        ?>
+        @foreach ($data as $k => $item)
+        <div class="col-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">
+          <div>
             <div class="card">
               <div class="card-body">
-                <img src="{{ asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                <h5 class="card-title">Lowongan Kerja</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="btn btn-primary">Detail</a>
+                <img src="{{ asset('gambar_berita') }}/{{ $item->gambar_utama }}" width="100%" alt="" class="img-fluid mb-3 img-proporsional" style="border-radius: 15px;">
+                <h5 class="card-title">{{ substr($item->judul_berita, 0, 50) }}</h5>
+                <p class="card-text">
+                  {{ strip_tags(substr($item->isi_berita, 0, 90)) }}
+                </p>
+                <a href="{{ url('detailberita') }}/{{ $item->id_berita }}" class="btn btn-primary">Detail</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="grid-margin d-flex justify-content-start">
-          <div class=>
-            <div class="card">
-              <div class="card-body">
-                <img src="{{ asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                <h5 class="card-title">Pengambilan Ijazah</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="btn btn-primary">Detail</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="grid-margin d-flex justify-content-start">
-          <div class=>
-            <div class="card">
-              <div class="card-body">
-                <img src="{{ asset('frontend/images/empty.jpg') }}" width="100%" alt="" class="img-fluid mb-3" style="border-radius: 15px;">
-                <h5 class="card-title">Beasiswa Ketarunaan</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="btn btn-primary">Detail</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
     </section>
 
-    <section class="contact-us" id="contact-section">
+    <section class="contact-us" id="contact-section" data-aos="fade-up" data-aos-delay="100">
       <div class="contact-us-bgimage grid-margin">
         <div class="row">
           <div class="col p-12">
@@ -75,11 +52,14 @@
           <div class="col" style="text-align: left;">
             <h1>Sistem Informasi Ketarunaan dan Alumni</h1>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae fugiat aspernatur quasi totam
-              voluptas quidem, ipsum veritatis obcaecati harum! Laudantium minima culpa cupiditate natus, distinctio
-              accusantium animi voluptatum dolores. Autem. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Blanditiis iure aperiam unde velit id distinctio! Deleniti accusantium perferendis sequi consequuntur
-              nihil! Non temporibus dignissimos tempora, asperiores et molestias amet quisquam!</p>
+            <p>
+              SIKA adalah singkatan dari sistem informasi ketarunaan dan alumni. Sistem informasi ketarunaan ditujukan untuk membantu
+              PUSBANGKAR dalam mengelola data non-akademik taruna, seperti perizinan, catatan sakit, pelanggaran dan
+              penghargaan taruna. 
+            </p><p>
+              Sedangkan sistem informasi alumni ditujukan untuk mengelola data para taruna
+              yang sudah lulus dan memberikan informasi seperti lowongan pekerjaan kepada para alumni.
+            </p>
           </div>
         </div>
       </div>

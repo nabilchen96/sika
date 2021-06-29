@@ -36,8 +36,8 @@
                           <tr>
                               <td>{{ $k+1 }}</td>
                               <td>{{ $item->nama_semester }}</td>
-                              <td>{{ $item->tanggal_mulai }}</td>
-                              <td>{{ $item->tanggal_selesai }}</td>
+                              <td>{{ date('d-m-Y', strtotime($item->tanggal_mulai)) }}</td>
+                              <td>{{ date('d-m-Y', strtotime($item->tanggal_selesai)) }}</td>
                               <td>
                                   {{ $item->is_semester_aktif == "1" ? 'Aktif' : 'Tidak Aktif'}}
                               </td>

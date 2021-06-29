@@ -16,8 +16,8 @@ class CreatePengajuanSuratsTable extends Migration
         Schema::create('pengajuan_surats', function (Blueprint $table) {
             $table->bigIncrements('id_pengajuan_surat');
             
-            $table->unsignedBigInteger('id');
-            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('id_mahasiswa');
+            $table->foreign('id_mahasiswa')->references('id_mahasiswa')->on('tarunas')->onDelete('cascade');
 
             $table->enum('jenis_pengajuan', ['surat izin', 'surat keterangan']);
 
