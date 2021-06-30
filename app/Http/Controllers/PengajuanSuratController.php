@@ -154,34 +154,12 @@ class PengajuanSuratController extends Controller
     public function jawabpengajuan(Request $request){
 
         $data = PengajuanSurat::find($request->id_pengajuan_surat);
-
-        if($request->file('surat') == null){
-            $data->update([
-                'status_pengajuan' => $request->status_pengajuan 
-            ]);
-
-        }else{
             
-            $file = $request->file('surat');
-            $nama_file = $file->getClientOriginalName();
-            $file->move('surat', $nama_file);
-
-            $data->update([
-                'status_pengajuan'  => $request->status_pengajuan,
-                'surat'             => $nama_file
-            ]);
-
-            // kirim data ke catatan perizinan
-            // if($data->jenis_pengajuan == 'surat izin'){
-            //     $keterangan = unserialize($data->keterangan);
-            //     Perizinan::create([
-            //         'id_mahasiswa'      => $data->id,
-            //         'tgl_izin_keluar'   => $keterangan[2],
-            //         'keterangan_izin'   => 'Tujuan: '.$keterangan[0].", Keperluan: ".$keterangan[1].", Keterangan: ".$keterangan[4],
-            //         'id_semester'       => $data->id_semester
-            //     ]);
-            // }
-        }
+        $data->update([
+            'status_pengajuan'  => $request->status_pengajuan,
+            'alasan_tolak'      => $alasan = $request->alasan != null && $request->status_pengajuan == 2 ? $request->alasan : null
+        ]);
+    
 
         return redirect('pengajuansurat')->with(['sukses' => 'Data berhasil diperbarui']);
 
@@ -254,6 +232,17 @@ class PengajuanSuratController extends Controller
             ->update([
                 'surat' => $nama_file
             ]);
+
+            // kirim data ke catatan perizinan
+            // if($data->jenis_pengajuan == 'surat izin'){
+            //     $keterangan = unserialize($data->keterangan);
+            //     Perizinan::create([
+            //         'id_mahasiswa'      => $data->id,
+            //         'tgl_izin_keluar'   => $keterangan[2],
+            //         'keterangan_izin'   => 'Tujuan: '.$keterangan[0].", Keperluan: ".$keterangan[1].", Keterangan: ".$keterangan[4],
+            //         'id_semester'       => $data->id_semester
+            //     ]);
+            // }
 
             return redirect('pengajuansurat')->with(['sukses' => 'data berhasil disimpan']);
 

@@ -29,7 +29,7 @@
                           <th>Jenis Pengajuan</th>
                           <th>Tanggal Pengajuan</th>
                           <th>Keterangan</th>
-                          <th>Status Pengajuan</th>
+                          <th style="width: 100px">Status Pengajuan</th>
                           <th>Download Surat</th>
                           <th width="10"></th>
                           <th width="10"></th>
@@ -54,13 +54,14 @@
                                       {{ $item->keterangan }}
                                     @endif
                                   </td>
-                                  <td>
+                                  <td style="width: 100px">
                                     @if ($item->status_pengajuan == '1')
                                       <span class="badge badge-success text-left">Pengajuan diterima</span>
                                     @elseif ($item->status_pengajuan == '0')
                                       <span class="badge badge-warning">Pengajuan diproses</span>
                                     @elseif ($item->status_pengajuan == '2')
                                       <span class="badge badge-danger">Pengajuan Ditolak</span>
+                                      {{ 'Alasan: '.$item->alasan_tolak }}
                                     @endif
                                   </td>
                                   <td>

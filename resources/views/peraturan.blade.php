@@ -2,13 +2,12 @@
 @section('content')
 <div class="content-wrapper">
     <div class="container">
-
         <section class="features-overview" id="features-section" style="padding-top: 50px;">
             <div class="content-header">
                 <h2>Peraturan & Tata Tertib Taruna</h2>
-                <h6 class="section-subtitle text-muted">One theme that serves as an easy-to-use operational
-                    toolkit<br>that
-                    meets customer's needs.</h6>
+                <h6 class="section-subtitle text-muted">Pedoman tentang tata tertib taruna dan anggota dewan kehormatan
+                    <br>Politeknik Penerbangan Palembang
+                </h6>
             </div>
             <br><br>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -20,6 +19,10 @@
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                         aria-controls="profile" aria-selected="false">Penghargaan</a>
                 </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="dewan-tab" data-toggle="tab" href="#dewan" role="tab"
+                      aria-controls="dewan" aria-selected="false">Dewan Kehormatan</a>
+              </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -45,13 +48,6 @@
                                @endforeach
                             </tbody>
                         </table>
-                        <div>
-                            <div class="card">
-                                <div class="card-body">
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -77,15 +73,48 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div>
-                            <div class="card">
-                                <div class="card-body">
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="dewan" role="tabpanel" aria-labelledby="dewan-tab">
+                  <div class="grid-margin">
+                      <br>
+                      <table id="example2" class="table table-striped table-bordered" aria-describedby="tabel">
+                          <thead>
+                              <tr>
+                                  <th style="width: 20px;" scope="col">No</th>
+                                  <th scope="col">Nama</th>
+                                  <th scope="col">Jabatan</th>
+                                  <th scope="col">Jabatan Dalam Kepanitiaan</th>
+                              </tr>
+                          </thead>
+                          <?php
+                            $dewan = [
+                              ['nama' => 'I.G.A AYU MAS OKA, SE, S.SiT, MT', 'jabatan' => 'Direktur Poltekbang Palembang', 'kepanitiaan' => 'Pengarah'],
+                              ['nama' => 'CATRA INDRA CAHYADI, S.SiT, M.Pd', 'jabatan' => 'Wakil Direktur III', 'kepanitiaan' => 'Ketua'],
+                              ['nama' => 'YANTI DARYANTI, S.IP, M.Si', 'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan', 'kepanitiaan' => 'Wakil Ketua'],
+                              ['nama' => 'ASEP M SOLEH, ST, S.SiT, M.Pd', 'jabatan' => 'Kepala Sub Bagian Administrasi Ketarunaan dan Alumni', 'kepanitiaan' => 'Sekretaris'],
+                              ['nama' => 'HERLINA FEBYANTI, SE, MM', 'jabatan' => 'Sekretaris Prodi MBUi', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'DIRESTU AMALIA, ST, MS.ASM', 'jabatan' => 'Sekretaris Prodi TRBU', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'WILDAN NUGRAHA, SE, MS.ASM', 'jabatan' => 'Sekretaris prodi PPKP', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'YACOB MANDALA P PANJAITAN, S.ST, M.Si', 'jabatan' => 'Kepala Pusat Pembangunan Karakter', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'M. ERAWAN DESTYANA, SE', 'jabatan' => 'Penyusun Bahan Sikap Mental, Jiwa Korsa dan Keagamaan ', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'TARUNA', 'jabatan' => 'Komandan Resimen', 'kepanitiaan' => 'Anggota '],
+                              ['nama' => 'TARUNA', 'jabatan' => 'Ka Demustar', 'kepanitiaan' => 'Anggota '],
+                            ];
+                          ?>
+                          <tbody style="font-size: 14px;">
+                              @foreach ($dewan as $k => $item)
+                                <tr>
+                                  <td style="width: 20px;">{{ $k+1 }}</td>
+                                  <td>{{ $item['nama'] }}</td>
+                                  <td>{{ $item['jabatan'] }}</td>
+                                  <td>{{ $item['kepanitiaan'] }}</td>
+                                </tr>
+                              @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
             </div>
         </section>
 

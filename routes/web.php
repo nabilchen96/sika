@@ -76,7 +76,7 @@ Route::group(['middleware' => ['checkRole:admin' ]], function () {
 
     Route::get('/temasurat', 'TemplateController@index');
     Route::post('/simpantemplatesurat', 'TemplateController@store');
-    Route::post('/updatetemplatesurat', 'TemplateController@update');
+    Route::post('/edittemplatesurat', 'TemplateController@update');
     Route::get('/hapustemasurat/{id}', 'TemplateController@destroy');
 
     Route::get('/tambah-tarunakamar', 'TarunaKamarController@create');

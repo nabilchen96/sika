@@ -51,7 +51,7 @@
                                     Template Penilaian
                                 @endif
                             </td>
-                            <td><a href="#" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                            <td><a href="#" data-target=".modal" data-toggle="modal" data-array="{{ $data[$k] }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
                             <td><a href="{{ url('hapustemasurat') }}/{{ $item->id_template }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a></td>
                         </tr>
                         @endforeach
@@ -93,9 +93,9 @@
                         <textarea name="keterangan" id="keterangan" class="form-control" cols="30" rows="5"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Template</label>
+                        <label class="col-form-label">Template  <b class="text-danger">*Input file berekstensi .doc</b></label>
                         <input type="file" name="template" class="form-control" id="template">
-                        <p class="text-danger">*Input hanya file berekstensi .rtf</p>
+                        <a href="" id="surat" class="badge badge-success">Lihat File</a>
                     </div>
                 </div>
 
@@ -135,8 +135,17 @@
     var modal   = $(this)
 
     if(data === ''){
-      $('#formtemplate').attr('action', "{{ url('simpantemplatesurat') }}").trigger('reset')
+        $('#formtemplate').attr('action', "{{ url('simpantemplatesurat') }}").trigger('reset')
+    }else{
+        $('#formtemplate').attr('action', "{{ url('edittemplatesurat') }}")
 
+        modal.find('#id_template').val(data.id_template)
+        modal.find('#judul_template').val(data.judul_template)
+        modal.find('#kategori').val(data.kategori)
+        modal.find('#keterangan').val(data.keterangan)
+        var surat = data.template
+
+        $('#surat').attr('href', '{{ url('templatesurat') }}/'+surat)
     }
 
     })

@@ -103,9 +103,9 @@
                     @endif
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">ACC/Tolak Pengajuan <br>Oleh Pengasuh</label>
+                        <label class="col-sm-3 col-form-label">ACC/Tolak Pengajuan</label>
                         <div class="col-sm-5">
-                            <select name="status_pengajuan" id="status_pengajuan"
+                            <select name="status_pengajuan" id="status_pengajuan" onchange="statuspengajuan()"
                                 {{ auth::user()->role == 'pusbangkar' ? 'disabled' : '' }}
                                 onchange="pilihstatuspengajuan()" class="form-control">
                                 <option {{ $data->status_pengajuan == '0' ? 'selected' : '' }} value="0">Sedang Diproses
@@ -118,6 +118,14 @@
                         </div>
                     </div>
 
+                    <div id="form_alasan" class="d-none">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Alasan Ditolak</label>
+                            <div class="col-sm-5">
+                                <textarea name="alasan" id="alasan" class="form-control" cols="30" rows="5">{{ $data->alasan_tolak }}</textarea>
+                            </div>
+                        </div>
+                    </div>
 
                     @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
                     @if ($data->jenis_pengajuan == 'surat izin' and $data->status_pengajuan == '1')
@@ -166,35 +174,50 @@
         toastr.error("{{ $message }}")
     @endif
 </script>
+<script>
+    $( document ).ready(function() {
+        statuspengajuan()
+    })
+
+    function statuspengajuan(){
+        var status_pengajuan = document.getElementById('status_pengajuan').value
+
+        if(status_pengajuan == 2){
+            document.getElementById('form_alasan').removeAttribute('class')
+        }else{
+            document.getElementById('form_alasan').setAttribute("class", "d-none");
+        }
+    }
+</script>
 <script src="{{ asset('signature_pad/signaturepad.js') }}"></script>
 <script>
     var canvas = document.querySelector("canvas");
 
-var signaturePad = new SignaturePad(canvas);
+    var signaturePad = new SignaturePad(canvas);
 
-signaturePad.toDataURL(); // save image as PNG
-
-
-// Returns signature image as an array of point groups
-const data = signaturePad.toData();
-
-// Draws signature image from an array of point groups
-signaturePad.fromData(data);
-
-// Returns true if canvas is empty, otherwise returns false
-signaturePad.isEmpty();
-
-// Unbinds all event handlers
-signaturePad.off();
-
-// Rebinds all event handlers
-signaturePad.on();
+    signaturePad.toDataURL(); // save image as PNG
 
 
-function hapusttd(){
-    // Clears the canvas
-    signaturePad.clear();
-}
+    // Returns signature image as an array of point groups
+    const data = signaturePad.toData();
+
+    // Draws signature image from an array of point groups
+    signaturePad.fromData(data);
+
+    // Returns true if canvas is empty, otherwise returns false
+    signaturePad.isEmpty();
+
+    // Unbinds all event handlers
+    signaturePad.off();
+
+    // Rebinds all event handlers
+    signaturePad.on();
+
+
+    function hapusttd(){
+        // Clears the canvas
+        signaturePad.clear();
+    }
 
 function undottd(){
     if (data) {
@@ -206,7 +229,6 @@ function undottd(){
 $(document).on('click','.btn',function(){
     $( "#nilaittd" ).val(signaturePad.toDataURL())
 
-    // console.log('tes')
 })
 
 </script>

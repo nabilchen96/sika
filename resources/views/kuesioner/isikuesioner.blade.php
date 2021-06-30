@@ -14,7 +14,7 @@
 
             @if($message = Session::get('sukses'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                Terima kasih atas partisipasi anda dalam mengisi kuesioner ini
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nomor Induk Taruna</label>
                                     <input type="text" name="nim" class="form-control"
-                                        style="background-color: white; border-radius: 10px;">
+                                        style="background-color: white; border-radius: 10px;" required>
                                 </div>
                                 @if($message = Session::get('gagal'))
                                 <p class="text-danger">{{ $message }}</p>
@@ -43,18 +43,18 @@
                                 <br>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Program Studi</label>
-                                    <select name="" class="form-control"
-                                        style="background-color: white; border-radius: 10px;">
-                                        <option value="">D3 Manajemen Bandar Udara</option>
-                                        <option value="">D3 Penyelamatan dan Pemadam Kebakaran</option>
-                                        <option value="">D4 Teknologi Rekayasa Bandar Udara</option>
+                                    <select name="prodi" class="form-control"
+                                        style="background-color: white; border-radius: 10px;" required>
+                                        <option value="Manajemen Bandar Udara">D3 Manajemen Bandar Udara</option>
+                                        <option value="Penyelamatan dan Pemadam Kebakaran Penerbangan">D3 Penyelamatan dan Pemadam Kebakaran</option>
+                                        <option value="Teknologi Rekayasa Bandar Udara">D4 Teknologi Rekayasa Bandar Udara</option>
                                     </select>
                                 </div>
                                 <br>
                                 <div class="form-group mt-1">
                                     <label for="exampleInputEmail1">Tanggal Lahir</label>
-                                    <input type="date" class="form-control"
-                                        style="background-color: white; border-radius: 10px;">
+                                    <input type="date" name="tgllahir" class="form-control"
+                                        style="background-color: white; border-radius: 10px;" required>
                                 </div>
                                 <br>
                                 <div class="form-group mt-1">

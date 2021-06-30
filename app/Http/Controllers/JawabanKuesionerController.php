@@ -22,13 +22,27 @@ class JawabanKuesionerController extends Controller
                     ->where('tarunas.nim', $request->nim)
                     ->first();
 
-            if($taruna != null){
-                $soal = DB::table('kuesioners')
-                        ->join('detail_kuesioners', 'detail_kuesioners.id_kuesioner', '=', 'kuesioners.id_kuesioner')
-                        ->where('kuesioners.status', '1')
-                        ->get();
+            if($taruna->nim == $request->nim and $taruna->nama_program_studi == $request->prodi and $taruna->tanggal_lahir == $request->tgllahir){
 
-                $nim = $request->nim;
+                $jawaban = DB::table('jawaban_kuesioners')
+                            ->where('id_alumni', $taruna->id_alumni)
+                            ->orderBy('id_jawab_kuesioner', 'desc')
+                            ->first();
+
+                // dd($jawaban-);
+
+                if($jawaban == null){
+                    $soal = DB::table('kuesioners')
+                    ->join('detail_kuesioners', 'detail_kuesioners.id_kuesioner', '=', 'kuesioners.id_kuesioner')
+                    ->where('kuesioners.status', '1')
+                    ->get();
+
+                    $nim = $request->nim;
+
+                }elseif(date('Y', strtotime(@$jawaban->created_at) == date('Y'))){
+                    return back()->with(['gagal' => 'Taruna sudah mengisi kuesioner tahun ini']);
+                }
+
             }else{
                 return back()->with(['gagal' => 'Taruna belum lulus atau NIT yang dimasukkan tidak tepat!']);
             }
@@ -50,7 +64,9 @@ class JawabanKuesionerController extends Controller
             ]);
         }
 
-        return back()->with(['sukses' => 'Data berhasil dikirim!']);
+        $nim = null;
+
+        return redirect('isikuesioner')->with('nim', $nim)->with(['sukses' => 'Data berhasil dikirim!']);
 
     }
 }

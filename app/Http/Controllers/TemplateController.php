@@ -11,7 +11,7 @@ class TemplateController extends Controller
 {
     public function index(){
 
-        $data = DB::table('templates')->get();
+        $data = TemplateSurat::all();
         return view('/templatesurat.index')->with('data', $data);
     }
 
@@ -37,6 +37,44 @@ class TemplateController extends Controller
 
         return back()->with(['sukses' => 'Data Berhasil Disimpan!']);
 
+    }
+
+    public function update(Request $request){
+        $request->validate([
+            'id_template'       => 'required',
+            'judul_template'    => 'required',
+            'kategori'          => 'required',
+            'keterangan'        => 'required'
+        ]);
+
+
+        $data = TemplateSurat::find($request->id_template);
+
+        if(empty($request->file('template'))){
+
+            $nama_file = $data->template;
+
+        }else{
+
+            $file = $request->file('template');
+            $nama_file = $file->getClientOriginalName();
+            $file->move('templatesurat', $nama_file);
+
+            @$path = public_path()."/templatesurat/".$data->template;
+            unlink(@$path);
+
+            $file->move('templatesurat', $nama_file);
+        }
+    
+
+        $data->update([
+            'judul_template'    => $request->judul_template,
+            'kategori'          => $request->kategori,
+            'template'          => $nama_file,
+            'keterangan'        => $request->keterangan
+        ]);
+
+        return back()->with(['sukses' => 'Data Berhasil Diedit!']);
     }
 
     public function destroy($id){
