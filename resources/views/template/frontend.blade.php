@@ -63,7 +63,7 @@
             <span class="mdi mdi-menu navbar-toggler-icon"></span>
           </button>
           <p style="font-size: 14px; margin-top: 15px;">
-            <strong> Unit Ketarunaan</strong>
+            <strong> Pusat Pengembangan Karakter</strong>
             <br>Poltekbang Palembang</p>
         </div>
         <div class="collapse navbar-collapse navbar-menu-wrapper" id="navbarSupportedContent">

@@ -16,7 +16,7 @@
           Pengumuman dan informasi untuk taruna dan alumni
           <br>Politeknik Penerbangan Palembang</h6>
       </div>
-      <div class="d-md-flex justify-content-between">
+      <div class="d-md-flex">
         <?php
           
           $data = DB::table('beritas')->limit(3)->get();
@@ -38,11 +38,12 @@
           </div>
         </div>
         @empty
-        {{-- <h2 class="text-center mt-4">Belum Ada Pengumuman yang diupdate</h2> --}}
+        <div class="col-12 mt-4 mb-4">
+          <h4 class="text-center">Belum Ada Pengumuman yang diupdate</h4>
+        </div>
         @endforelse
       </div>
     </section>
-
     <section class="contact-us" id="contact-section" data-aos="fade-up" data-aos-delay="100">
       <div class="contact-us-bgimage grid-margin">
         <div class="row">
