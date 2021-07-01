@@ -22,7 +22,7 @@
           $data = DB::table('beritas')->limit(3)->get();
 
         ?>
-        @foreach ($data as $k => $item)
+        @forelse ($data as $k => $item)
         <div class="col-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">
           <div>
             <div class="card">
@@ -37,7 +37,9 @@
             </div>
           </div>
         </div>
-        @endforeach
+        @empty
+        <h2>Belum Ada Pengumuman yang diupdate</h2>
+        @endforelse
       </div>
     </section>
 
