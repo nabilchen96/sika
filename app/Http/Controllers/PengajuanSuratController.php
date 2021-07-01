@@ -208,13 +208,13 @@ class PengajuanSuratController extends Controller
                 'NIT'               => $data->nim,
                 'TEMPATTUJUAN'      => $detail_keterangan[0],
                 'KEPERLUAN'         => $detail_keterangan[1],
-                'BERANGKATTANGGAL'  => $detail_keterangan[2],
-                'KEMBALITANGGAL'    => $detail_keterangan[3],
+                'BERANGKATTANGGAL'  => date('d-m-Y', strtotime($detail_keterangan[2])),
+                'KEMBALITANGGAL'    => date('d-m-Y', strtotime($detail_keterangan[3])),
                 'CATATAN'           => $detail_keterangan[4],
                 'TANGGALSURAT'      => date('d-m-Y'),
             ]);
 
-            $templateProcessor->setImageValue('TTD', 'signature.png');
+            $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
 
 
             // header("Content-Disposition: attachment; filename=template.docx");
@@ -234,15 +234,15 @@ class PengajuanSuratController extends Controller
             ]);
 
             // kirim data ke catatan perizinan
-            // if($data->jenis_pengajuan == 'surat izin'){
-            //     $keterangan = unserialize($data->keterangan);
-            //     Perizinan::create([
-            //         'id_mahasiswa'      => $data->id,
-            //         'tgl_izin_keluar'   => $keterangan[2],
-            //         'keterangan_izin'   => 'Tujuan: '.$keterangan[0].", Keperluan: ".$keterangan[1].", Keterangan: ".$keterangan[4],
-            //         'id_semester'       => $data->id_semester
-            //     ]);
-            // }
+            if($data->jenis_pengajuan == 'surat izin'){
+                $keterangan = unserialize($data->keterangan);
+                Perizinan::create([
+                    'id_mahasiswa'      => $data->id_mahasiswa,
+                    'tgl_izin_keluar'   => $detail_keterangan[2],
+                    'keterangan_izin'   => 'Tujuan: '.$detail_keterangan[0].", Keperluan: ".$detail_keterangan[1].", Keterangan: ".$detail_keterangan[4],
+                    'id_semester'       => $data->id_semester
+                ]);
+            }
 
             return redirect('pengajuansurat')->with(['sukses' => 'data berhasil disimpan']);
 

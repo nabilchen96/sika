@@ -72,7 +72,11 @@
                                     @endif
                                   </td>
                                   <td>
-                                    <a href="{{ url('editpengajuansurat') }}/{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    @if(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
+                                      <a href="{{ url('editpengajuansurat') }}/{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    @else
+                                      <button class="btn btn-sm btn-success" disabled><i class="fas fa-edit"></i></button>
+                                    @endif 
                                   </td>
                                   <td>
                                     <a href="#" data-toggle="modal" data-target=".modalhapus" data-idpengajuan="{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
