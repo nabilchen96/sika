@@ -38,7 +38,7 @@
           </div>
         </div>
         @empty
-        <h2 class="text-center mt-4">Belum Ada Pengumuman yang diupdate</h2>
+        {{-- <h2 class="text-center mt-4">Belum Ada Pengumuman yang diupdate</h2> --}}
         @endforelse
       </div>
     </section>
