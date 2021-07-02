@@ -130,12 +130,12 @@
                     @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
                     @if ($data->jenis_pengajuan == 'surat izin' and $data->status_pengajuan == '1')
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
-                            <div class="col-sm-4">
-                                <canvas style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
+                            <label class="col-lg-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
+                            <div class="col-lg-4">
+                                <canvas height="250" style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
                                 <input type="hidden" name="ttd" id="nilaittd">
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-lg-1">
                                 <div class="">
                                     <button type="button" class="btn btn-block btn-sm btn-danger" onclick="hapusttd()"
                                         data-action="clear"><i class="fas fa-trash"></i> Clear</button>
