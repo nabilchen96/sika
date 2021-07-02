@@ -12,7 +12,7 @@
     <section class="features-overview" id="features-section">
       <div class="content-header">
         <h2>Pengumuman</h2>
-        <h6 class="section-subtitle text-muted">
+        <h6 class="section-subtitle text-muted mb-4">
           Pengumuman dan informasi untuk taruna dan alumni
           <br>Politeknik Penerbangan Palembang</h6>
       </div>
@@ -23,7 +23,7 @@
 
         ?>
         @forelse ($data as $k => $item)
-        <div class="col-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">
           <div>
             <div class="card">
               <div class="card-body">
@@ -47,12 +47,12 @@
     <section class="contact-us" id="contact-section" data-aos="fade-up" data-aos-delay="100">
       <div class="contact-us-bgimage grid-margin">
         <div class="row">
-          <div class="col p-12">
+          <div class="col-lg-6 sika-map">
             <iframe class="embed-responsive"
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15938.708954153537!2d104.6991992!3d-2.9089414!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5e411b86b9a1b4e9!2sPoliteknik%20Penerbangan%20Palembang!5e0!3m2!1sid!2sid!4v1613966893900!5m2!1sid!2sid"
               height="420" title="poltekbangplg" style="border:0" allowfullscreen></iframe>
           </div>
-          <div class="col" style="text-align: left;">
+          <div class="col-lg-6 sika-description" style="text-align: left;">
             <h1>Sistem Informasi Ketarunaan dan Alumni</h1>
             <br>
             <p>

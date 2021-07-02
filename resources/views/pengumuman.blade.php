@@ -6,7 +6,7 @@
       <section class="features-overview" id="features-section" style="padding-top: 50px;">
         <div class="content-header">
           <h2>Pengumuman & Berita</h2>
-          <h6 class="section-subtitle text-muted">
+          <h6 class="section-subtitle text-muted mb-4">
             Pengumuman dan informasi untuk taruna dan alumni
             <br>Politeknik Penerbangan Palembang</h6>
         </div>

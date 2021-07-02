@@ -96,7 +96,7 @@
       data: {
           labels: ['<?php echo @implode("','", $label[0]); ?>'],
           datasets: [{
-              label: '<?php echo $data[0]->soal; ?>',
+              label: '<?php echo @$data[0]->soal; ?>',
               data: [<?php echo implode(",", $jawaban); ?>],
               fill: false,
               backgroundColor: [

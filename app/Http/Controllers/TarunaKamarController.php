@@ -69,19 +69,28 @@ class TarunaKamarController extends Controller
     }
 
     public function store(Request $request){
+
         $request->validate([
             'id_kamar'  => 'required',
         ]);
 
-        for($i=0; $i<count($request->input('id_mahasiswa')); $i++){
-            $total_kamar = DB::table('taruna_kamars')->where('id_kamar', $request->input('id_kamar'))->count();
-            if(count($request->input('id_mahasiswa')) > $total_kamar){
+        //total kapasitas kamar
+        $kamar = DB::table('kamars')->where('id_kamar', $request->id_kamar)->first();
+
+        for($i=0; $i < count($request->id_mahasiswa); $i++){
+
+            //total kamar saat ini misal sudah 10
+            $total_kamar = DB::table('taruna_kamars')->where('id_kamar', $request->id_kamar)->count();
+
+            if( $total_kamar >= $kamar->batas_kamar ){
                 return back()->with(['gagal' => 'Data yang Diinput Melebihi Kapasitas Kamar']);
+            }else{
+                TarunaKamar::create([
+                    'id_kamar'      => $request->input('id_kamar'),
+                    'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
+                ]);
             }
-            TarunaKamar::create([
-                'id_kamar'      => $request->input('id_kamar'),
-                'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
-            ]);
+           
         }
 
         return redirect('tarunakamar')->with(['sukses' => 'Data Sukses Disimpan']);

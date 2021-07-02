@@ -85,7 +85,7 @@
           </a>
         </li>
 
-        @if (auth::user()->role == 'admin')
+        @if (auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
         <li class="nav-item @stack('master')">
           <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
             aria-controls="collapseTwo">

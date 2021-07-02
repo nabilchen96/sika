@@ -47,7 +47,6 @@ class TemplateController extends Controller
             'keterangan'        => 'required'
         ]);
 
-
         $data = TemplateSurat::find($request->id_template);
 
         if(empty($request->file('template'))){
@@ -60,12 +59,9 @@ class TemplateController extends Controller
             $nama_file = $file->getClientOriginalName();
             $file->move('templatesurat', $nama_file);
 
-            @$path = public_path()."/templatesurat/".$data->template;
+            @$path = public_path("templatesurat/").$data->template;
             unlink(@$path);
-
-            $file->move('templatesurat', $nama_file);
         }
-    
 
         $data->update([
             'judul_template'    => $request->judul_template,

@@ -48,6 +48,46 @@
     .img-proporsional:focus {
       transform: scale(1.1);
     }
+
+    @media only screen and (max-width: 800px) {
+       .card .card-body{
+        padding: 0 0 43px 0;
+      }
+
+      .sika-map{
+        margin-bottom: 30px;
+      }
+
+      .sika-map iframe{
+        height: 320px;
+      }
+      .sika-description h1{
+        font-size: 25px;
+      }
+
+      .web-title{
+        display: none;
+      }
+
+      .btn-contact-us{
+        margin-left: 0 !important;
+      }
+      .close-icon{
+        margin-right: 20px;
+      }
+
+      .kuesioner img{
+        display: none;
+      }
+
+      .card-kuesioner{
+        margin: 20px;
+      }
+
+      .detail-news-image{
+        height: 250px !important;
+      }
+    }
   </style>
 </head>
 
@@ -62,7 +102,7 @@
             aria-label="Toggle navigation">
             <span class="mdi mdi-menu navbar-toggler-icon"></span>
           </button>
-          <p style="font-size: 14px; margin-top: 15px;">
+          <p class="web-title" style="font-size: 14px; margin-top: 15px;">
             <strong> Pusat Pengembangan Karakter</strong>
             <br>Poltekbang Palembang</p>
         </div>
@@ -70,12 +110,13 @@
           <ul class="navbar-nav align-items-lg-center align-items-start ml-auto right">
             <li class="d-flex align-items-center justify-content-between pl-4 pl-lg-0">
               <div class="navbar-collapse-logo">
-                <img src="{{ asset('frontend/images/Group2.svg') }}" alt="">
+                {{-- <img src="{{ asset('frontend/images/Group2.svg') }}" alt=""> --}}
+                <img src="{{ asset('frontend/images/logo.png') }}" style="width: 50%;" alt="">
               </div>
               <button class="navbar-toggler close-button" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="mdi mdi-close navbar-toggler-icon pl-5"></span>
+                <span class="close-icon toggle-icon mdi mdi-close navbar-toggler-icon pl-5"></span>
               </button>
             </li>
             <li class="nav-item">

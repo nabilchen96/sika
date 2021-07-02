@@ -26,7 +26,7 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="grid-margin">
+                    <div class="grid-margin table-responsive">
                         <br>
                         <table id="example" class="table table-striped table-bordered" aria-describedby="tabel">
                             <thead>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="grid-margin">
+                    <div class="table-responsive grid-margin">
                         <br>
                         <table id="example1" class="table table-striped table-bordered" aria-describedby="tabel">
                             <thead>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="dewan" role="tabpanel" aria-labelledby="dewan-tab">
-                  <div class="grid-margin">
+                  <div class="grid-margin table-responsive">
                       <br>
                       <table id="example2" class="table table-striped table-bordered" aria-describedby="tabel">
                           <thead>

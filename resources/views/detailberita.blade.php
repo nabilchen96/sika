@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="col-lg-9" data-aos="zoom-in">
-                <img src="{{ asset('gambar_berita') }}/{{ $detailberita->gambar_utama }}" style="
+                <img class="detail-news-image" src="{{ asset('gambar_berita') }}/{{ $detailberita->gambar_utama }}" style="
                     float: center;
                     width: 100%;
                     height: 500px;

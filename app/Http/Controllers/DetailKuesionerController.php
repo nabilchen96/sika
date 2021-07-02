@@ -84,38 +84,42 @@ class DetailKuesionerController extends Controller
         $jawaban = array();
         $label  = array();
 
-        if($soal->jenis_soal == '1'){
-
-            $label[] = unserialize($soal->jawaban);
-
-            for($i=0; $i<count($label[0]); $i++){
-                $jawaban[] = DB::table('jawaban_kuesioners')
-                                ->where('jawaban', $label[0][$i])
-                                ->count();
-            }
-
-        }elseif($soal->jenis_soal == '2'){
-            //isian singkat
-            //label in array
-            //data in array
-        }elseif($soal->jenis_soal == '3'){
-            //benar salah
-            $label[] = ['Ya', 'Tidak'];
-
-            for($i=0; $i<count($label[0]); $i++){
-                $jawaban[] = DB::table('jawaban_kuesioners')
-                                ->where('jawaban', $label[0][$i])
-                                ->count();
-            }
+        if(empty(@$data) == null){
+            $data = array();
         }else{
-            //skala
-            $label[] = [1,2,3,4,5];
-            for($i=0; $i<count($label[0]); $i++){
-                $jawaban[] = DB::table('jawaban_kuesioners')
-                                ->where('jawaban', $label[0][$i])
-                                ->count();
-            }
+            if($soal->jenis_soal == '1'){
 
+                $label[] = unserialize($soal->jawaban);
+    
+                for($i=0; $i<count($label[0]); $i++){
+                    $jawaban[] = DB::table('jawaban_kuesioners')
+                                    ->where('jawaban', $label[0][$i])
+                                    ->count();
+                }
+    
+            }elseif($soal->jenis_soal == '2'){
+                //isian singkat
+                //label in array
+                //data in array
+            }elseif($soal->jenis_soal == '3'){
+                //benar salah
+                $label[] = ['Ya', 'Tidak'];
+    
+                for($i=0; $i<count($label[0]); $i++){
+                    $jawaban[] = DB::table('jawaban_kuesioners')
+                                    ->where('jawaban', $label[0][$i])
+                                    ->count();
+                }
+            }else{
+                //skala
+                $label[] = [1,2,3,4,5];
+                for($i=0; $i<count($label[0]); $i++){
+                    $jawaban[] = DB::table('jawaban_kuesioners')
+                                    ->where('jawaban', $label[0][$i])
+                                    ->count();
+                }
+    
+            }
         }
 
 

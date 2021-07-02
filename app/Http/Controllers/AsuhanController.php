@@ -39,12 +39,15 @@ class AsuhanController extends Controller
 
         if( !$request->input('cari') ){
             if(Auth::user()->role == 'pengasuh'){
+
                 $data = DB::table('asuhans')
                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
                 ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
                 ->where('asuhans.id_pengasuh', Auth::id())            
                 ->get();
-            }elseif(Auth::user()->role == 'admin'){
+
+            }elseif(Auth::user()->role == 'admin' or auth::user()->role == 'pusbangkar'){
+
                 $data = DB::table('asuhans')
                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
                 ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')         

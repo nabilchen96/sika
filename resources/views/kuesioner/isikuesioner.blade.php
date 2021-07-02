@@ -25,14 +25,14 @@
             <form action="{{ url('isikuesioner') }}" method="get">
                 <div class="card" style="background-color: #f7f8fa; border-radius: 10px;">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="text-center">
-                                <img src="{{ asset('formx.png') }}" style="margin-top: 50px">
+                        <div class="col-lg-6">
+                            <div class="text-center kuesioner">
+                                <img src="{{ asset('formx.png') }}" style="margin-top: 50px;">
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="card-body">
-                                <div class="form-group">
+                        <div class="col-lg-6">
+                            <div class="card-body card-kuesioner">
+                                <div class="form-group mt-4">
                                     <label for="exampleInputEmail1">Nomor Induk Taruna</label>
                                     <input type="text" name="nim" class="form-control"
                                         style="background-color: white; border-radius: 10px;" required>
