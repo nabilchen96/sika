@@ -132,7 +132,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
                             <div class="col-sm-4">
-                                <canvas style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
+                                <canvas class="w-100" style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
                                 <input type="hidden" name="ttd" id="nilaittd">
                             </div>
                             <div class="col-sm-1">
@@ -194,6 +194,9 @@
     var canvas = document.querySelector("canvas");
 
     var signaturePad = new SignaturePad(canvas);
+
+    // signaturePad.minWidth = 5;
+    // signaturePad.maxWidth = 10;
 
     signaturePad.toDataURL(); // save image as PNG
 
