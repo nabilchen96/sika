@@ -7,14 +7,31 @@ use DB;
 use App\PengajuanSurat;
 use Illuminate\Support\Facades\Hash;
 use App\Perizinan;
+use auth;
 
 class PengajuanSuratController extends Controller
 {
     public function index(){
 
-        $data = DB::table('pengajuan_surats')
+
+        if(auth::user()->role == 'taruna'){
+            $data = DB::table('pengajuan_surats')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                ->where('tarunas.nim', auth::user()->nip)
+                ->get();
+        }else{
+            if(auth::user()->role == 'pengasuh'){
+                $data = DB::table('pengajuan_surats')
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                    ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                    ->where('asuhans.id_pengasuh', auth::user()->id)
+                    ->get();
+            }else{
+                $data = DB::table('pengajuan_surats')
                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                 ->get();
+            }
+        }
 
         return view('pengajuansurat.index')->with('data', $data);
     }

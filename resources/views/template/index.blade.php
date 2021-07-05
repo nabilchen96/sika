@@ -64,10 +64,10 @@
         <a class="nav-link" href="#">
           <form action="{{ url('home') }}" id="form">
             <select name="aplikasi" class="form-control" onChange="document.getElementById('form').submit();">
-              <option {{ session()->get('aplikasi') == 'ketarunaan' ? 'selected' : ''}} value="ketarunaan">Bag.
-                Ketarunaan
-              </option>
+              <option {{ session()->get('aplikasi') == 'ketarunaan' ? 'selected' : ''}} value="ketarunaan">Bag.Ketarunaan</option>
+              @if (auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
               <option {{ session()->get('aplikasi') == 'alumni' ? 'selected' : ''}} value="alumni">Bag. Alumni</option>
+              @endif
             </select>
           </form>
         </a>
@@ -84,7 +84,6 @@
             <span>Dashboard</span>
           </a>
         </li>
-
         @if (auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
         <li class="nav-item @stack('master')">
           <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
@@ -108,54 +107,113 @@
           </div>
         </li>
         @endif
-
-        <li class="nav-item @stack('tarunakamar')">
-          <a class="nav-link" href="{{url('tarunakamar')}}">
-            <i class="fas fa-fw fa-layer-group"></i>
-            <span>Taruna Kamar</span>
-          </a>
-        </li>
-        <li class="nav-item @stack('tarunapengasuh')">
-          <a class="nav-link" href="{{url('tarunapengasuh')}}">
-            <i class="fas fa-fw fa-layer-group"></i>
-            <span>Taruna Pengasuh</span>
-          </a>
-        </li>
-        <li class="nav-item @stack('pengajuansurat')">
-          <a class="nav-link" href="{{url('pengajuansurat')}}">
-            <i class="fas fa-fw fa-layer-group"></i>
-            <span>Pengajuan Surat 
-              @if (auth::user()->role != 'taruna')
-              <sup class="badge badge-danger">{{ DB::table('pengajuan_surats')->where('status_pengajuan', '0')->count() }}</sup></span>
-              @endif
-          </a>
-        </li>
-        <li class="nav-item @stack('catatan')">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-clipboard"></i>
-            <span>Catatan</span>
-          </a>
-          <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
-                Pelanggaran</a>
-              <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
-              <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
-                Penghargaan</a>
-              <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
-              <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
-                Perizinan</a>
+        @if (auth::user()->role == 'taruna')
+          <li class="nav-item @stack('pengajuansurat')">
+            <a class="nav-link" href="{{url('pengajuansurat')}}">
+              <i class="fas fa-fw fa-layer-group"></i>
+              <span>Pengajuan Surat</span>
+            </a>
+          </li>
+          <li class="nav-item @stack('catatan')">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+              aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-clipboard"></i>
+              <span>Catatan</span>
+            </a>
+            <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+              data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+                  Pelanggaran</a>
+                <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
+                <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+                  Penghargaan</a>
+                <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
+                <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+                  Perizinan</a>
+              </div>
             </div>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{url('home')}}">
-            <i class="fas fa-fw fa-star"></i>
-            <span>Penilaian</span>
-          </a>
-        </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('home')}}">
+              <i class="fas fa-fw fa-star"></i>
+              <span>Nilai</span>
+            </a>
+          </li>
+        @else
+          <li class="nav-item @stack('tarunakamar')">
+            <a class="nav-link" href="{{url('tarunakamar')}}">
+              <i class="fas fa-fw fa-layer-group"></i>
+              <span>Taruna Kamar</span>
+            </a>
+          </li>
+          <li class="nav-item @stack('tarunapengasuh')">
+            <a class="nav-link" href="{{url('tarunapengasuh')}}">
+              <i class="fas fa-fw fa-layer-group"></i>
+              <span>Taruna Pengasuh</span>
+            </a>
+          </li>
+          <li class="nav-item @stack('pengajuansurat')">
+            <a class="nav-link" href="{{url('pengajuansurat')}}">
+              <i class="fas fa-fw fa-layer-group"></i>
+              <span>Pengajuan Surat 
+                @if (auth::user()->role == 'pengasuh')
+                  <sup class="badge badge-danger">
+                    {{ 
+                      DB::table('pengajuan_surats')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                        ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                        ->where('status_pengajuan', '0')
+                        ->where('asuhans.id_pengasuh', auth::user()->id)
+                        ->count() 
+                    }}
+                  </sup>
+                @elseif(auth::user()->role == 'pusbangkar')
+                  <sup class="badge badge-danger">
+                    {{ 
+                        DB::table('pengajuan_surats')
+                            ->where('status_pengajuan', '1')
+                            ->where('surat', '')
+                            ->count() 
+                    }}
+                  </sup>
+                @endif
+              </span>
+            </a>
+          </li>
+          <li class="nav-item @stack('catatan')">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+              aria-controls="collapseTwo">
+              <i class="fas fa-fw fa-clipboard"></i>
+              <span>Catatan</span>
+            </a>
+            <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+              data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+                  Pelanggaran</a>
+                <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
+                <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+                  Penghargaan</a>
+                <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
+                <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+                  Perizinan</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('home')}}">
+              <i class="fas fa-fw fa-star"></i>
+              <span>Penilaian</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('berita')}}">
+              <i class="fas fa-fw fa-bullhorn"></i>
+              <span>Pengumuman & Berita</span>
+            </a>
+          </li>
+        @endif
       @else
         <li class="nav-item active">
           <a class="nav-link" href="{{ url('home') }}">
@@ -182,13 +240,6 @@
           </a>
         </li> --}}
       @endif
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('berita')}}">
-          <i class="fas fa-fw fa-bullhorn"></i>
-          <span>Pengumuman & Berita</span>
-        </a>
-      </li>
-
     </ul>
     <!-- End of Sidebar -->
 
