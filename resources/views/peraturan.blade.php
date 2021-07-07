@@ -125,7 +125,7 @@
             <img src="{{ asset('frontend/images/logo.png') }}" width="30%" alt="" class="pb-2">
             <div class="pt-2">
               <p class="text-muted m-0">Jl. Adi Sucipto No.3012, Sukodadi, Kec. Sukarami, Palembang, Sumatera Selatan, 30961</p>
-              <p class="text-muted m-0">Email: info@poltekbangplg.ac.id</p>
+              <p class="text-muted m-0">Email: pusbangkar@poltekbangplg.ac.id</p>
               <p class="text-muted m-0">Telpon: 0711-410930</p>
               <p class="text-muted m-0">Fax: 0711-420385</p>
             </div>
