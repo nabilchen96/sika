@@ -201,11 +201,19 @@
               </div>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url('home')}}">
+          <li class="nav-item @stack('nilai')">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#nilai" aria-expanded="true"
+              aria-controls="collapseTwo">
               <i class="fas fa-fw fa-star"></i>
               <span>Penilaian</span>
             </a>
+            <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo"
+              data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item @stack('rekapnilai')" href="{{ url('rekapnilai') }}">Rekap Nilai Taruna</a>
+                <a class="collapse-item @stack('laporannilaitaruna')" href="{{ url('laporannilaitaruna') }}">Laporan Nilai Pertaruna</a>
+              </div>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url('berita')}}">

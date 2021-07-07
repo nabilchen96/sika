@@ -103,13 +103,15 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
     Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
 
-
     Route::get('/berita', 'BeritaController@index');
     Route::get('/tambahberita', 'BeritaController@create');
     Route::post('/simpanberita', 'BeritaController@store');
     Route::get('/hapusberita/{id}', 'BeritaController@destroy');
     Route::get('/editberita/{id}', 'BeritaController@edit');
     Route::post('/updateberita', 'BeritaController@update');
+
+    Route::get('/rekapnilai', 'PenilaianController@rekapnilai');
+    Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
