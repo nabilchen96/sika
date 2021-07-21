@@ -19,10 +19,12 @@ class TemplateController extends Controller
 
         $request->validate([
             'judul_template'    => 'required',
-            'kategori'          => 'required',
+            'kategori'          => 'required|unique:templates',
             'template'          => 'required',
             'keterangan'        => 'required'
         ]);
+
+        
 
         $file = $request->file('template');
         $nama_file = $file->getClientOriginalName();

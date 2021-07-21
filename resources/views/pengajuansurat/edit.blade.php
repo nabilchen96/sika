@@ -155,7 +155,7 @@
                             @if (auth::user()->role == 'pusbangkar' and $data->status_pengajuan != '1')
                                 disabled
                             @endif 
-                            class="btn btn-success">Edit</button>
+                            class="btn btn-success">Simpan</button>
                         </div>
                     </div>
                 </form>

@@ -101,8 +101,24 @@
               <a class="collapse-item @stack('bataspelanggaran')" href="{{ url('bataspelanggaran ')}}">Batas
                 Pelanggaran</a>
               <a class="collapse-item @stack('pengasuh')" href="{{ url('pengasuh') }}">Pengasuh</a>
+              <a class="collapse-item @stack('kordinatorpengasuh')" href="{{ url('kordinatorpengasuh') }}">Kordinator Pengasuh</a>
               <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
-              <a class="collapse-item @stack('templatesurat')" href="{{ url('temasurat') }}">Template Surat</a>
+              <a class="collapse-item @stack('templatesurat')" href="{{ url('temasurat') }}">Template Surat</a>              
+            </div>
+          </div>
+        </li>
+        <li class="nav-item @stack('aturannilai')">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#aturannilai" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-clipboard"></i>
+            <span>Aturan Nilai</span>
+          </a>
+          <div id="aturannilai" class="collapse @stack('sub-aturannilai')" aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item @stack('aturannilaisamapta')" href="{{ url('aturannilaisamapta') }}">Aturan Nilai Samapta</a>
+              <a class="collapse-item @stack('aturannilaibbi')" href="{{ url('aturannilaibbi') }}">Aturan Nilai BBI</a>
+              <a class="collapse-item @stack('komponensoftskill')" href="{{ url('komponensoftskill') }}">Komponen Softskill</a>
             </div>
           </div>
         </li>
@@ -141,6 +157,12 @@
             </a>
           </li>
         @else
+        <li class="nav-item @stack('grupkordinasipengasuh')">
+          <a class="nav-link" href="{{url('grupkordinasipengasuh')}}">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Grup Kordinasi Pengasuh</span>
+          </a>
+        </li>
           <li class="nav-item @stack('tarunakamar')">
             <a class="nav-link" href="{{url('tarunakamar')}}">
               <i class="fas fa-fw fa-layer-group"></i>
@@ -210,8 +232,9 @@
             <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo"
               data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item @stack('rekapnilai')" href="{{ url('rekapnilai') }}">Rekap Nilai Taruna</a>
-                <a class="collapse-item @stack('laporannilaitaruna')" href="{{ url('laporannilaitaruna') }}">Laporan Nilai Pertaruna</a>
+                <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian Samapta</a>
+                <a class="collapse-item @stack('penilaiansoftskill')" href="{{ route('penilaiansoftskill.index') }}">Penilaian Softskill</a>
+                <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
               </div>
             </div>
           </li>
@@ -239,6 +262,12 @@
           <a class="nav-link" href="{{url('kuesioner')}}">
             <i class="fas fa-fw fa-question"></i>
             <span>Kuesioner</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('berita')}}">
+            <i class="fas fa-fw fa-bullhorn"></i>
+            <span>Pengumuman & Berita</span>
           </a>
         </li>
         {{-- <li class="nav-item">
@@ -286,7 +315,7 @@
             </li>
 
             <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+              {{-- <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
@@ -343,7 +372,7 @@
                   </div>
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
+              </div> --}}
             </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>

@@ -132,7 +132,7 @@
               <a class="nav-link" href="pelanggaran.html">Prestasi</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('isikuesioner') }}">Kuesioner</a>
+              <a class="nav-link" href="{{ url('isikuesioner') }}">Tracer Study</a>
             </li>
             <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
               <a href="{{ url('login') }}" class="btn btn-info">

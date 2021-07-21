@@ -79,6 +79,124 @@
     </div>
   </div>
 </div>
+
+{{-- <div class="row">
+  <div class="col-xl-6 col-lg-6">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Taruna Paling Teladan Semester Ini</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <table class="table table-striped text-center">
+          <tr>
+            <td>No</td>
+            <td>Nama</td>
+            <td>NIT</td>
+            <td>Penghargaan</td>
+            <td>Pelanggaran</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alert alert-primary p-2 m-0" role="alert">
+                1
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-primary p-2 m-0" role="alert">
+                Jhon Due
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-primary p-2 m-0" role="alert">
+                021160128
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-primary p-2 m-0" role="alert">
+                100 Poin
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-primary p-2 m-0" role="alert">
+                0 Poin
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alert alert-success p-2 m-0" role="alert">
+                2
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-success p-2 m-0" role="alert">
+                Jane Due
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-success p-2 m-0" role="alert">
+                021160128
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-success p-2 m-0" role="alert">
+                75 Poin
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-success p-2 m-0" role="alert">
+                0 Poin
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alert alert-danger p-2 m-0" role="alert">
+                3
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-danger p-2 m-0" role="alert">
+                Jane Due
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-danger p-2 m-0" role="alert">
+                021160128
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-danger p-2 m-0" role="alert">
+                75 Poin
+              </div>
+            </td>
+            <td>
+              <div class="alert alert-danger p-2 m-0" role="alert">
+                0 Poin
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Bill Gates</td>
+            <td>02769803</td>
+            <td>50 Poin</td>
+            <td>5 Poin</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Melinda Gates</td>
+            <td>098969803</td>
+            <td>45 Poin</td>
+            <td>5 Poin</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> --}}
 @else
 <div class="row">
 

@@ -18,7 +18,7 @@ class CreateCatatanPelanggaransTable extends Migration
             $table->integer('id_mahasiswa');
             $table->integer('id_pelanggaran');
             $table->integer('id_pencatat');
-            $table->string('bukti_pelanggaran');
+            $table->string('bukti_pelanggaran')->nullable();
             $table->integer('poin_pelanggaran');
             $table->timestamps();
         });

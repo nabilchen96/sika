@@ -70,6 +70,10 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/update-pengasuh/{email}/{nip}', 'PengasuhController@update');
     Route::get('/hapuspengasuh/{id}', 'PengasuhController@destroy');
 
+    Route::get('/kordinatorpengasuh', 'KordinatorPengasuhController@index');
+    Route::post('/simpankordinatorpengasuh', 'KordinatorPengasuhController@store');
+    Route::get('/hapuskordinatorpengasuh/{id}', 'KordinatorPengasuhController@destroy');
+
     Route::get('/semester', 'SemesterController@index');
     Route::get('/semester-json', 'SemesterController@json');
     Route::get('/update-semester-server', 'SemesterController@updatesemesterserver');
@@ -78,6 +82,25 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/simpantemplatesurat', 'TemplateController@store');
     Route::post('/edittemplatesurat', 'TemplateController@update');
     Route::get('/hapustemasurat/{id}', 'TemplateController@destroy');
+
+    Route::get('/aturannilaisamapta', 'AturanNilaiSamaptaController@index');
+    Route::post('/tambahaturannilaisamapta', 'AturanNilaiSamaptaController@store');
+    Route::post('/editaturannilaisamapta', 'AturanNilaiSamaptaController@update');
+    Route::get('/hapusaturannilaisamapta/{id}', 'AturanNilaiSamaptaController@destroy');
+
+    Route::get('/aturannilaibbi', 'AturanNilaibbiController@index');
+    Route::post('/tambahaturannilaibbi', 'AturanNilaibbiController@store');
+    Route::post('/editaturannilaibbi', 'AturanNilaibbiController@update');
+    Route::get('/hapusaturannilaibbi/{id}', 'AturanNilaibbiController@destroy');
+
+    Route::get('/komponensoftskill', 'KomponenSoftskillController@index');
+    Route::post('/tambahkomponensoftskill', 'KomponenSoftskillController@store');
+    Route::post('/editkomponensoftskill', 'KomponenSoftskillController@update');
+    Route::get('/hapuskomponensoftskill/{id}', 'KomponenSoftskillController@destroy');
+
+    Route::get('/grupkordinasipengasuh', 'GrupKordinasiPengasuhController@index');
+    Route::post('/simpangrupkordinasipengasuh', 'GrupKordinasiPengasuhController@store');
+    Route::get('/hapusgrupkordinasipengasuh/{id}', 'GrupKordinasiPengasuhController@destroy');
 
     Route::get('/tambah-tarunakamar', 'TarunaKamarController@create');
     Route::post('/simpan-tarunakamar', 'TarunaKamarController@store');
@@ -112,6 +135,18 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
 
     Route::get('/rekapnilai', 'PenilaianController@rekapnilai');
     Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai');
+
+    Route::resource('penilaiansamapta', 'PenilaianSamaptaController');
+    Route::post('updatepenilaiansamapta', 'PenilaianSamaptaController@update');
+
+    Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController');
+    Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit');
+    Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update');
+
+    // Route::post('penilaiansoftskill')
+
+    Route::resource('rekapnilai', 'RekapNilaiController');
+    Route::post('simpanrekapnilai', 'RekapNilaiController@store');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);

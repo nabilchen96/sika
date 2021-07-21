@@ -76,6 +76,8 @@ class DetailKuesionerController extends Controller
                 ->select('tarunas.nama_mahasiswa', 'jawaban_kuesioners.*', 'detail_kuesioners.soal')
                 ->get();
 
+        // dd($data);
+
         
         $soal = DB::table('detail_kuesioners')
                 ->where('id_detail_kuesioner', $id)
@@ -84,8 +86,10 @@ class DetailKuesionerController extends Controller
         $jawaban = array();
         $label  = array();
 
-        if(empty(@$data) == null){
+        if(empty(@$data)){
             $data = array();
+            // echo 'data';
+            // die;
         }else{
             if($soal->jenis_soal == '1'){
 

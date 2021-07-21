@@ -84,8 +84,7 @@
                         <select name="kategori" class="form-control" id="kategori">
                             <option value="">--Pilih Kategori--</option>
                             <option value="1">Surat Izin</option>
-                            <option value="2">Surat Keterangan</option>
-                            <option value="3">Template Penilaian</option>
+                            <option value="2">Surat Keterangan Kuliah</option>
                         </select>
                     </div>
                     <div class="form-group">

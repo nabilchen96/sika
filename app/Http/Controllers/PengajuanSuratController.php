@@ -240,7 +240,6 @@ class PengajuanSuratController extends Controller
             $nama_file = date('YmdHis').'.doc';
 
             //memindahkan surat
-            // file_put_contents("surat/".$nama_file, $templateProcessor);
             $templateProcessor->saveAs('surat/'.$nama_file);
 
             //menyimpan surat ke database

@@ -1,4 +1,3 @@
-
 @extends('template.index')
 
 @push('catatan') active @endpush
@@ -26,7 +25,8 @@
                         <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambahkamar"><i
                                 class="fas fa-plus"></i> Tambah</a>
                         <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
-                        <div class="modal fade" id="tambahkamar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="tambahkamar" role="dialog" aria-labelledby="myModalLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -66,7 +66,7 @@
                                                     Pelanggaran</label>
                                                 <select name="id_pelanggaran" class="form-control pelanggaran">
                                                     @foreach ($pelanggaran as $item)
-                                                     <option value=" {{$item->id_pelanggaran}} ">{{ $item->pelanggaran }}
+                                                    <option value=" {{$item->id_pelanggaran}} ">{{ $item->pelanggaran }}
                                                     </option>
                                                     @endforeach
                                                 </select>
@@ -74,8 +74,7 @@
                                             <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Bukti
                                                     Pelanggaran</label>
-                                                <input type="file" name="bukti_pelanggaran" required
-                                                    class="form-control">
+                                                <input type="file" name="bukti_pelanggaran" class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Hukuman</label>
@@ -143,9 +142,16 @@
                                     <td>{{ date("d-m-Y", strtotime($item->created_at)) }}</td>
                                     <td>{{ $item->pelanggaran }}</td>
                                     <td>{{ $item->poin_pelanggaran }}</td>
-                                    <td><a href="{{ asset('bukti_pelanggaran') }}/{{ $item->bukti_pelanggaran }}">Lihat
+                                    <td>
+                                        @if ($item->bukti_pelanggaran == null)
+                                            bukti pelanggaran tidak diupload
+                                        @else
+                                        <a href="{{ asset('bukti_pelanggaran') }}/{{ $item->bukti_pelanggaran }}">Lihat
                                             Bukti
-                                            Pelanggaran</a></td>
+                                            Pelanggaran
+                                        </a>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
                                             data-target="#edit{{ $item->id_catatan_pelanggaran }}"><i

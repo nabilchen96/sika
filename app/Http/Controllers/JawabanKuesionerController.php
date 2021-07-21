@@ -22,7 +22,13 @@ class JawabanKuesionerController extends Controller
                     ->where('tarunas.nim', $request->nim)
                     ->first();
 
-            if($taruna->nim == $request->nim and $taruna->nama_program_studi == $request->prodi and $taruna->tanggal_lahir == $request->tgllahir){
+            // dd($taruna, $request);
+
+            if(
+                $taruna->nim === $request->nim &&
+                $taruna->nama_program_studi === $request->prodi && 
+                $taruna->tanggal_lahir === $request->tgllahir
+            ){
 
                 $jawaban = DB::table('jawaban_kuesioners')
                             ->where('id_alumni', $taruna->id_alumni)

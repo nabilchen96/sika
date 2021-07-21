@@ -16,6 +16,7 @@ use Auth;
 class CatatanPelanggaranController extends Controller
 {
     public function index(Request $request){
+
         if(!empty($request->input('id_mahasiswa'))){
             $data               = DB::table('catatan_pelanggarans')
                                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_pelanggarans.id_mahasiswa')
@@ -104,7 +105,7 @@ class CatatanPelanggaranController extends Controller
             'id_pencatat'           => 'required',
             'id_mahasiswa'          => 'required',
             'id_pelanggaran'        => 'required',
-            'bukti_pelanggaran'     => 'required|mimetypes:image/jpeg,image/png|max:2048'
+            // 'bukti_pelanggaran'     => 'required|mimetypes:image/jpeg,image/png|max:2048'
         ]);
 
         
@@ -118,9 +119,14 @@ class CatatanPelanggaranController extends Controller
             }
         }
 
-        $file           = $request->file('bukti_pelanggaran');
-        $nama_file      = $file->getClientOriginalName();
-        $file->move('bukti_pelanggaran', $nama_file);
+        if($request->file('bukti_pelanggaran') == null){
+            $nama_file = null;
+        }else{
+            $file           = $request->file('bukti_pelanggaran');
+            $nama_file      = $file->getClientOriginalName();
+            $file->move('bukti_pelanggaran', $nama_file);
+        }
+
         $semester       = DB::table('semesters')->where('is_semester_aktif', 1)->first();
         $pelanggaran    = Pelanggaran::where('id_pelanggaran', $request->input('id_pelanggaran'))->first();
         
