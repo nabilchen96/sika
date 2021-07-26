@@ -15,20 +15,21 @@ class JawabanKuesionerController extends Controller
         $soal   = [];
         $nim    = [];
 
+
+        // dd($request->tgllahir);
+
         if($request->nim){
             
             $taruna = DB::table('alumnis')
                     ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'alumnis.id_mahasiswa')
                     ->where('tarunas.nim', $request->nim)
+                    ->where('tarunas.nama_program_studi', $request->prodi)
+                    ->where('tarunas.tanggal_lahir', $request->tgllahir)
                     ->first();
 
-            // dd($taruna, $request);
+            // dd($taruna);
 
-            if(
-                $taruna->nim === $request->nim &&
-                $taruna->nama_program_studi === $request->prodi && 
-                $taruna->tanggal_lahir === $request->tgllahir
-            ){
+            if($taruna){
 
                 $jawaban = DB::table('jawaban_kuesioners')
                             ->where('id_alumni', $taruna->id_alumni)

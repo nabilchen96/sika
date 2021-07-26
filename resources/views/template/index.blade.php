@@ -138,7 +138,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
           aria-controls="collapseTwo">
           <i class="fas fa-fw fa-clipboard"></i>
-          <span>Catatan</span>
+        <span>Catatan</span>
         </a>
         <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
           data-parent="#accordionSidebar">
@@ -163,8 +163,7 @@
         <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo"
           data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian
-              Samapta</a>
+            <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian Jasmani</a>
             <a class="collapse-item @stack('penilaiansoftskill')"
               href="{{ route('penilaiansoftskill.index') }}">Penilaian Softskill</a>
             <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
@@ -248,7 +247,7 @@
           data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian
-              Samapta</a>
+              Jasmani</a>
             <a class="collapse-item @stack('penilaiansoftskill')"
               href="{{ route('penilaiansoftskill.index') }}">Penilaian Softskill</a>
             <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>

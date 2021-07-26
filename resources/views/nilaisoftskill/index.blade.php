@@ -53,6 +53,7 @@
               </tr>
             </thead>
             <tbody>
+              <?php $nilai = 0 ;?>
               @foreach ($taruna as $k => $item)
               <tr>
                 <td>{{ $k+1 }}</td>
@@ -74,14 +75,19 @@
                                     ->where('komponen_softskills.jenis_softskill', $j->jenis_softskill)
                                     ->sum('nilai');
 
-                    echo round($perevaluasi/$j->nilai);
+                    echo $perevaluasi/$j->nilai;
+                    
+                    $nilai = $nilai + ($perevaluasi/$j->nilai);
                     ?>
                     <a href="{{ url('editpenilaiansoftskill') }}/{{ $_GET['id_mahasiswa'] }}/{{ $j->jenis_softskill }}"><i class="fas fa-edit"></i></a>
                   </li>
                   @endforeach
                 </td>
                 <td>
-                  {{ round($item->nilai_softskill / $total_soal) }}
+                  {{-- {{ $item->nilai_softskill }} <br>
+                  {{ $total_soal }} --}}
+                  {{-- {{ ($item->nilai_softskill / $total_soal) }} --}}
+                  {{ $nilai / $komponen_nilai->count('nilai') }}
                 </td>
               </tr>
               @endforeach

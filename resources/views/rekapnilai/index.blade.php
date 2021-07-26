@@ -57,7 +57,7 @@
                                 <td rowspan="2" width="20"></td>
                             </tr>
                             <tr>
-                                <td width="130">Nilai Softskill (50%)</td>
+                                <td width="130">Nilai Softskill Competency (50%)</td>
                                 <td width="130">Nilai Pelanggaran (25%)</td>
                                 <td width="130">Nilai Penghargaan (25%)</td>
                             </tr>
@@ -68,13 +68,15 @@
                                 <td>{{ @$data_nilai->nama_mahasiswa == null ? @$data_nilai[0]['nama_mahasiswa'] : @$data_nilai->nama_mahasiswa }}<br>
                                     {{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}
                                 </td>
-                                <td>{{ $nilai1 = @$data_nilai->nilai_samapta == null ? @$data_nilai[0]['nilai_jasmani'] : @$data_nilai->nilai_samapta }}
+                                <td>{{ $nilai1 = @$data_nilai->nilai_samapta == null ? round(@$data_nilai[0]['nilai_jasmani'], 2) : round(@$data_nilai->nilai_samapta, 2) }}
                                 </td>
-                                <td>{{ $nilai2 = @$data_nilai->nilai_softskill == null ? @$data_nilai[0]['nilai_softskill'] : @$data_nilai->nilai_softskill }}
+
+                                <td>{{ $nilai2 = @$data_nilai->nilai_softskill == null ? round(@$data_nilai[0]['nilai_softskill'], 2) : round(@$data_nilai->nilai_softskill, 2) }}
                                 </td>
-                                <td>{{ $nilai3 = @$data_nilai->nilai_pelanggaran == null ? @$data_nilai[0]['nilai_pelanggaran'] : @$data_nilai->nilai_pelanggaran }}
+
+                                <td>{{ $nilai3 = @$data_nilai->nilai_pelanggaran == null ? round(@$data_nilai[0]['nilai_pelanggaran'], 2) : round(@$data_nilai->nilai_pelanggaran, 2) }}
                                 </td>
-                                <td>{{ $nilai4 = @$data_nilai->nilai_penghargaan == null ? @$data_nilai[0]['nilai_penghargaan'] : @$data_nilai->nilai_penghargaan }}
+                                <td>{{ $nilai4 = @$data_nilai->nilai_penghargaan == null ? round(@$data_nilai[0]['nilai_penghargaan'], 2) : round(@$data_nilai->nilai_penghargaan, 2) }}
                                 </td>
                                 <td>
                                     <?php

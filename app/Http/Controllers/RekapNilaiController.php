@@ -45,6 +45,22 @@ class RekapNilaiController extends Controller
                                 ->where('penilaian_soft_skills.id_mahasiswa', $request->id_mahasiswa)
                                 ->avg('nilai');
 
+                //grouping soal menurut evaluasi
+                //foreach grouping soal
+                //dapatkan nilai rata-rata dari tiap
+
+                $soal           = DB::table('komponen_softskills')
+                                    ->select(
+                                        'jenis_softskill',
+                                        db::raw(
+                                            'count(id_komponen_softskill) as nilai'
+                                        )
+                                    )
+                                    ->groupBy('jenis_softskill')
+                                    ->get();
+
+                // dd($soal);
+
                 //nilai pelanggaran
                 $nilai_pelanggaran = DB::table('catatan_pelanggarans')
                                     ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
