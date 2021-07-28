@@ -303,8 +303,6 @@ class PengajuanSuratController extends Controller
 
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
-                // echo 'gagal';
-                // die;
             }
 
             //menyimpan surat ke database
