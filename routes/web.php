@@ -27,6 +27,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//route for admin dan pusbangkar
 Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () { 
 
     Route::get('/update-taruna-server', 'TarunaController@updatetarunaserver');
