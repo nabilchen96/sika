@@ -8,6 +8,9 @@ use App\PengajuanSurat;
 use Illuminate\Support\Facades\Hash;
 use App\Perizinan;
 use auth;
+use Symfony\Component\Process\Process;
+// use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PengajuanSuratController extends Controller
 {
@@ -294,11 +297,14 @@ class PengajuanSuratController extends Controller
             //memindahkan surat
             $templateProcessor->saveAs('surat/'.$nama_file);
 
-            $process = new Process('libreoffice --headless --convert-to pdf /var/www/public/surat/'.$nama_file.' --outdir /var/www/public/surat');
+            $process = new Process(['libreoffice --headless --convert-to pdf /surat/'.$nama_file.' --outdir /surat']);
+            // $process = new Process(['php artisan config:cache']);
             $process->run();
 
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
+                // echo 'gagal';
+                // die;
             }
 
             //menyimpan surat ke database

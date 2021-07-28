@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "phpoffice/phpword": "dev-master",
+        "symfony/process": "^5.3",
         "yajra/laravel-datatables-oracle": "^9.15"
     },
     "require-dev": {
