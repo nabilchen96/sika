@@ -22,9 +22,12 @@
             <div class="col-lg-9">
                 <div class="card mb-12">
                     <div class="card-header">
+                        @if (auth::user()->role != 'taruna')
                         <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambahkamar"><i
-                                class="fas fa-plus"></i> Tambah</a>
-                        <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                            class="fas fa-plus"></i> Tambah</a>    
+                        @endif
+                        
+                        {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
                         <div class="modal fade" id="tambahkamar" role="dialog" aria-labelledby="myModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -101,6 +104,7 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @if (auth::user()->role != 'taruna')
                         <form action="{{ url('catatanpelanggaran') }}" method="GET">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Pilih Taruna</label>
@@ -121,6 +125,7 @@
                             </div>
                         </form>
                         <br>
+                        @endif
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" width="100%" id="dataTable"
@@ -144,7 +149,7 @@
                                     <td>{{ $item->poin_pelanggaran }}</td>
                                     <td>
                                         @if ($item->bukti_pelanggaran == null)
-                                            bukti pelanggaran tidak diupload
+                                        bukti pelanggaran tidak diupload
                                         @else
                                         <a href="{{ asset('bukti_pelanggaran') }}/{{ $item->bukti_pelanggaran }}">Lihat
                                             Bukti
@@ -153,9 +158,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
+                                        <button {{ auth::user()->role == 'taruna' ? "disabled" : '' }} href="#" class="btn btn-sm btn-success" data-toggle="modal"
                                             data-target="#edit{{ $item->id_catatan_pelanggaran }}"><i
-                                                class="fas fa-edit"></i></a>
+                                                class="fas fa-edit"></i></button>
                                         <div class="modal fade" id="edit{{ $item->id_catatan_pelanggaran }}"
                                             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -245,7 +250,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                        <button {{ auth::user()->role == 'taruna' ? "disabled" : '' }} class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#hapus{{ $item->id_catatan_pelanggaran }}"><i
                                                 class="fas fa-trash"></i></button>
                                         <div class="modal fade" id="hapus{{ $item->id_catatan_pelanggaran }}"

@@ -19,6 +19,7 @@
       <div class="card-header">
       </div>
       <div class="card-body">
+        @if (auth::user()->role != 'taruna')
         <form action="{{ route('penilaiansoftskill.index') }}" method="GET">
           {{-- @csrf --}}
           <div class="form-group row">
@@ -27,7 +28,7 @@
               <select name="id_mahasiswa" class="form-control">
                 <option value="">----</option>
                 @foreach ($data as $d)
-                  <option value="{{ $d->id_mahasiswa }}">{{ $d->nama_mahasiswa }} | {{ $d->nim }}</option>
+                <option value="{{ $d->id_mahasiswa }}">{{ $d->nama_mahasiswa }} | {{ $d->nim }}</option>
                 @endforeach
               </select>
             </div>
@@ -42,30 +43,58 @@
           </div>
           <br>
         </form>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
-            <thead>
-              <tr>
-                <th style="width: 20px">No</th>
-                <th>Taruna</th>
-                <th width="50%">Nilai Per-evaluasi</th>
-                <th width="100">Nilai SoftSkill</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $nilai = 0 ;?>
-              @foreach ($taruna as $k => $item)
-              <tr>
-                <td>{{ $k+1 }}</td>
-                <td>
-                  {{ $item->nama_mahasiswa }} <br>
-                  {{ $item->nim }}
-                </td>
-                <td>
-                  @foreach ($komponen_nilai as $j)
-                  <li>
-                    {{ $j->jenis_softskill }}:
-                    <?php
+        @else
+        <form action="{{ route('penilaiansoftskill.index') }}" method="GET">
+          {{-- @csrf --}}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Semester</label>
+            <div class="col-sm-3">
+              <?php
+                      $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();    
+                  ?>
+              <select name="id_semester" class="form-control">
+                <option value="">Pilih Semester</option>
+                @foreach ($semester as $item)
+                <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
+                  value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-2">
+              <button type="submit" class="btn btn-sm btn-success">
+                <i class="fas fa-search"></i> Tampilkan
+              </button>
+            </div>
+          </div>
+          <br>
+          @endif
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
+              <thead>
+                <tr>
+                  <th style="width: 20px">No</th>
+                  <th>Taruna</th>
+                  <th width="50%">Nilai Per-evaluasi</th>
+                  <th width="100">Nilai SoftSkill</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $nilai = 0 ;?>
+                @foreach ($taruna as $k => $item)
+                <tr>
+                  <td>{{ $k+1 }}</td>
+                  <td>
+                    {{ $item->nama_mahasiswa }} <br>
+                    {{ $item->nim }}
+                  </td>
+                  <td>
+                    @foreach ($komponen_nilai as $j)
+                    <li>
+                      {{ $j->jenis_softskill }}:
+                      <?php
                     
                     $perevaluasi = DB::table('penilaian_soft_skills')
                                     ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
@@ -79,21 +108,23 @@
                     
                     $nilai = $nilai + ($perevaluasi/$j->nilai);
                     ?>
-                    <a href="{{ url('editpenilaiansoftskill') }}/{{ $_GET['id_mahasiswa'] }}/{{ $j->jenis_softskill }}"><i class="fas fa-edit"></i></a>
-                  </li>
-                  @endforeach
-                </td>
-                <td>
-                  {{-- {{ $item->nilai_softskill }} <br>
-                  {{ $total_soal }} --}}
-                  {{-- {{ ($item->nilai_softskill / $total_soal) }} --}}
-                  {{ $nilai / $komponen_nilai->count('nilai') }}
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                      <a
+                        href="{{ url('editpenilaiansoftskill') }}/{{ @$_GET['id_mahasiswa'] }}/{{ $j->jenis_softskill }}"><i
+                          class="fas fa-edit"></i></a>
+                    </li>
+                    @endforeach
+                  </td>
+                  <td>
+                    {{-- {{ $item->nilai_softskill }} <br>
+                    {{ $total_soal }} --}}
+                    {{-- {{ ($item->nilai_softskill / $total_soal) }} --}}
+                    {{ $nilai / $komponen_nilai->count('nilai') }}
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
       </div>
     </div>
   </div>
@@ -106,7 +137,6 @@
 <script src="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{ asset('template/js/demo/datatables-demo.js') }}"></script>
 <script>
   @if($message = Session::get('sukses'))
         toastr.success("{{ $message }}")

@@ -41,7 +41,7 @@
                             <select name="jenis_pengajuan" id="jenis_pengajuan" class="form-control" onchange="pilihform()" required>
                                 <option value="">--Pilih Jenis Pengajuan--</option>
                                 <option value="surat izin">Surat Izin</option>
-                                <option value="surat keterangan">Surat Keterangan</option>
+                                <option value="surat keterangan">Surat Keterangan Kuliah</option>
                             </select>
                         </div>
                     </div>

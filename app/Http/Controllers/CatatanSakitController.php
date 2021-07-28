@@ -5,13 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CatatanSakit;
 use DB;
+use auth;
 
 class CatatanSakitController extends Controller
 {
     public function index(Request $request){
         if(!$request->input('id_mahasiswa')){
-            $data = [];
-            $taruna = null;
+            if(auth::user()->role == 'taruna'){
+                $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->first();
+
+                $data = DB::table('catatan_sakits')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_sakits.id_mahasiswa')
+                ->where('catatan_sakits.id_mahasiswa', $taruna->id_mahasiswa)
+                ->select(
+                    'tarunas.nama_mahasiswa',
+                    'tarunas.nim',
+                    'tarunas.id_mahasiswa',
+                    'catatan_sakits.id_catatan_sakit',
+                    'catatan_sakits.tgl_sakit',
+                    'catatan_sakits.keterangan_sakit',
+                    'catatan_sakits.surat_sakit'
+                )
+                ->get();
+            }else{
+                $data = [];
+                $taruna = null;
+            }
+
         }else{
             $taruna = DB::table('tarunas')->where('id_mahasiswa', $request->input('id_mahasiswa'))->first();
             $data = DB::table('catatan_sakits')

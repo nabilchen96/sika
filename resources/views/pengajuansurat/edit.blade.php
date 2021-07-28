@@ -128,7 +128,7 @@
                     </div>
 
                     @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
-                    @if ($data->jenis_pengajuan == 'surat izin' and $data->status_pengajuan == '1')
+                    @if ($data->status_pengajuan == '1')
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
                             <div class="col-lg-4">

@@ -11,8 +11,32 @@ class CatatanPenghargaanController extends Controller
 {
     public function index(Request $request){
         if(!$request->input('id_mahasiswa')){
-            $data = [];
-            $taruna = null;
+            if(auth::user()->role == 'taruna'){
+
+                $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->value('id_mahasiswa');
+
+                $data = DB::table('catatan_penghargaans')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
+                ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                ->where('catatan_penghargaans.id_mahasiswa', $taruna)
+                ->select(
+                    'tarunas.nama_mahasiswa',
+                    'tarunas.nim',
+                    'catatan_penghargaans.id_catatan_penghargaan',
+                    'penghargaans.penghargaan',
+                    'penghargaans.bidang_penghargaan',
+                    'penghargaans.poin_penghargaan',
+                    'catatan_penghargaans.created_at',
+                    'tarunas.id_mahasiswa',
+                    'catatan_penghargaans.tgl_penghargaan',
+                    'catatan_penghargaans.sk_penghargaan',
+                    'penghargaans.id_penghargaan'
+                )
+                ->get();
+            }else{
+                $data = [];
+                $taruna = null;
+            }
         }else{
             $taruna = DB::table('tarunas')->where('id_mahasiswa', $request->input('id_mahasiswa'))->first();
             $data = DB::table('catatan_penghargaans')

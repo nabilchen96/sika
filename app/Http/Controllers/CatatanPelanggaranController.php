@@ -50,12 +50,47 @@ class CatatanPelanggaranController extends Controller
                                     ->sum('catatan_pelanggarans.poin_pelanggaran');
             $poin_penghargaan   = null;
         }else{
-            $data               = [];
-            $taruna             = null;
-            $poin_bulanan       = null;
-            $poin_semester      = null;
-            $poin_penghargaan   = null;
+            if(auth::user()->role == 'taruna'){
 
+                $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->first();
+
+                $data               = DB::table('catatan_pelanggarans')
+                                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_pelanggarans.id_mahasiswa')
+                                        ->join('users', 'users.id', '=', 'catatan_pelanggarans.id_pencatat')
+                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
+                                        ->where('tarunas.id_mahasiswa', $taruna->id_mahasiswa)
+                                        ->select(
+                                            'catatan_pelanggarans.id_catatan_pelanggaran',
+                                            'pelanggarans.id_pelanggaran',
+                                            'catatan_pelanggarans.created_at', 
+                                            'pelanggarans.pelanggaran', 
+                                            'catatan_pelanggarans.poin_pelanggaran', 
+                                            'users.name', 
+                                            'catatan_pelanggarans.bukti_pelanggaran'
+                                        )
+                                        ->get(); 
+
+                $poin_bulanan       = DB::table('catatan_pelanggarans')
+                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
+                                        ->where('id_mahasiswa', $taruna->id_mahasiswa)
+                                        ->whereMonth('catatan_pelanggarans.created_at', date('m'))
+                                        ->sum('catatan_pelanggarans.poin_pelanggaran');
+
+                $poin_semester      = DB::table('catatan_pelanggarans')
+                                        ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
+                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
+                                        ->where('id_mahasiswa', $taruna->id_mahasiswa)
+                                        ->where('semesters.is_semester_aktif', 1)
+                                        ->sum('catatan_pelanggarans.poin_pelanggaran');
+                                        
+                $poin_penghargaan   = null;
+            }else{
+                $data               = [];
+                $taruna             = null;
+                $poin_bulanan       = null;
+                $poin_semester      = null;
+                $poin_penghargaan   = null;
+            }
         }
 
         $pelanggaran = Pelanggaran::all();

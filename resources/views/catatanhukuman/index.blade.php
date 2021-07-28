@@ -20,9 +20,11 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
             </div>
             <div class="card-body">
+
+                @if (auth::user()->role != 'taruna')
                 <form action="{{ url('catatanhukuman') }}" method="GET">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Pilih Taruna</label>
@@ -41,6 +43,7 @@
                         </div>
                     </div>
                 </form>
+                @endif
                 <br>
 
                 <div class="table-responsive">
@@ -52,8 +55,10 @@
                                 <th>Tanggal Hukuman</th>
                                 <th>Keterangan</th>
                                 <th>Status</th>
+                                @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
                                 <th width="10"></th>
+                                @endif
                             </tr>
                         </thead>
                         @foreach ($data as $k => $item)
@@ -69,12 +74,13 @@
                                     <span class="badge badge-success">Sudah Dikerjakan</span>
                                 @endif
                             </td>
+                            @if (auth::user()->role != 'taruna')
                             <td>
                                 @if ($item->is_dikerjakan == 0)
                                 <a href="{{ url('status-catatanhukuman') }}/{{ $item->id_catatan_hukuman}}"
                                     class="btn btn-sm btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                 @else
-                                    <a href="#" class="btn btn-sm btn-success btn-sm"><i class="fas fa-check"></i></a>
+                                <a href="#" class="btn btn-sm btn-success btn-sm"><i class="fas fa-check"></i></a>
                                 @endif
                             </td>
                             <td>
@@ -82,6 +88,7 @@
                                     data-target="#exampleModal" data-id="{{ $item->id_catatan_hukuman }}"
                                     data-hukuman="{{ $item->keterangan }}"><i class="fas fa-edit"></i></button>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </table>

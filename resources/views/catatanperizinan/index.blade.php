@@ -20,6 +20,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
+                @if (auth::user()->role != 'taruna')
                 <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
                         class="fas fa-plus"></i> Tambah</a>
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -37,8 +38,10 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label class="col-form-label">Nama Taruna</label>
-                                        <input type="text" class="form-control" disabled value="{{ @$taruna->nama_mahasiswa }}">
-                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}" required>
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ @$taruna->nama_mahasiswa }}">
+                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}"
+                                            required>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Tanggal Izin Keluar</label>
@@ -46,7 +49,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Keterangan Izin</label>
-                                        <textarea name="keterangan_izin" class="form-control" rows="3" required></textarea>
+                                        <textarea name="keterangan_izin" class="form-control" rows="3"
+                                            required></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -65,9 +69,10 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                @endif
             </div>
             <div class="card-body">
+                @if (auth::user()->role != 'taruna')
                 <form action="{{ url('catatanperizinan') }}" method="GET">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Pilih Taruna</label>
@@ -87,6 +92,7 @@
                     </div>
                 </form>
                 <br>
+                @endif
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
@@ -97,52 +103,60 @@
                                 <th>Tanggal Izin Keluar</th>
                                 <th>Tanggal Izin Kembali</th>
                                 <th>Keterangan Perizinan</th>
+                                @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
                                 <th width="10"></th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $key => $item)
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $item->nama_mahasiswa }}</td>
-                                    <td>{{ $item->tgl_izin_keluar }}</td>
-                                    <td>{{ $item->tgl_izin_kembali == null ? 'Belum diset' : $item->tgl_izin_kembali }}</td>
-                                    <td>{{ $item->keterangan_izin }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-success" data-array="{{ $data }}"
-                                        data-i="{{ $key }}" data-target="#edit" data-toggle="modal"><i class="fas fa-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <a href="#" data-toggle="modal" data-target="#hapus{{ $item->id_catatan_perizinan }}"
-                                            class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                        <div class="modal fade" id="hapus{{ $item->id_catatan_perizinan }}" role="dialog"
-                                            aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Catatan Perizinan</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form method="GET" action="{{ url('hapus-catatanperizinan') }}/{{ $item->id_catatan_perizinan }}">
-                                                        @csrf
-                                                        <div class="modal-body">
-                                                            <p>Yakin Ingin Menghapus Data Catatan Perizinan ini ?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                                        </div>
-                                                    </form>
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item->nama_mahasiswa }}</td>
+                                <td>{{ $item->tgl_izin_keluar }}</td>
+                                <td>{{ $item->tgl_izin_kembali == null ? 'Belum diset' : $item->tgl_izin_kembali }}</td>
+                                <td>{{ $item->keterangan_izin }}</td>
+                                @if (auth::user()->role != 'taruna')
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-success" data-array="{{ $data }}"
+                                        data-i="{{ $key }}" data-target="#edit" data-toggle="modal"><i
+                                            class="fas fa-edit"></i></a>
+                                </td>
+                                <td>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#hapus{{ $item->id_catatan_perizinan }}"
+                                        class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                    <div class="modal fade" id="hapus{{ $item->id_catatan_perizinan }}" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Catatan
+                                                        Perizinan</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
+                                                <form method="GET"
+                                                    action="{{ url('hapus-catatanperizinan') }}/{{ $item->id_catatan_perizinan }}">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <p>Yakin Ingin Menghapus Data Catatan Perizinan ini ?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                                @endif
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -163,19 +177,23 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label class="col-form-label">Nama Mahasiswa</label>
-                                            <input type="text" class="form-control" id="nama_mahasiswa" required disabled>
+                                            <input type="text" class="form-control" id="nama_mahasiswa" required
+                                                disabled>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Tanggal Izin Keluar</label>
-                                            <input type="date" class="form-control" name="tgl_izin_keluar" id="tgl_izin_keluar" required>
+                                            <input type="date" class="form-control" name="tgl_izin_keluar"
+                                                id="tgl_izin_keluar" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Tanggal Izin Kembali</label>
-                                            <input type="date" class="form-control" name="tgl_izin_kembali" id="tgl_izin_kembali">
+                                            <input type="date" class="form-control" name="tgl_izin_kembali"
+                                                id="tgl_izin_kembali">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Keterangan Izin</label>
-                                            <textarea class="form-control" name="keterangan_izin" id="keterangan_izin" rows="3" required></textarea>
+                                            <textarea class="form-control" name="keterangan_izin" id="keterangan_izin"
+                                                rows="3" required></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

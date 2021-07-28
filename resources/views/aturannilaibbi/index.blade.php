@@ -80,11 +80,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">BMI</label>
-                        <input type="number" name="bmi" id="bmi" class="form-control" onkeyup="setstakes()">
+                        <input type="number" name="bmi" id="bmi" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Nilai Untuk</label>
-                        <select name="untuk" id="untuk" class="form-control" onchange="setstakes()">
+                        <select name="untuk" id="untuk" class="form-control">
                             <option value="">----</option>
                             <option>Taruna</option>
                             <option>Taruni</option>
@@ -92,7 +92,12 @@
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Stakes</label>
-                        <input type="text" class="form-control" name="stakes" id="stakes" readonly>
+                        <select name="stakes" class="form-control">
+                            <option value="">Stakes 1</option>
+                            <option value="">Stakes 2</option>
+                            <option value="">Stakes 3</option>
+                            <option value="">Stakes 4</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Nilai</label>
@@ -146,45 +151,45 @@
         }
     })
 
-    $( document ).ready(function() {
-        setstakes()
-     })
+    // $( document ).ready(function() {
+    //     setstakes()
+    //  })
 
-     function setstakes(){
-        var bmi     = document.getElementById('bmi').value 
-        var untuk   = document.getElementById('untuk').value
-        var stakes
+    //  function setstakes(){
+    //     var bmi     = document.getElementById('bmi').value 
+    //     var untuk   = document.getElementById('untuk').value
+    //     var stakes
 
-        if(untuk == 'Taruna'){
-            if(bmi >= 18 && bmi <= 23){
-                stakes  = "Stakes 1"
-            }else if(bmi >= 16 && bmi <= 25){
-                stakes  = "Stakes 2"
-            }else if(bmi >= 26 && bmi <= 30){
-                stakes = "Stakes 3"
-            }else if(bmi == 0){
-                stakes  = ""
-            }else{
-                stakes  = "Stakes 4"
-            }
-        }else if(untuk == 'Taruni'){
-            if(bmi >= 18.5 && bmi <= 23){
-                stakes = "Stakes 1"
-            }else if(bmi >= 16.5 && bmi <= 25){
-                stakes = "Stakes 2"
-            }else if(bmi >= 26 && bmi <= 30){
-                stakes = "Stakes 3"
-            }else if(bmi == 0){
-                stakes = ""
-            }else{
-                stakes = "Stakes 4"
-            }
-        }else{
-            stakes = ''
-        }            
+    //     if(untuk == 'Taruna'){
+    //         if(bmi >= 18 && bmi <= 23){
+    //             stakes  = "Stakes 1"
+    //         }else if(bmi >= 16 && bmi <= 25){
+    //             stakes  = "Stakes 2"
+    //         }else if(bmi >= 26 && bmi <= 30){
+    //             stakes = "Stakes 3"
+    //         }else if(bmi == 0){
+    //             stakes  = ""
+    //         }else{
+    //             stakes  = "Stakes 4"
+    //         }
+    //     }else if(untuk == 'Taruni'){
+    //         if(bmi >= 18.5 && bmi <= 23){
+    //             stakes = "Stakes 1"
+    //         }else if(bmi >= 16.5 && bmi <= 25){
+    //             stakes = "Stakes 2"
+    //         }else if(bmi >= 26 && bmi <= 30){
+    //             stakes = "Stakes 3"
+    //         }else if(bmi == 0){
+    //             stakes = ""
+    //         }else{
+    //             stakes = "Stakes 4"
+    //         }
+    //     }else{
+    //         stakes = ''
+    //     }            
 
         
-        document.getElementById('stakes').value     = stakes
+    //     document.getElementById('stakes').value     = stakes
      }
 
     

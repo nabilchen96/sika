@@ -190,25 +190,23 @@ class PengajuanSuratController extends Controller
             'jenis_pengajuan'       => 'required'
         ]);
 
-        // dd($request->jenis_pengajuan);
+        //membuat ttd menjadi gambar
+        $encode_image = explode(",", $request->ttd)[1];
+        $decoded_image = base64_decode($encode_image);
+        file_put_contents("signature.png", $decoded_image);
 
+        //ambil data taruna pengaju surat
+        $data = DB::table('pengajuan_surats')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
+                ->first();
 
         if($request->jenis_pengajuan == 'surat izin'){
-
-            //membuat ttd menjadi gambar
-            $encode_image = explode(",", $request->ttd)[1];
-            $decoded_image = base64_decode($encode_image);
-            file_put_contents("signature.png", $decoded_image);
 
             $template = DB::table('templates')->where('kategori', '1')->first();
 
             //mengambil template surat
             $document = file_get_contents("templatesurat/".$template->template);
-
-            $data = DB::table('pengajuan_surats')
-                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
-                    ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
-                    ->first();
 
             //pecah array
             $detail_keterangan = unserialize($data->keterangan);
@@ -232,10 +230,6 @@ class PengajuanSuratController extends Controller
             ]);
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
-
-
-            // header("Content-Disposition: attachment; filename=template.docx");
-            // $templateProcessor->saveAs('php://output');
 
             $nama_file = date('YmdHis').'.doc';
 
@@ -262,9 +256,60 @@ class PengajuanSuratController extends Controller
 
             return redirect('pengajuansurat')->with(['sukses' => 'data berhasil disimpan']);
 
-        }else{
+        }elseif($request->jenis_pengajuan == 'surat keterangan'){
 
-            return redirect('pengajuansurat')->with(['sukses' => 'fitur belum tersedia']);
+            //mengambil template surat
+            $template = DB::table('templates')->where('kategori', '2')->first();
+            $document = file_get_contents("templatesurat/".$template->template);
+
+            //memindahkan surat
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor("templatesurat/".$template->template);
+
+            //singkatan
+            if($data->nama_program_studi == 'Teknologi Rekayasa Bandar Udara'){
+                $singkatan = 'TRBU';
+            }elseif($data->nama_program_studi == 'Manajemen Bandar Udara'){
+                $singkatan = 'MBU';
+            }else{
+                $singkatan = 'PPKP';
+            }
+
+            $templateProcessor->setValues([
+                'nama'              => $data->nama_mahasiswa,
+                'nit'               => $data->nim,
+                'tempat_lahir'      => $data->tempat_lahir,
+                'tgl_lahir'         => $data->tanggal_lahir,
+                'jenjang_program'   => $data->nama_program_studi == 'Teknologi Rekayasa Bandar Udara' ? 'Diploma Empat' : 'Diploma Tiga',
+                'prodi'             => $data->nama_program_studi,
+                'singkatan'         => $singkatan,
+                'alamat'            => $data->alamat,
+                'tanggal'           => date('d-m-Y'),
+            ]);
+
+            $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
+            
+
+            $nama_file = date('YmdHis').'.doc';
+
+            //memindahkan surat
+            $templateProcessor->saveAs('surat/'.$nama_file);
+
+            $process = new Process('libreoffice --headless --convert-to pdf /var/www/public/surat/'.$nama_file.' --outdir /var/www/public/surat');
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+            //menyimpan surat ke database
+            DB::table('pengajuan_surats')
+            ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
+            ->update([
+                'surat' => $nama_file
+            ]);
+
+            //kembali ke halaman pengajuan surat
+            return redirect('pengajuansurat')->with(['sukses' => 'data berhasil disimpan']);
         }
 
     }

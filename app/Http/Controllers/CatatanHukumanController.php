@@ -5,26 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\CatatanHukuman;
+use auth;
 
 class CatatanHukumanController extends Controller
 {
     public function index(Request $request){
 
         if(!$request->input('id_mahasiswa')){
-            $data = [];
+            if(auth::user()->role == 'taruna'){
+                $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->value('id_mahasiswa');
+
+                $data = DB::table('catatan_hukumen')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_hukumen.id_mahasiswa')
+                ->where('catatan_hukumen.id_mahasiswa', $taruna)
+                ->select(
+                    'tarunas.nama_mahasiswa',
+                    'tarunas.nim',
+                    'catatan_hukumen.id_catatan_hukuman',
+                    'catatan_hukumen.created_at',
+                    'catatan_hukumen.keterangan',
+                    'catatan_hukumen.is_dikerjakan'
+                )
+                ->get();
+            }else{
+                $data = [];
+            }
         }else{
+
             $data = DB::table('catatan_hukumen')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_hukumen.id_mahasiswa')
-            ->where('catatan_hukumen.id_mahasiswa', $request->input('id_mahasiswa'))
-            ->select(
-                'tarunas.nama_mahasiswa',
-                'tarunas.nim',
-                'catatan_hukumen.id_catatan_hukuman',
-                'catatan_hukumen.created_at',
-                'catatan_hukumen.keterangan',
-                'catatan_hukumen.is_dikerjakan'
-            )
-            ->get();
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_hukumen.id_mahasiswa')
+                ->where('catatan_hukumen.id_mahasiswa', $request->input('id_mahasiswa'))
+                ->select(
+                    'tarunas.nama_mahasiswa',
+                    'tarunas.nim',
+                    'catatan_hukumen.id_catatan_hukuman',
+                    'catatan_hukumen.created_at',
+                    'catatan_hukumen.keterangan',
+                    'catatan_hukumen.is_dikerjakan'
+                )
+                ->get();
         }
 
         return view('catatanhukuman.index')->with('data', $data);

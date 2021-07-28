@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\PenilaianSoftskill;
+use auth;
 
 class PenilaianSoftSkillController extends Controller
 {
@@ -19,39 +20,67 @@ class PenilaianSoftSkillController extends Controller
 
         if($request->id_mahasiswa){
             $taruna = DB::table('tarunas')
-                    ->leftjoin('penilaian_soft_skills', 'penilaian_soft_skills.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                    ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                    ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
-                    ->select(
-                        'tarunas.id_mahasiswa', 
-                        'tarunas.nim', 
-                        'tarunas.nama_mahasiswa',
-                        'penilaian_soft_skills.id_komponen_softskill',
-                        'semesters.id_semester',
-                        db::raw(
-                            'group_concat(penilaian_soft_skills.id_nilai_softskill) as id_nilai_softskill',
-                        ),
-                        db::raw(
-                            'group_concat(penilaian_soft_skills.id_komponen_softskill, komponen_softskills.jenis_softskill) as id_komponen_softskill',
-                        ),
-                        db::raw(
-                            'group_concat(komponen_softskills.jenis_softskill) as jenis_softskill',
-                        ),
-                        db::raw(
-                            'group_concat(penilaian_soft_skills.nilai) as nilai'
-                        ),
-                        db::raw(
-                            'sum(penilaian_soft_skills.nilai) as nilai_softskill'
+                        ->leftjoin('penilaian_soft_skills', 'penilaian_soft_skills.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                        ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                        ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
+                        ->select(
+                            'tarunas.id_mahasiswa', 
+                            'tarunas.nim', 
+                            'tarunas.nama_mahasiswa',
+                            'penilaian_soft_skills.id_komponen_softskill',
+                            'semesters.id_semester',
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.id_nilai_softskill) as id_nilai_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.id_komponen_softskill, komponen_softskills.jenis_softskill) as id_komponen_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(komponen_softskills.jenis_softskill) as jenis_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.nilai) as nilai'
+                            ),
+                            db::raw(
+                                'sum(penilaian_soft_skills.nilai) as nilai_softskill'
+                            )
                         )
-                    )
-                    ->where('tarunas.id_mahasiswa', $request->id_mahasiswa)
-                    ->get();
-
-            
-            // dd($taruna);
-            
+                        ->where('tarunas.id_mahasiswa', $request->id_mahasiswa)
+                        ->get();
         }else{
-            $taruna = [];
+            if(auth::user()->role == 'taruna'){
+                $taruna = DB::table('tarunas')
+                        ->leftjoin('penilaian_soft_skills', 'penilaian_soft_skills.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                        ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                        ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
+                        ->select(
+                            'tarunas.id_mahasiswa', 
+                            'tarunas.nim', 
+                            'tarunas.nama_mahasiswa',
+                            'penilaian_soft_skills.id_komponen_softskill',
+                            'semesters.id_semester',
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.id_nilai_softskill) as id_nilai_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.id_komponen_softskill, komponen_softskills.jenis_softskill) as id_komponen_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(komponen_softskills.jenis_softskill) as jenis_softskill',
+                            ),
+                            db::raw(
+                                'group_concat(penilaian_soft_skills.nilai) as nilai'
+                            ),
+                            db::raw(
+                                'sum(penilaian_soft_skills.nilai) as nilai_softskill'
+                            )
+                        )
+                        ->where('tarunas.nim', auth::user()->nip)
+                        ->where('semesters.id_semester', $request->id_semester)
+                        ->get();
+            }else{
+                $taruna = [];
+            }
         }
 
         $komponen_nilai = DB::table('komponen_softskills')
@@ -63,8 +92,6 @@ class PenilaianSoftSkillController extends Controller
                             )
                             ->groupBy('jenis_softskill')
                             ->get();
-
-        // dd($komponen_nilai->count('nilai'));
 
         $nilai = DB::table('komponen_softskills')->get();
                   

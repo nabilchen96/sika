@@ -38,17 +38,6 @@ class RekapNilaiController extends Controller
                                 ->where('penilaian_samaptas.id_mahasiswa', $request->id_mahasiswa)
                                 ->first();
 
-                //nilai softskill
-                $nilai_softskill = DB::table('penilaian_soft_skills')
-                                ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                                ->where('semesters.is_semester_aktif', "1")
-                                ->where('penilaian_soft_skills.id_mahasiswa', $request->id_mahasiswa)
-                                ->avg('nilai');
-
-                //grouping soal menurut evaluasi
-                //foreach grouping soal
-                //dapatkan nilai rata-rata dari tiap
-
                 $soal           = DB::table('komponen_softskills')
                                     ->select(
                                         'jenis_softskill',
@@ -59,7 +48,21 @@ class RekapNilaiController extends Controller
                                     ->groupBy('jenis_softskill')
                                     ->get();
 
-                // dd($soal);
+                $nilai = 0;
+                foreach ($soal as $key => $value) {
+                    
+                    $perevaluasi = DB::table('penilaian_soft_skills')
+                                    ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
+                                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                                    ->where('semesters.is_semester_aktif', '1')
+                                    ->where('penilaian_soft_skills.id_mahasiswa', $request->id_mahasiswa)
+                                    ->where('komponen_softskills.jenis_softskill', $value->jenis_softskill)
+                                    ->sum('nilai');
+
+                    $nilai = $nilai + ($perevaluasi/$value->nilai);
+                }
+                
+                $nilai_softskill =  $nilai / $soal->count('nilai');
 
                 //nilai pelanggaran
                 $nilai_pelanggaran = DB::table('catatan_pelanggarans')
@@ -70,7 +73,6 @@ class RekapNilaiController extends Controller
                 
                 // dd($nilai_pelanggaran);
                 $nilai_pelanggaran = $nilai_pelanggaran != null ? 100 - $nilai_pelanggaran : 0;
-
 
                 //nilai penghargaan
                 $nilai_penghargaan = DB::table('catatan_penghargaans')

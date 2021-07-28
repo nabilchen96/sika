@@ -106,10 +106,12 @@
               Pengasuh</a>
             <a class="collapse-item @stack('semester')" href="{{ url('semester') }}">Semester</a>
             <a class="collapse-item @stack('templatesurat')" href="{{ url('temasurat') }}">Template Surat</a>
+            <a class="collapse-item @stack('komponensoftskill')" href="{{ url('komponensoftskill') }}">Komponen
+              Softskill</a>
           </div>
         </div>
       </li>
-      <li class="nav-item @stack('aturannilai')">
+      {{-- <li class="nav-item @stack('aturannilai')">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#aturannilai" aria-expanded="true"
           aria-controls="collapseTwo">
           <i class="fas fa-fw fa-clipboard"></i>
@@ -125,7 +127,7 @@
               Softskill</a>
           </div>
         </div>
-      </li>
+      </li> --}}
       @endif
       @if (auth::user()->role == 'taruna')
       <li class="nav-item @stack('pengajuansurat')">

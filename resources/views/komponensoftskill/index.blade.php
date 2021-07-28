@@ -1,7 +1,7 @@
 @extends('template.index')
 
-@push('aturannilai') active @endpush
-@push('sub-aturannilai') show @endpush
+@push('master') active @endpush
+@push('sub-master') show @endpush
 @push('komponensoftskill') active @endpush
 
 @push('style')

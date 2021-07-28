@@ -20,63 +20,69 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah</a>
+                @if (auth::user()->role != 'taruna')
+                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
+                    class="fas fa-plus"></i> Tambah</a>
+                @endif
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tambah Catatan Pelanggaran</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @if (@$taruna->id_mahasiswa)
-                        <form id="formtambah" action="{{ url('tambah-catatanpenghargaan') }}" method="post">
-                            @csrf
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Tambah Catatan Pelanggaran</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @if (@$taruna->id_mahasiswa)
+                            <form id="formtambah" action="{{ url('tambah-catatanpenghargaan') }}" method="post">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Nama Taruna</label>
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ @$taruna->nama_mahasiswa }}">
+                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">SK Penghargaan</label>
+                                        <input type="text" class="form-control" name="sk_penghargaan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Tanggal Penghargaan</label>
+                                        <input type="date" class="form-control" name="tgl_penghargaan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Penghargaan</label>
+                                        <select name="id_penghargaan" class="id_penghargaan" data-allow-clear="true">
+                                            @foreach ($penghargaan as $item)
+                                            <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Tambah">
+                                </div>
+                            </form>
+                            @else
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label class="col-form-label">Nama Taruna</label>
-                                    <input type="text" class="form-control" disabled value="{{ @$taruna->nama_mahasiswa }}">
-                                    <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}">
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">SK Penghargaan</label>
-                                    <input type="text" class="form-control" name="sk_penghargaan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">Tanggal Penghargaan</label>
-                                    <input type="date" class="form-control" name="tgl_penghargaan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">Penghargaan</label>
-                                    <select name="id_penghargaan" class="id_penghargaan" data-allow-clear="true">
-                                        @foreach ($penghargaan as $item)
-                                            <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <p>Pilih Taruna Terlebih Dahulu</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary" value="Tambah">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
-                        </form>
-                        @else
-                        <div class="modal-body">
-                            <p>Pilih Taruna Terlebih Dahulu</p>
+                            @endif
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">Close</button>
-                        </div>
-                        @endif
                     </div>
                 </div>
-            </div>
-                <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
             </div>
             <div class="card-body">
+
+                @if (auth::user()->role != 'taruna')
+                    
                 <form action="{{ url('catatanpenghargaan') }}" method="GET">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Pilih Taruna</label>
@@ -96,6 +102,8 @@
                     </div>
                 </form>
                 <br>
+                
+                @endif
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
@@ -107,34 +115,42 @@
                                 <th>Penghargaan</th>
                                 <th>Bidang Penghargaan</th>
                                 <th>Poin Penghargaan</th>
+                                @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
                                 <th width="10"></th>
+                                @endif
                             </tr>
                         </thead>
                         @foreach ($data as $key => $item)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $item->nim }}<br>{{ $item->nama_mahasiswa}}</td>
-                                <td>{{ date('d-m-Y', strtotime($item->tgl_penghargaan)) }}</td>
-                                <td>{{ $item->penghargaan }}</td>
-                                <td>{{ $item->bidang_penghargaan }}</td>
-                                <td>{{ $item->poin_penghargaan }}</td>
-                                <td>
-                                    <a href="#" data-toggle ="modal" data-target = "#edit" data-array = "{{ $data }}" data-i = "{{ $key }}" 
-                                    class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                </td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#hapus{{ $item->id_catatan_penghargaan }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                    <div class="modal fade" id="hapus{{ $item->id_catatan_penghargaan }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <tr>
+                            <td>{{ $key+1 }}</td>
+                            <td>{{ $item->nim }}<br>{{ $item->nama_mahasiswa}}</td>
+                            <td>{{ date('d-m-Y', strtotime($item->tgl_penghargaan)) }}</td>
+                            <td>{{ $item->penghargaan }}</td>
+                            <td>{{ $item->bidang_penghargaan }}</td>
+                            <td>{{ $item->poin_penghargaan }}</td>
+                            @if (auth::user()->role != 'taruna')
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#edit" data-array="{{ $data }}"
+                                    data-i="{{ $key }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#hapus{{ $item->id_catatan_penghargaan }}"
+                                    class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <div class="modal fade" id="hapus{{ $item->id_catatan_penghargaan }}" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Catatan Penghargaan</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Catatan Penghargaan
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="GET" action="{{ url('hapus-catatanpenghargaan') }}/{{ $item->id_catatan_penghargaan }}">
+                                            <form method="GET"
+                                                action="{{ url('hapus-catatanpenghargaan') }}/{{ $item->id_catatan_penghargaan }}">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <p>Yakin Ingin Menghapus Data Catatan Penghargaan ini ?</p>
@@ -148,8 +164,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                </td>
-                            </tr>
+                            </td>
+                            @endif
+                        </tr>
                         @endforeach
                     </table>
 
@@ -169,21 +186,26 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label class="col-form-label">Nama Mahasiswa</label>
-                                            <input type="text" class="form-control" id="nama_mahasiswa" required disabled>
+                                            <input type="text" class="form-control" id="nama_mahasiswa" required
+                                                disabled>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Tanggal Penghargaan</label>
-                                            <input type="date" class="form-control" name="tgl_penghargaan" id="tgl_penghargaan" required>
+                                            <input type="date" class="form-control" name="tgl_penghargaan"
+                                                id="tgl_penghargaan" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">SK Penghargaan</label>
-                                            <input type="text" class="form-control" name="sk_penghargaan" id="sk_penghargaan" required>
+                                            <input type="text" class="form-control" name="sk_penghargaan"
+                                                id="sk_penghargaan" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Penghargaan</label>
-                                            <select class="form-control" name="id_penghargaan" id="id_penghargaan" required>
+                                            <select class="form-control" name="id_penghargaan" id="id_penghargaan"
+                                                required>
                                                 @foreach ($penghargaan as $item)
-                                                    <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}</option>
+                                                <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>

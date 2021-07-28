@@ -14,7 +14,7 @@ class PenilaianSamaptaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(auth::user()->role == 'admin'){
 
@@ -23,15 +23,24 @@ class PenilaianSamaptaController extends Controller
             $data = DB::table('penilaian_samaptas')
                     ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
                     ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
-                    ->where('semesters.is_semester_aktif', 1)
+                    ->where('semesters.id_semester', $request->id_semester)
+                    ->get();
+
+        }elseif(auth::user()->role == 'taruna'){
+            $taruna = [];
+            $data = DB::table('penilaian_samaptas')
+                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                    ->where('semesters.id_semester', $request->id_semester)
+                    ->where('tarunas.nim', auth::user()->nip)
                     ->get();
 
         }else{
             $taruna = DB::table('asuhans')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-            ->where('asuhans.id_pengasuh', Auth::id())            
-            ->get();
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                        ->where('asuhans.id_pengasuh', Auth::id())            
+                        ->get();
 
             $data = [];
         }
@@ -113,7 +122,7 @@ class PenilaianSamaptaController extends Controller
             'nilai_shuttle_run'     => $nilai_shuttlerun->nilai,
             'tinggi_badan'  => $request->tinggibadan,
             'berat_badan'   => $request->beratbadan,
-            'nilai_samapta' => $nilai_samapta + $nilai_bbi,
+            'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2),
             'stakes'        => $bbi->stakes,
             'nilai_bbi'     => $bbi->nilai
         ]);

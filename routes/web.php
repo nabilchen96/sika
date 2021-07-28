@@ -135,18 +135,6 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
 
     Route::get('/rekapnilai', 'PenilaianController@rekapnilai');
     Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai');
-
-    Route::resource('penilaiansamapta', 'PenilaianSamaptaController');
-    Route::post('updatepenilaiansamapta', 'PenilaianSamaptaController@update');
-
-    Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController');
-    Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit');
-    Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update');
-
-    // Route::post('penilaiansoftskill')
-
-    Route::resource('rekapnilai', 'RekapNilaiController');
-    Route::post('simpanrekapnilai', 'RekapNilaiController@store');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
@@ -159,32 +147,42 @@ Route::get('/tarunapengasuh-json', 'AsuhanController@pengasuh')->middleware(['ch
 Route::get('/kelompoktarunapengasuh-json', 'AsuhanController@kelompoktaruna')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/tambah-tarunapengasuh-json', 'AsuhanController@tambahtarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);   
 
-Route::get('/catatanpelanggaran', 'CatatanPelanggaranController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-Route::get('/catatanpelanggarantaruna-json', 'CatatanPelanggaranController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanpelanggaran', 'CatatanPelanggaranController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('/catatanpelanggarantaruna-json', 'CatatanPelanggaranController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('/tambah-catatanpelanggaran/{id}', 'CatatanPelanggaranController@create')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/simpan-catatanpelanggaran', 'CatatanPelanggaranController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('updatecatatanpelanggaran', 'CatatanPelanggaranController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/hapuscatatanpelanggaran/{id}', 'CatatanPelanggaranController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::get('/catatanhukuman', 'CatatanHukumanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanhukuman', 'CatatanHukumanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('/status-catatanhukuman/{id}', 'CatatanHukumanController@updatestatus')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/update-hukuman', 'CatatanHukumanController@updatehukuman')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::get('/catatanpenghargaan', 'CatatanPenghargaanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-Route::get('/catatanpenghargaan-json', 'CatatanPenghargaanController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanpenghargaan', 'CatatanPenghargaanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('/catatanpenghargaan-json', 'CatatanPenghargaanController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('/tambah-catatanpenghargaan', 'CatatanPenghargaanController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/edit-catatanpenghargaan', 'CatatanPenghargaanController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/hapus-catatanpenghargaan/{id}', 'CatatanPenghargaanController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::get('/catatansakit', 'CatatanSakitController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatansakit', 'CatatanSakitController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('/tambah-catatansakit', 'CatatanSakitController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/edit-catatansakit', 'CatatanSakitController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/hapus-catatansakit/{id}', 'CatatanSakitController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::get('/catatanperizinan', 'CatatanPerizinanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanperizinan', 'CatatanPerizinanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('/tambah-catatanperizinan', 'CatatanPerizinanController@store');
 Route::post('/edit-catatanperizinan', 'CatatanPerizinanController@update')->middleware(['checkRole:pengasuh,admin']);
 Route::get('/hapus-catatanperizinan/{id}', 'CatatanPerizinanController@destroy')->middleware(['checkRole:pengasuh,admin']);
+
+Route::resource('penilaiansamapta', 'PenilaianSamaptaController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::post('updatepenilaiansamapta', 'PenilaianSamaptaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+
+Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+
+Route::resource('rekapnilai', 'RekapNilaiController');
+Route::post('simpanrekapnilai', 'RekapNilaiController@store');
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');

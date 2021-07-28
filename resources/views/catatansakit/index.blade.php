@@ -20,6 +20,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
+                @if (auth::user()->role != 'taruna')
                 <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
                         class="fas fa-plus"></i> Tambah</a>
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -32,13 +33,16 @@
                                 </button>
                             </div>
                             @if (@$taruna->id_mahasiswa)
-                            <form id="formtambah" action="{{ url('tambah-catatansakit') }}" method="post" enctype="multipart/form-data">
+                            <form id="formtambah" action="{{ url('tambah-catatansakit') }}" method="post"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label class="col-form-label">Nama Taruna</label>
-                                        <input type="text" class="form-control" disabled value="{{ @$taruna->nama_mahasiswa }}">
-                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}" required>
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ @$taruna->nama_mahasiswa }}">
+                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}"
+                                            required>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Tanggal Sakit</label>
@@ -46,7 +50,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Keterangan Sakit</label>
-                                        <textarea name="keterangan_sakit" class="form-control" rows="3" required></textarea>
+                                        <textarea name="keterangan_sakit" class="form-control" rows="3"
+                                            required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Surat Sakit</label>
@@ -69,9 +74,11 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                @endif
+                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
             </div>
             <div class="card-body">
+                @if (auth::user()->role != 'taruna')
                 <form action="{{ url('catatansakit') }}" method="GET">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Pilih Taruna</label>
@@ -91,6 +98,7 @@
                     </div>
                 </form>
                 <br>
+                @endif
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
@@ -101,8 +109,10 @@
                                 <th>Tanggal Sakit</th>
                                 <th>Keterangan Sakit</th>
                                 <th>Surat Sakit</th>
-                                <th width="10"></th>
-                                <th width="10"></th>
+                                @if (auth::user()->role != 'taruna')
+                                    <th width="10"></th>
+                                    <th width="10"></th>
+                                @endif
                             </tr>
                         </thead>
                         @foreach ($data as $key => $item)
@@ -112,6 +122,7 @@
                             <td>{{ date('d-m-Y', strtotime($item->tgl_sakit)) }}</td>
                             <td>{{ $item->keterangan_sakit }}</td>
                             <td><a href="{{ asset('surat_sakit') }}/{{ $item->surat_sakit }}">Lihat File</a></td>
+                            @if (auth::user()->role != 'taruna')
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#edit" data-array="{{ $data }}"
                                     data-i="{{ $key }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
@@ -146,6 +157,7 @@
                                     </div>
                                 </div>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </table>
@@ -172,11 +184,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Tanggal Sakit</label>
-                                            <input type="date" class="form-control" name="tgl_sakit" id="tgl_sakit" required>
+                                            <input type="date" class="form-control" name="tgl_sakit" id="tgl_sakit"
+                                                required>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Keterangan Sakit</label>
-                                            <textarea class="form-control" name="keterangan_sakit" id="keterangan_sakit" rows="3" required></textarea>
+                                            <textarea class="form-control" name="keterangan_sakit" id="keterangan_sakit"
+                                                rows="3" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="col-form-label">Surat Sakit <div id="link"></div></label>
