@@ -302,8 +302,8 @@ class PengajuanSuratController extends Controller
             $process->run();
 
             if (!$process->isSuccessful()) {
-                // throw new ProcessFailedException($process);
-                return back()->with(['gagal' => 'Data gagal diubah karena template masih salah']);
+                throw new ProcessFailedException($process);
+                // return back()->with(['gagal' => 'Data gagal diubah karena template masih salah']);
             }
 
             //menyimpan surat ke database
