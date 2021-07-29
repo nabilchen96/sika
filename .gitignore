@@ -1,6 +1,13 @@
 /node_modules
 /public/hot
 /public/storage
+/public/surat
+/public/bukti_pelanggaran
+/public/file_upload
+/public/gambar_berita
+/public/signature_pad
+/public/surat_sakit
+/public/templatesurat
 /storage/*.key
 /vendor
 .env
