@@ -55,7 +55,15 @@ class TarunaKamarController extends Controller
 
     public function create(){
         $kamar = Kamar::all();
-        return view('tarunakamar.create')->with('kamar', $kamar);
+        $data = DB::table('tarunas')
+            ->whereNotIn('id_mahasiswa', function($query){
+                $query->select('id_mahasiswa')->from('taruna_kamars');
+            })
+            ->get();
+
+        return view('tarunakamar.create')
+                ->with('kamar', $kamar)
+                ->with('data', $data);
     }
 
     public function tambahtarunajson(){
@@ -74,23 +82,35 @@ class TarunaKamarController extends Controller
             'id_kamar'  => 'required',
         ]);
 
-        //total kapasitas kamar
-        $kamar = DB::table('kamars')->where('id_kamar', $request->id_kamar)->first();
+        if($request->id_mahasiswa){
 
-        for($i=0; $i < count($request->id_mahasiswa); $i++){
+            //total kapasitas kamar
+            $kamar = DB::table('kamars')->where('id_kamar', $request->id_kamar)->first();
 
             //total kamar saat ini misal sudah 10
             $total_kamar = DB::table('taruna_kamars')->where('id_kamar', $request->id_kamar)->count();
 
-            if( $total_kamar >= $kamar->batas_kamar ){
+            if(($kamar->batas_kamar - $total_kamar) < count($request->id_mahasiswa)){
                 return back()->with(['gagal' => 'Data yang Diinput Melebihi Kapasitas Kamar']);
-            }else{
-                TarunaKamar::create([
-                    'id_kamar'      => $request->input('id_kamar'),
-                    'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
-                ]);
             }
-           
+
+            for($i=0; $i < count($request->id_mahasiswa); $i++){
+
+                // //total kamar saat ini misal sudah 10
+                // $total_kamar = DB::table('taruna_kamars')->where('id_kamar', $request->id_kamar)->count();
+
+                // if( $total_kamar >= $kamar->batas_kamar ){
+                //     return back()->with(['gagal' => 'Data yang Diinput Melebihi Kapasitas Kamar']);
+                // }else{
+                    TarunaKamar::create([
+                        'id_kamar'      => $request->input('id_kamar'),
+                        'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
+                    ]);
+                // }
+            
+            }
+        }else{
+            return back()->with(['gagal' => 'pilih minimal satu data taruna']);
         }
 
         return redirect('tarunakamar')->with(['sukses' => 'Data Sukses Disimpan']);

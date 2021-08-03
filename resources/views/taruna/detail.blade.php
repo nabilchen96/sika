@@ -83,9 +83,10 @@
                     @csrf
                     <input type="hidden" name="id_mahasiswa" value="{{$taruna->id_mahasiswa}}">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Foto</label>
+                        <label class="col-sm-3 col-form-label">Foto <sup class="text-danger">*</sup> </label>
                         <div class="col-sm-5">
                             <input type="file" class="form-control @error('foto') is-invalid @enderror" name="foto">
+                            <p>Format: png atau jpg</p>
                             @error('foto')
                                 <p style="margin-top: 5px;" class="text-danger">{{ $message }}</p>
                             @enderror
@@ -98,27 +99,27 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Nama Wali yang Dihubungi</label>
+                        <label class="col-sm-3 col-form-label">Nama Wali yang Dihubungi <sup class="text-danger">*</sup></label>
                         <div class="col-sm-5">
-                            <input class="form-control @error('wali_dihubungi') is-invalid @enderror" name="wali_dihubungi" value="{{ $taruna->wali_dihubungi }}">
+                            <input class="form-control @error('wali_dihubungi') is-invalid @enderror" name="wali_dihubungi" value="{{ $taruna->wali_dihubungi ? $taruna->wali_dihubungi : old('wali_dihubungi') }}" placeholder="nama wali dihubungi">
                             @error('wali_dihubungi')
                                 <p style="margin-top: 5px;" class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Nomor Wali</label>
+                        <label class="col-sm-3 col-form-label">Nomor Wali <sup class="text-danger">*</sup></label>
                         <div class="col-sm-5">
-                            <input class="form-control @error('no_wali_dihubungi') is-invalid @enderror" name="no_wali_dihubungi" value="{{ $taruna->no_wali_dihubungi }}">
+                            <input class="form-control @error('no_wali_dihubungi') is-invalid @enderror" placeholder="nomor telpon/handphone" name="no_wali_dihubungi" value="{{ $taruna->no_wali_dihubungi ? $taruna->no_wali_dihubungi : old('no_wali_dihubungi') }}">
                             @error('no_wali_dihubungi')
                                 <p style="margin-top: 5px;" class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Hubungan Wali</label>
+                        <label class="col-sm-3 col-form-label">Hubungan Wali <sup class="text-danger">*</sup></label>
                         <div class="col-sm-5">
-                            <input class="form-control @error('hubungan_wali') is-invalid @enderror" name="hubungan_wali" value="{{$taruna->hubungan_wali}}">
+                            <input class="form-control @error('hubungan_wali') is-invalid @enderror" placeholder="contoh: saudara, paman, dll" name="hubungan_wali" value="{{$taruna->hubungan_wali}}">
                             @error('hubungan_wali')
                                 <p style="margin-top: 5px;" class="text-danger">{{ $message }}</p>
                             @enderror

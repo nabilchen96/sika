@@ -1,8 +1,8 @@
 @extends('template.index')
 
-@push('master') active @endpush
-@push('sub-master') show @endpush
-@push('taruna') active @endpush
+@push('nilai') active @endpush
+@push('sub-nilai') show @endpush
+@push('penilaiansoftskill') active @endpush
 
 @section('content')
 <div class="row">
@@ -13,7 +13,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="{{ route('penilaiansoftskill.index') }}" class="btn btn-sm btn-success"><i
+                <a href="{{ url()->previous() }}" class="btn btn-sm btn-success"><i
                         class="fas fa-arrow-left"></i> Kembali</a>
             </div>
             <div class="card-body">

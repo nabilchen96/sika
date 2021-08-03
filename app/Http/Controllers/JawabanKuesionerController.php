@@ -51,7 +51,7 @@ class JawabanKuesionerController extends Controller
                 }
 
             }else{
-                return back()->with(['gagal' => 'Taruna belum lulus atau NIT yang dimasukkan tidak tepat!']);
+                return back()->with(['gagal' => 'Taruna belum lulus atau data yang dimasukkan tidak tepat!']);
             }
         }
 

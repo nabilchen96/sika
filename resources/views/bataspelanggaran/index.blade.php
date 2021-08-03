@@ -36,27 +36,29 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Tingkat</label>
-                                            <select name="tingkat" class="form-control">
-                                                <option>Tingkat I</option>
-                                                <option>Tingkat II</option>
-                                                <option>Tingkat III</option>
-                                                <option>Tingkat IV</option>
-                                            </select>
+                                        <select name="tingkat" class="form-control" required>
+                                            <option>Tingkat I</option>
+                                            <option>Tingkat II</option>
+                                            <option>Tingkat III</option>
+                                            <option>Tingkat IV</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Periode</label>
-                                        <select name="periode" class="form-control">
+                                        <select name="periode" class="form-control" required>
                                             <option>Bulanan</option>
                                             <option>Semester</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="col-form-label">Batas Kritis</label>
-                                        <input type="number" name="batas_kritis" class="form-control" required>
+                                        <input type="number" name="batas_kritis" class="form-control" required
+                                            placeholder="isi dengan angka">
                                     </div>
                                     <div class="form-group">
                                         <label for="col-form-label">Batas Maksimal</label>
-                                        <input type="number" name="batas_maksimal" class="form-control" required>
+                                        <input type="number" name="batas_maksimal" class="form-control" required
+                                            placeholder="isi dengan angka">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -83,67 +85,91 @@
                             </tr>
                         </thead>
                         @foreach ($data as $k => $item)
-                            <tr>
-                                <td>{{ $k+1 }}</td>
-                                <td>{{ $item->tingkat }}</td>
-                                <td>{{ $item->periode }}</td>
-                                <td>{{ $item->batas_kritis }}</td>
-                                <td>{{ $item->batas_maksimal }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#edit{{ $item->id_batas_pelanggaran }}"><i
-                                        class="fas fa-edit"></i></a>
-                                <div class="modal fade" id="edit{{ $item->id_batas_pelanggaran }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
+                        <tr>
+                            <td>{{ $k+1 }}</td>
+                            <td>{{ $item->tingkat }}</td>
+                            <td>{{ $item->periode }}</td>
+                            <td>{{ $item->batas_kritis }}</td>
+                            <td>{{ $item->batas_maksimal }}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-success" data-toggle="modal"
+                                    data-target="#edit{{ $item->id_batas_pelanggaran }}"><i class="fas fa-edit"></i></a>
+                                <div class="modal fade" id="edit{{ $item->id_batas_pelanggaran }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Batas Pelanggaran</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <h5 class="modal-title" id="exampleModalLabel">Edit Batas Pelanggaran
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form id="formtambah" action="{{ url('editbataspelanggaran') }}" method="post">
+                                            <form id="formtambah" action="{{ url('editbataspelanggaran') }}"
+                                                method="post">
                                                 @csrf
-                                                <input type="hidden" name="id_batas_pelanggaran" value="{{ $item->id_batas_pelanggaran }}">
+                                                <input type="hidden" name="id_batas_pelanggaran"
+                                                    value="{{ $item->id_batas_pelanggaran }}" required>
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Tingkat</label>
-                                                            <select name="tingkat" class="form-control">
-                                                                <option {{ $item->tingkat == 'Tingkat I' ? 'selected' : '' }}>Tingkat I</option>
-                                                                <option {{ $item->tingkat == 'Tingkat II' ? 'selected' : '' }}>Tingkat II</option>
-                                                                <option {{ $item->tingkat == 'Tingkat III' ? 'selected' : '' }}>Tingkat III</option>
-                                                                <option {{ $item->tingkat == 'Tingkat IV' ? 'selected' : '' }}>Tingkat IV</option>
-                                                            </select>
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Tingkat</label>
+                                                        <select name="tingkat" class="form-control" required>
+                                                            <option
+                                                                {{ $item->tingkat == 'Tingkat I' ? 'selected' : '' }}>
+                                                                Tingkat I</option>
+                                                            <option
+                                                                {{ $item->tingkat == 'Tingkat II' ? 'selected' : '' }}>
+                                                                Tingkat II</option>
+                                                            <option
+                                                                {{ $item->tingkat == 'Tingkat III' ? 'selected' : '' }}>
+                                                                Tingkat III</option>
+                                                            <option
+                                                                {{ $item->tingkat == 'Tingkat IV' ? 'selected' : '' }}>
+                                                                Tingkat IV</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Periode</label>
-                                                        <select name="periode" class="form-control">
-                                                            <option {{ $item->periode == 'Bulanan' ? 'selected' : '' }}>Bulanan</option>
-                                                            <option {{ $item->periode == 'Semester' ? 'selected' : '' }}>Semester</option>
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Periode</label>
+                                                        <select name="periode" class="form-control" required>
+                                                            <option {{ $item->periode == 'Bulanan' ? 'selected' : '' }}>
+                                                                Bulanan</option>
+                                                            <option
+                                                                {{ $item->periode == 'Semester' ? 'selected' : '' }}>
+                                                                Semester</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="col-form-label">Batas Kritis</label>
-                                                        <input type="number" name="batas_kritis" class="form-control" value="{{ $item->batas_kritis }}"  required>
+                                                        <input type="number" name="batas_kritis" class="form-control"
+                                                            value="{{ $item->batas_kritis }}" required
+                                                            placeholder="isi dengan angka">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="col-form-label">Batas Maksimal</label>
-                                                        <input type="number" name="batas_maksimal" class="form-control" value="{{ $item->batas_maksimal }}" required>
+                                                        <input type="number" name="batas_maksimal" class="form-control"
+                                                            value="{{ $item->batas_maksimal }}" required
+                                                            placeholder="isi dengan angka">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
                                                     <input type="submit" class="btn btn-primary" value="Edit">
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id_batas_pelanggaran }}"><i class="fas fa-trash"></i></button>
-                                <div class="modal fade" id="hapus{{ $item->id_batas_pelanggaran }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#hapus{{ $item->id_batas_pelanggaran }}"><i
+                                        class="fas fa-trash"></i></button>
+                                <div class="modal fade" id="hapus{{ $item->id_batas_pelanggaran }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -165,8 +191,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
                         @endforeach
                     </table>
                 </div>

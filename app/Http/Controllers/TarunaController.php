@@ -110,7 +110,7 @@ class TarunaController extends Controller
 
     public function updatetaruna(Request $request){
         $request->validate([
-            'foto'              => 'required',
+            'foto'              => 'required|max:512|mimes:jpg,png',
             'wali_dihubungi'    => 'required',
             'no_wali_dihubungi' => 'required',
             'hubungan_wali'     => 'required'

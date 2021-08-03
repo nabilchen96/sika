@@ -16,7 +16,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modal" data-array=""><i
+                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modalform" data-array=""><i
                         class="fas fa-plus"></i> Tambah</a>
             </div>
             <div class="card-body">
@@ -37,9 +37,43 @@
                                 <td>{{ $item->kordinator_pengasuh }} | NIP: {{ $item->nip_kordinator }}</td>
                                 <td>{{ $item->pengasuh }} | NIP: {{ $item->nip_pengasuh }}</td>
                                 <td>
-                                    <a href="{{ url('hapusgrupkordinasipengasuh') }}/{{ $item->id_grup_kordinasi_pengasuh }}" class="btn btn-sm btn-danger">
+                                    {{-- <a href="{{ url('hapusgrupkordinasipengasuh') }}/{{ $item->id_grup_kordinasi_pengasuh }}"
+                                        class="btn btn-sm btn-danger">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> --}}
+                                    @if (auth::user()->role == 'pengasuh')
+                                    <button class="btn btn-danger btn-sm" disabled><i
+                                        class="fas fa-trash"></i></button>
+                                    @else
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#hapus{{ $item->id_grup_kordinasi_pengasuh }}" data-array="hapus"><i
+                                        class="fas fa-trash"></i></button>
+                                    @endif
+
+                                    <div class="modal fade" id="hapus{{ $item->id_grup_kordinasi_pengasuh }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Template Surat
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin Ingin Menghapus Kordinator ini ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <a href="{{ url('hapusgrupkordinasipengasuh') }}/{{ $item->id_grup_kordinasi_pengasuh }}"
+                                                        class="btn btn-danger">Hapus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -51,7 +85,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modalform" id="tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,15 +98,18 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="">Kordinator</label>
-                        <select name="id_kordinator_pengasuh" class="form-control">
+                        <label for=""><b>Pilih Kordinator</b></label>
+                        <select name="id_kordinator_pengasuh" class="form-control" required>
+                            <option value="">--Kordinator--</option>
                             @foreach ($kordinator as $item)
-                                <option value="{{ $item->id_kordinator_pengasuh }}">{{ $item->name }}</option>
+                            <option value="{{ $item->id_kordinator_pengasuh }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    <br>
                     <div class="form-group">
-                        <label for="">Pilih Pengasuh</label>
+                        <label for=""><b>Pilih Pengasuh</b></label>
+                        <hr class="mt-0">
                         <table class="table table-bordered table-striped" width="100%" id="dataTable1" cellspacing="0">
                             <thead>
                                 <tr>

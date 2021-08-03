@@ -66,7 +66,13 @@ class AsuhanController extends Controller
 
     public function create(){
         $data = User::where('role', 'pengasuh')->get();
-        return view('asuhan.create')->with('data', $data);
+        $taruna = DB::table('tarunas')
+            ->whereNotIn('id_mahasiswa', function($query){
+                $query->select('id_mahasiswa')->from('asuhans');
+            })
+            ->get();
+
+        return view('asuhan.create')->with('data', $data)->with('taruna', $taruna);
     }
 
     public function tambahtarunajson(){
@@ -84,11 +90,16 @@ class AsuhanController extends Controller
             'id_pengasuh'  => 'required',
         ]);
 
-        for($i=0; $i<count($request->input('id_mahasiswa')); $i++){
-            Asuhan::create([
-                'id_pengasuh'   => $request->input('id_pengasuh'),
-                'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
-            ]);
+
+        if($request->id_mahasiswa){
+            for($i=0; $i<count($request->input('id_mahasiswa')); $i++){
+                Asuhan::create([
+                    'id_pengasuh'   => $request->input('id_pengasuh'),
+                    'id_mahasiswa'  => $request->input('id_mahasiswa')[$i]
+                ]);
+            }
+        }else{
+            return back()->with(['gagal' => 'pilih minimal satu data taruna']);
         }
 
         return redirect('tarunapengasuh')->with(['sukses' => 'Data Sukses Disimpan']);

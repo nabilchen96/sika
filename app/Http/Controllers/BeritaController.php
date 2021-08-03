@@ -37,7 +37,7 @@ class BeritaController extends Controller
             'judul_berita'  => 'required',
             'isi_berita'    => 'required',
             'kategori'      => 'required',
-            'gambar_utama'  => 'required'
+            'gambar_utama'  => 'required|max:512|mimes:jpg,png'
         ]);
 
         $file = $request->file('gambar_utama');
@@ -66,6 +66,7 @@ class BeritaController extends Controller
             'judul_berita'  => 'required',
             'isi_berita'    => 'required',
             'kategori'      => 'required',
+            'gambar_utama'  => 'max:512|mimes:jpg,png',
         ]);
 
         $data = Berita::find($request->input('id_berita'));
@@ -78,8 +79,10 @@ class BeritaController extends Controller
             $file           = $request->file('gambar_utama');
             $nama_file      = $file->getClientOriginalName();
 
-            @$path = public_path()."/gambar_berita/".$data->gambar_utama;
-            unlink(@$path);
+            if($data->gambar_utama){
+                @$path = public_path()."/gambar_berita/".$data->gambar_utama;
+                unlink(@$path);
+            }
 
             $file->move('gambar_berita', $nama_file);
         }

@@ -34,12 +34,12 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div>  
                     <br>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Nama Taruna</label>
                         <div class="col-sm-10">
-                            <table class="table table-striped" id="table-taruna" width="100%">
+                            <table class="table table-striped" width="100%" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -51,6 +51,21 @@
                                         <th>Kelas</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @foreach ($data as $k => $item)
+                                        <tr>
+                                            <td>
+                                                <input style="vertical-align: middle;" type="checkbox" name="id_mahasiswa[]" value="{{ $item->id_mahasiswa }}">
+                                            </td>
+                                            <td>{{ $k+1 }}</td>
+                                            <td>{{ $item->nim }}</td>
+                                            <td>{{ $item->nama_mahasiswa }}</td>
+                                            <td>{{ $item->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                            <td>{{ $item->nama_program_studi }}</td>
+                                            <td>{{ $item->nama_kelas }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -83,7 +98,7 @@
         toastr.error("{{ $message }}")
     @endif
 </script>
-<script>
+{{-- <script>
     $(function() {
           let id
           $('#table-taruna').DataTable({
@@ -108,5 +123,5 @@
               ]
           });
       });
-</script>
+</script> --}}
 @endpush

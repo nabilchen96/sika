@@ -52,7 +52,7 @@
                             <tr>
                                 <td rowspan=2 width="300">Taruna</td>
                                 <td rowspan="2" width="150">Nilai Jasmani (40%)</td>
-                                <td colspan="3" width="390">Nilai Softskill (60%)</td>
+                                <td colspan="3" width="390" class="text-center">Nilai Softskill (60%)</td>
                                 <td rowspan="2" width="63">Nilai Akhir</td>
                                 <td rowspan="2" width="20"></td>
                             </tr>

@@ -20,7 +20,7 @@ class TemplateController extends Controller
         $request->validate([
             'judul_template'    => 'required',
             'kategori'          => 'required|unique:templates',
-            'template'          => 'required',
+            'template'          => 'required|mimes:docx',
             'keterangan'        => 'required'
         ]);
 

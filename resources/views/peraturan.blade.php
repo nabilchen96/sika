@@ -133,45 +133,45 @@
           <div class="col-12 col-md-6 col-lg-3 grid-margin">
             <h5 class="pb-2">Sosial Media</h5>
             <div class="d-flex justify-content-center justify-content-md-start">
-              <a href="https://www.facebook.com/poltekbangplg/"><span class="mdi mdi-facebook"></span></a>
-              <a href="https://twitter.com"><span class="mdi mdi-twitter"></span></a>
-              <a href="https://www.instagram.com/poltekbangplg/"><span class="mdi mdi-instagram"></span></a>
-              <a href="https://www.youtube.com/channel/UC_AW0-niVg52RtQB5NeG34g"><span class="mdi mdi-youtube-play"></span></a>
+              <a target="_blank" href="https://www.facebook.com/poltekbangplg/"><span class="mdi mdi-facebook"></span></a>
+              <a target="_blank" href="https://twitter.com"><span class="mdi mdi-twitter"></span></a>
+              <a target="_blank" href="https://www.instagram.com/poltekbangplg/"><span class="mdi mdi-instagram"></span></a>
+              <a target="_blank" href="https://www.youtube.com/channel/UC_AW0-niVg52RtQB5NeG34g"><span class="mdi mdi-youtube-play"></span></a>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-3 grid-margin">
             <h5 class="pb-2">Akses Akademik</h5>
-            <a href="https://siakad.poltekbangplg.ac.id">
+            <a target="_blank" href="https://siakad.poltekbangplg.ac.id">
               <p class="m-0 pt-1 pb-2">Sistem Informasi Akademik</p>
             </a>
-            <a href="https://feedeer.poltekbangplg.ac.id:8082">
+            <a target="_blank" href="https://feedeer.poltekbangplg.ac.id:8082">
               <p class="m-0 pt-1 pb-2">Feeder Dikti</p>
             </a>
-            <a href="http://sister.poltekbangplg.ac.id/auth/login">
+            <a target="_blank" href="http://sister.poltekbangplg.ac.id/auth/login">
               <p class="m-0 pt-1 pb-2">Sister Dikti</p>
             </a>
-            <a href="https://e-learning.poltekbangplg.ac.id/">
+            <a target="_blank" href="https://e-learning.poltekbangplg.ac.id/">
               <p class="m-0 pt-1 pb-2">Learning Management System</p>
             </a>
-            <a href="https://library.poltekbangplg.ac.id/">
+            <a target="_blank" href="https://library.poltekbangplg.ac.id/">
               <p class="m-0 pt-1">Library Management System</p>
             </a>
           </div>
           <div class="col-12 col-md-6 col-lg-3 grid-margin">
             <h5 class="pb-2">Akses Aplikasi Lain</h5>
-            <a href="https://sik.dephub.go.id/">
+            <a target="_blank" href="https://sik.dephub.go.id/">
               <p class="m-0 pt-1 pb-2">Sistem Informasi Kepegawaian</p>
             </a>
-            <a href="https://esurat.dephub.go.id/site/login">
+            <a target="_blank" href="https://esurat.dephub.go.id/site/login">
               <p class="m-0 pt-1 pb-2">E-persuratan</p>
             </a>
-            <a href="https://skemaraja.dephub.go.id/">
+            <a target="_blank" href="https://skemaraja.dephub.go.id/">
               <p class="m-0 pt-1 pb-2">Skemaraja</p>
             </a>
-            <a href="https://marketing.poltekbangplg.ac.id">
+            <a target="_blank" href="https://marketing.poltekbangplg.ac.id">
               <p class="m-0 pt-1 pb-2">E-marketing</p>
             </a>
-            <a href="https://e-spm.poltekbangplg.ac.id/">
+            <a target="_blank" href="https://e-spm.poltekbangplg.ac.id/">
               <p class="m-0 pt-1">Sistem Penjamin Mutu Internal</p>
             </a>
           </div>
@@ -180,7 +180,7 @@
       <footer class="border-top">
         <p class="text-center text-muted pt-4">Copyright © <?php echo date('Y'); ?> Subbag Aktar Politeknik Penerbangan Palembang. 
             Developed by<a
-            href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
+            target="_blank" href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
       </footer>
     </div>
 </div>

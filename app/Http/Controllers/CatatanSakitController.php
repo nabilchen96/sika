@@ -79,7 +79,8 @@ class CatatanSakitController extends Controller
     public function update(Request $request){
         $request->validate([
             'tgl_sakit' => 'required',
-            'keterangan_sakit'  => 'mimetypes:image/jpeg,image/png|max:2048',
+            'keterangan_sakit'  => 'required',
+            'surat_sakit'   => 'mimetypes:image/jpeg,image/png|max:2048',
             'id_mahasiswa'  => 'required',
             'id_catatan_sakit'  => 'required'
         ]);

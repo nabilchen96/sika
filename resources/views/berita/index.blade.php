@@ -75,7 +75,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Yakin Ingin Menghapus Beita ini ?</p>
+                <p>Yakin Ingin Menghapus Berita ini ?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -16,6 +16,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
+        "ncjoes/office-converter": "^1.0",
         "phpoffice/phpword": "dev-master",
         "symfony/process": "^5.3",
         "yajra/laravel-datatables-oracle": "^9.15"

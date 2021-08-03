@@ -99,7 +99,6 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/editkomponensoftskill', 'KomponenSoftskillController@update');
     Route::get('/hapuskomponensoftskill/{id}', 'KomponenSoftskillController@destroy');
 
-    Route::get('/grupkordinasipengasuh', 'GrupKordinasiPengasuhController@index');
     Route::post('/simpangrupkordinasipengasuh', 'GrupKordinasiPengasuhController@store');
     Route::get('/hapusgrupkordinasipengasuh/{id}', 'GrupKordinasiPengasuhController@destroy');
 
@@ -126,16 +125,6 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/edit-soal-kuesioner', 'DetailKuesionerController@update');
     Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
     Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
-
-    Route::get('/berita', 'BeritaController@index');
-    Route::get('/tambahberita', 'BeritaController@create');
-    Route::post('/simpanberita', 'BeritaController@store');
-    Route::get('/hapusberita/{id}', 'BeritaController@destroy');
-    Route::get('/editberita/{id}', 'BeritaController@edit');
-    Route::post('/updateberita', 'BeritaController@update');
-
-    Route::get('/rekapnilai', 'PenilaianController@rekapnilai');
-    Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai');
 });
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
@@ -182,8 +171,8 @@ Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController')->middlewar
 Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
-Route::resource('rekapnilai', 'RekapNilaiController');
-Route::post('simpanrekapnilai', 'RekapNilaiController@store');
+Route::resource('rekapnilai', 'RekapNilaiController')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::post('simpanrekapnilai', 'RekapNilaiController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');
@@ -196,3 +185,15 @@ Route::post('/updatepengajuansurat', 'PengajuanSuratController@update')->middlew
 Route::get('/hapuspengajuansurat/{id}', 'PengajuanSuratController@destroy')->middleware(['checkRole:pengasuh,admin,taruna']);
 Route::post('/jawabpengajuan', 'PengajuanSuratController@jawabpengajuan')->middleware(['checkRole:pengasuh,admin,taruna']);
 Route::post('/terbitkansurat', 'PengajuanSuratController@terbitkansurat')->middleware(['checkRole:pusbangkar']);;
+
+Route::get('/grupkordinasipengasuh', 'GrupKordinasiPengasuhController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+
+Route::get('/berita', 'BeritaController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/tambahberita', 'BeritaController@create')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::post('/simpanberita', 'BeritaController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/hapusberita/{id}', 'BeritaController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/editberita/{id}', 'BeritaController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+
+// Route::get('/rekapnilai', 'PenilaianController@rekapnilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+// Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);

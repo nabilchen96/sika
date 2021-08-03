@@ -34,14 +34,14 @@
                               <div class="modal-body">
                                   <div class="form-group">
                                       <label for="recipient-name" class="col-form-label">Pelanggaran</label>
-                                      <textarea name="pelanggaran" rows="3" class="form-control"></textarea>
+                                      <textarea name="pelanggaran" rows="3" class="form-control" required placeholder="nama pelanggaran"></textarea>
                                       @if (Session::get('submit') == 'tambahpelanggaran' && $errors->data->first('pelanggaran'))
                                         <p class="text-danger">{{ $errors->data->first('pelanggaran') }}</p>
                                       @endif
                                     </div>
                                   <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Kategori Pelanggaran</label>
-                                    <select name="kategori_pelanggaran" class="form-control" >
+                                    <select name="kategori_pelanggaran" class="form-control" required>
                                       <option>Pelanggaran Ringan</option>
                                       <option>Pelanggaran Sedang</option>
                                       <option>Pelanggaran Berat</option>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Poin Pelanggaran</label>
-                                    <input type="number" class="form-control" name="poin_pelanggaran">
+                                    <input type="number" class="form-control" name="poin_pelanggaran" required placeholder="isi dengan angka">
                                     @if (Session::get('submit') == 'tambahpelanggaran' && $errors->data->first('poin_pelanggaran'))
                                       <p class="text-danger">{{ $errors->data->first('poin_pelanggaran') }}</p>
                                     @endif
@@ -141,11 +141,11 @@
                               <div class="modal-body">
                                   <div class="form-group">
                                       <label class="col-form-label">Pelanggaran</label>
-                                      <textarea name="pelanggaran" rows="3" class="form-control" required>`+row.pelanggaran+`</textarea>
+                                      <textarea name="pelanggaran" rows="3" class="form-control" required placeholder="nama pelanggaran">`+row.pelanggaran+`</textarea>
                                     </div>
                                   <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Kategori Pelanggaran</label>
-                                    <select name="kategori_pelanggaran" class="form-control" >
+                                    <select name="kategori_pelanggaran" class="form-control" required>
                                       <option `+( row.kategori_pelanggaran == 'Pelanggaran Ringan' ? 'selected' : '')+`>Pelanggaran Ringan</option>
                                       <option `+( row.kategori_pelanggaran == 'Pelanggaran Sedang' ? 'selected' : '')+`>Pelanggaran Sedang</option>
                                       <option `+( row.kategori_pelanggaran == 'Pelanggaran Berat' ? 'selected' : '')+`>Pelanggaran Berat</option>
@@ -154,7 +154,7 @@
                                   </div>
                                   <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Poin Pelanggaran</label>
-                                    <input type="number" class="form-control" value="`+row.poin_pelanggaran+`" name="poin_pelanggaran" required>
+                                    <input type="number" class="form-control" placeholder="isi dengan angka" value="`+row.poin_pelanggaran+`" name="poin_pelanggaran" required>
                                   </div>
                               </div>
                               <div class="modal-footer">

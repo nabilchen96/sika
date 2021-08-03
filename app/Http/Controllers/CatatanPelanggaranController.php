@@ -140,7 +140,7 @@ class CatatanPelanggaranController extends Controller
             'id_pencatat'           => 'required',
             'id_mahasiswa'          => 'required',
             'id_pelanggaran'        => 'required',
-            // 'bukti_pelanggaran'     => 'required|mimetypes:image/jpeg,image/png|max:2048'
+            'bukti_pelanggaran'     => 'mimetypes:image/jpeg,image/png|max:2048'
         ]);
 
         
@@ -154,12 +154,12 @@ class CatatanPelanggaranController extends Controller
             }
         }
 
-        if($request->file('bukti_pelanggaran') == null){
-            $nama_file = null;
-        }else{
+        if($request->file('bukti_pelanggaran')){
             $file           = $request->file('bukti_pelanggaran');
             $nama_file      = $file->getClientOriginalName();
             $file->move('bukti_pelanggaran', $nama_file);
+        }else{
+            $nama_file = null;
         }
 
         $semester       = DB::table('semesters')->where('is_semester_aktif', 1)->first();

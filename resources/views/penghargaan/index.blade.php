@@ -35,14 +35,14 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Penghargaan</label>
-                                        <input type="text" name="penghargaan" class="form-control">
+                                        <input type="text" name="penghargaan" class="form-control" required placeholder="nama penghargaan">
                                         @if (Session::get('submit') == 'tambah' && $errors->data->first('penghargaan'))
                                         <p class="text-danger">{{ $errors->data->first('penghargaan') }}</p>
                                         @endif
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label"></label>
-                                        <select name="bidang_penghargaan" class="form-control">
+                                        <select name="bidang_penghargaan" class="form-control" required>
                                             <option>Akademik</option>
                                             <option>Olahraga dan Seni</option>
                                             <option>Organisasi</option>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Poin Penghargaan</label>
-                                        <input type="text" name="poin_penghargaan" class="form-control">
+                                        <input type="text" name="poin_penghargaan" class="form-control" required placeholder="isi dengan angka">
                                         @if (Session::get('submit') == 'tambah' &&
                                         $errors->data->first('poin_penghargaan'))
                                         <p class="text-danger">{{ $errors->data->first('poin_penghargaan') }}</p>
@@ -112,13 +112,13 @@
                                                 <input type="hidden" name="submit"
                                                     value="edit{{$item->id_penghargaan}}">
                                                 <input type="hidden" name="id_penghargaan"
-                                                    value="{{ $item->id_penghargaan }}">
+                                                    value="{{ $item->id_penghargaan }}" required>
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="recipient-name"
                                                             class="col-form-label">Penghargaan</label>
                                                         <input type="text" name="penghargaan"
-                                                            value="{{ $item->penghargaan }}" class="form-control">
+                                                            value="{{ $item->penghargaan }}" required class="form-control">
                                                         @if (Session::get('submit') == 'edit'.$item->id_penghargaan &&
                                                         $errors->data->first('penghargaan'))
                                                         <p class="text-danger">{{ $errors->data->first('penghargaan') }}
@@ -128,30 +128,30 @@
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="col-form-label">Bidang
                                                             Penghargaan</label>
-                                                        <select name="bidang_penghargaan" class="form-control">
+                                                        <select name="bidang_penghargaan" class="form-control" required>
                                                             <option
                                                                 {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
                                                                 Akademik</option>
                                                             <option
-                                                                {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
+                                                                {{ $item->bidang_penghargaan == 'Olahraga dan Seni' ? 'selected' : ''}}>
                                                                 Olahraga dan Seni</option>
                                                             <option
-                                                                {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
+                                                                {{ $item->bidang_penghargaan == 'Organisasi' ? 'selected' : ''}}>
                                                                 Organisasi</option>
                                                             <option
-                                                                {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
+                                                                {{ $item->bidang_penghargaan == 'Kerohanian' ? 'selected' : ''}}>
                                                                 Kerohanian</option>
                                                             <option
-                                                                {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
+                                                                {{ $item->bidang_penghargaan == 'Pengabdian Masyarakat' ? 'selected' : ''}}>
                                                                 Pengabdian Masyarakat</option>
                                                             <option
-                                                                {{ $item->bidang_penghargaan == 'Akademik' ? 'selected' : ''}}>
+                                                                {{ $item->bidang_penghargaan == 'Ekonomi' ? 'selected' : ''}}>
                                                                 Ekonomi</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="col-form-label">Poin Penghargaan</label>
-                                                        <input type="text" name="poin_penghargaan" class="form-control" value="{{ $item->poin_penghargaan }}">
+                                                        <input type="text" name="poin_penghargaan" required class="form-control" value="{{ $item->poin_penghargaan }}">
                                                         @if (Session::get('submit') == 'edit'.$item->id_penghargaan && $errors->data->first('poin_penghargaan'))
                                                         <p class="text-danger">
                                                             {{ $errors->data->first('poin_penghargaan') }}</p>

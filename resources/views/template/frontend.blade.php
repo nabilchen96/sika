@@ -87,6 +87,10 @@
       .detail-news-image{
         height: 250px !important;
       }
+
+      /* .icon-image{
+        height: 30%;
+      } */
     }
   </style>
 </head>
@@ -96,7 +100,7 @@
     <nav class="navbar navbar-expand-lg pl-3 pl-sm-0" id="navbar">
       <div class="container" data-aos="fade-down">
         <div class="navbar-brand-wrapper d-flex w-100">
-          <img src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
+          <img class="icon-image" src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -120,19 +124,19 @@
               </button>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('/') }}">Beranda</a>
+              <a class="nav-link @if(Request::is('/')) active @endif" href="{{ url('/') }}">Beranda</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('pengumuman') }}">Pengumuman</a>
+              <a class="nav-link @if(Request::is('pengumuman')) active @endif" href="{{ url('pengumuman') }}">Pengumuman</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('peraturan') }}">PT3</a>
+              <a class="nav-link @if(Request::is('peraturan')) active @endif"" href="{{ url('peraturan') }}">PT3</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link" href="pelanggaran.html">Prestasi</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('isikuesioner') }}">Tracer Study</a>
+            </li> --}}
+            <li class="nav-item" style="width: 130px;">
+              <a class="nav-link @if(Request::is('isikuesioner')) active @endif"" href="{{ url('isikuesioner') }}">Tracer Study</a>
             </li>
             <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
               <a href="{{ url('login') }}" class="btn btn-info">

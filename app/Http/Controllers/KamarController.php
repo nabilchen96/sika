@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kamar;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class KamarController extends Controller
 {
     public function index(){
-        $kamar  = Kamar::all();
+        $kamar  = DB::table('kamars')->get();
         return view('kamar.index')->with('kamar', $kamar);
     }
 

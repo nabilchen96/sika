@@ -19,7 +19,7 @@
         <div class="card mb-12">
             <div class="card-header">
                 @if (auth::user()->role != 'taruna')
-                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modal" data-array=""><i
+                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modalform" data-array=""><i
                         class="fas fa-plus"></i> Tambah</a>
                 @endif
             </div>
@@ -36,7 +36,8 @@
                             <select name="id_semester" class="form-control">
                                 <option value="">Pilih Semester</option>
                                 @foreach ($semester as $item)
-                                    <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }} value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                                <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
+                                    value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +64,9 @@
                                 <th width="70">Nilai Samapta</th>
                                 <th>Nilai BMI</th>
                                 <th>Nilai BBI</th>
-                                <th>Nilai Jasmani</th>
+                                <th>Bobot (60%) <br>
+                                    Nilai Jasmani
+                                </th>
                                 @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
                                 <th width="10"></th>
@@ -93,12 +96,13 @@
                                     <li>Jumlah Shuttle Run: {{ $item->jumlah_shuttle_run }}</li>
                                 </td>
                                 <td>
-                                    {{ ($item->nilai_lari + (($item->nilai_push_up + $item->nilai_sit_up + $item->nilai_shuttle_run) / 3)) / 2 }}
+                                    {{ round(($item->nilai_lari + (($item->nilai_push_up + $item->nilai_sit_up + $item->nilai_shuttle_run) / 3)) / 2, 2) }}
                                 </td>
                                 <td>
                                     <li>Tinggi Badan: {{ $item->tinggi_badan }}</li>
                                     <li>Berat Badan: {{ $item->berat_badan }}</li>
-                                    <li>Nilai BMI: {{ round($item->berat_badan / pow(($item->tinggi_badan/100), 2)) }}
+                                    <li>Nilai BMI:
+                                        {{ round($item->berat_badan / pow(($item->tinggi_badan/100), 2), 2) }}
                                     </li>
                                     <li>Stakes: {{ $item->stakes }} </li>
                                 </td>
@@ -110,18 +114,43 @@
                                 </td>
                                 @if (auth::user()->role != 'taruna')
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target=".modal"
+                                    <a href="#" data-toggle="modal" data-target=".modalform"
                                         data-array="{{ json_encode($data[$k]) }}" class="btn btn-sm btn-success"><i
                                             class="fas fa-edit"></i></a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('penilaiansamapta.destroy', [$item->id_nilai_samapta]) }}"
-                                        method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="fas fa-trash"></i></button>
-                                    </form>
+
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-target="#hapus{{ $item->id_nilai_samapta }}" data-array="hapus"><i
+                                            class="fas fa-trash"></i></button>
+                                    <div class="modal fade" id="hapus{{ $item->id_nilai_samapta }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('penilaiansamapta.destroy', [$item->id_nilai_samapta]) }}"
+                                                    method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Template Surat
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin Ingin Menghapus Data Nilai ini ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 @endif
                             </tr>
@@ -134,11 +163,11 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Form Penilaian Samapta</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Form Penilaian Jasmani</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -149,7 +178,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Taruna</label>
-                        <select name="id_mahasiswa" class="form-control" id="id_mahasiswa">
+                        <select name="id_mahasiswa" class="form-control" id="id_mahasiswa" required>
                             @foreach ($taruna as $item)
                             <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} | {{ $item->nim }}
                             </option>
@@ -158,27 +187,30 @@
                     </div>
                     <div class="form-group">
                         <label for="">Jarak Lari (meter)</label>
-                        <input type="number" class="form-control" id="lari" name="lari">
+                        <input type="number" class="form-control" id="lari" name="lari" max="3507" required>
                     </div>
                     <div class="form-group">
                         <label for="">Push Up (JML)</label>
-                        <input type="number" class="form-control" id="pushup" name="pushup">
+                        <input type="number" class="form-control" id="pushup" name="pushup" max="43" required>
                     </div>
                     <div class="form-group">
                         <label for="">Sit Up (JML)</label>
-                        <input type="number" class="form-control" id="situp" name="situp">
+                        <input type="number" class="form-control" id="situp" name="situp" max="41" required>
                     </div>
                     <div class="form-group">
                         <label for="">Shuttle Run (DTK)</label>
-                        <input type="number" step="0.01" class="form-control" id="shuttlerun" name="shuttlerun">
+                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="25.8"
+                            name="shuttlerun" required>
                     </div>
                     <div class="form-group">
-                        <label for="">Tinggi Badang</label>
-                        <input type="number" step="0.01" class="form-control" id="tinggibadan" name="tinggibadan">
+                        <label for="">Tinggi Badan</label>
+                        <input type="number" step="0.01" class="form-control" id="tinggibadan" name="tinggibadan"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="">Berat Badan</label>
-                        <input type="number" step="0.01" class="form-control" id="beratbadan" name="beratbadan">
+                        <input type="number" step="0.01" class="form-control" id="beratbadan" name="beratbadan"
+                            required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -218,6 +250,8 @@
 
         if(data === ''){
             $('.form').attr('action', "{{ route('penilaiansamapta.store') }}").trigger('reset')
+
+        }else if(data == 'hapus'){
 
         }else{
             $('.form').attr('action', "{{ url('updatepenilaiansamapta') }}")

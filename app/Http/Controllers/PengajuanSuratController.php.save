@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Perizinan;
 use auth;
 use Symfony\Component\Process\Process;
-use NcJoes\OfficeConverter\OfficeConverter;
 // use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -235,21 +234,16 @@ class PengajuanSuratController extends Controller
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
 
-            $nama_file = date('YmdHis');
+            $nama_file = date('YmdHis').'.doc';
 
             //memindahkan surat
-            $templateProcessor->saveAs('surat/'.$nama_file."docx");
-
-            $surat = public_path('surat/'.$nama_file.".docx");
-
-            $converter = new OfficeConverter($surat);
-            $converter->convertTo('pdf/'.$nama_file.'.pdf');
+            $templateProcessor->saveAs('surat/'.$nama_file);
 
             //menyimpan surat ke database
             DB::table('pengajuan_surats')
             ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
             ->update([
-                'surat' => $nama_file.'.pdf'
+                'surat' => $nama_file
             ]);
 
             // kirim data ke catatan perizinan
@@ -285,10 +279,9 @@ class PengajuanSuratController extends Controller
 
             $templateProcessor->setValues([
                 'nama'              => $data->nama_mahasiswa,
-                'jk'                => $data->jenis_kelamin == 'L' ? 'Taruna' : 'Taruni',
                 'nit'               => $data->nim,
                 'tempat_lahir'      => $data->tempat_lahir,
-                'tgl_lahir'         => date('d-m-Y', strtotime($data->tanggal_lahir)),
+                'tgl_lahir'         => $data->tanggal_lahir,
                 'jenjang_program'   => $data->nama_program_studi == 'Teknologi Rekayasa Bandar Udara' ? 'Diploma Empat' : 'Diploma Tiga',
                 'prodi'             => $data->nama_program_studi,
                 'singkatan'         => $singkatan,
@@ -299,21 +292,25 @@ class PengajuanSuratController extends Controller
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
             
 
-            $nama_file = date('YmdHis');
+            $nama_file = date('YmdHis').'.docx';
 
             //memindahkan surat
-            $templateProcessor->saveAs('surat/'.$nama_file.".docx");
+            $templateProcessor->saveAs('surat/'.$nama_file);
 
-            $surat = public_path('surat/'.$nama_file.".docx");
+            $process = new Process(['libreoffice --headless --convert-to pdf /var/www/sika/public/surat/'.$nama_file.' --outdir /var/www/sika/public/surat']);
+            // $process = new Process(['php artisan config:cache']);
+            $process->run();
 
-            $converter = new OfficeConverter($surat);
-            $converter->convertTo('pdf/'.$nama_file.'.pdf');
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                // return back()->with(['gagal' => 'Data gagal diubah karena template masih salah']);
+            }
 
             //menyimpan surat ke database
             DB::table('pengajuan_surats')
             ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
             ->update([
-                'surat' => $nama_file.'.pdf'
+                'surat' => $nama_file
             ]);
 
             //kembali ke halaman pengajuan surat

@@ -1,6 +1,6 @@
 @extends('template.index')
 
-@push('tarunakamar') active @endpush
+@push('tarunapengasuh') active @endpush
 
 @push('style')
 <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -36,7 +36,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Nama Taruna</label>
                         <div class="col-sm-10">
-                            <table class="table table-striped" id="table-taruna" width="100%">
+                            <table class="table table-striped" id="dataTable" width="100%">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -48,6 +48,21 @@
                                         <th>Kelas</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @foreach ($taruna as $k => $item)
+                                        <tr>
+                                            <td>
+                                                <input style="vertical-align: middle;" type="checkbox" name="id_mahasiswa[]" value="{{ $item->id_mahasiswa }}">
+                                            </td>
+                                            <td>{{ $k+1 }}</td>
+                                            <td>{{ $item->nim }}</td>
+                                            <td>{{ $item->nama_mahasiswa }}</td>
+                                            <td>{{ $item->jenis_kelamin }}</td>
+                                            <td>{{ $item->nama_program_studi }}</td>
+                                            <td>{{ $item->nama_kelas }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -80,7 +95,7 @@
         toastr.error("{{ $message }}")
     @endif
 </script>
-<script>
+{{-- <script>
     $(function() {
           let id
           $('#table-taruna').DataTable({
@@ -89,7 +104,7 @@
               ajax: 'tambah-tarunapengasuh-json',
               columns: [
                     { data: 'id_mahasiswa', render: function (data){
-                        return '<input style="vertical-align: middle;" type="checkbox" class="form-control" name="id_mahasiswa[]" value="'+data+'">'
+                        return '<input style="vertical-align: middle;" type="checkbox" name="id_mahasiswa[]" value="'+data+'">'
                     }},
                   { data: 'id_mahasiswa', name:'id_mahasiswa', render: function (data, type, row, meta) {
                       id = data
@@ -105,5 +120,5 @@
               ]
           });
       });
-</script>
+</script> --}}
 @endpush

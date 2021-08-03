@@ -19,7 +19,7 @@ class CreateAturanNilaiSamaptasTable extends Migration
             $table->enum('jenis_samapta', ['Lari', 'Sit-up', 'Push-up', 'Shuttle Run']);
             $table->integer('ukuran_menit');
             $table->float('jumlah');
-            $table->integer('nilai');
+            $table->float('nilai');
             $table->timestamps();
         });
     }

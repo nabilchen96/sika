@@ -44,12 +44,15 @@ class GrupKordinasiPengasuhController extends Controller
 
     public function store(Request $request){
 
-
-        for ($i=0; $i < count($request->id); $i++) { 
-            GrupKordinasiPengasuh::create([
-                'id_kordinator_pengasuh' => $request->id_kordinator_pengasuh,
-                'id'                     => $request->id[$i]
-            ]);
+        if($request->id){
+            for ($i=0; $i < count($request->id); $i++) { 
+                GrupKordinasiPengasuh::create([
+                    'id_kordinator_pengasuh' => $request->id_kordinator_pengasuh,
+                    'id'                     => $request->id[$i]
+                ]);
+            }
+        }else{
+            return back()->with(['gagal' => 'pilih minimal satu pengasuh']);
         }
 
         return back()->with(['sukses' => 'Data berhasil disimpan!']);

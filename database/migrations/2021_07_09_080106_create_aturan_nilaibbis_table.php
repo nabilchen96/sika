@@ -15,10 +15,10 @@ class CreateAturanNilaibbisTable extends Migration
     {
         Schema::create('aturan_nilaibbis', function (Blueprint $table) {
             $table->bigIncrements('id_nilai_bbi');
-            $table->integer('bmi');
+            $table->float('bmi');
             $table->enum('untuk', ['Taruna', 'Taruni']);
             $table->enum('stakes', ['Stakes 1', 'Stakes 2', 'Stakes 3', 'Stakes 4']);
-            $table->integer('nilai');
+            $table->float('nilai');
             
             $table->timestamps();
         });

@@ -18,7 +18,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Judul Berita</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="judul_berita">
+                            <input type="text" class="form-control" name="judul_berita" value="{{ old('judul_berita') }}" required>
                             @error('judul_berita')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -27,7 +27,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Isi Berita</label>
                         <div class="col-sm-10">
-                            <textarea id="editor" name="isi_berita" cols="5" rows="10" class="form-control"></textarea>
+                            <textarea id="editor" name="isi_berita" cols="5" rows="10" class="form-control" required>{{ old('isi_berita') }}</textarea>
                             @error('isi_berita')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -36,7 +36,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Gambar Utama</label>
                         <div class="col-sm-10">
-                            <input type="file" name="gambar_utama" class="form-control">
+                            <input type="file" name="gambar_utama" class="form-control" required>
                             @error('gambar_utama')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -45,7 +45,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Kategori</label>
                         <div class="col-sm-10">
-                            <select name="kategori" class="form-control">
+                            <select name="kategori" class="form-control" required>
                                 <option value="1">Pendidikan</option>
                                 <option value="2">Lowongan Kerja</option>
                                 <option value="3">Layanan</option>

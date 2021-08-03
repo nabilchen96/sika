@@ -18,7 +18,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modal" data-array=""><i
+                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modalform" data-array=""><i
                         class="fas fa-plus"></i> Tambah</a>
             </div>
             <div class="card-body">
@@ -27,8 +27,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 20px">No</th>
-                                <th>Jenis Softskill</th>
-                                <th>Keterangan Softskill</th>
+                                <th>Evaluasi Softskill</th>
+                                <th>Uraian Softskill</th>
                                 <th width="10"></th>
                                 <th width="10"></th>
                             </tr>
@@ -40,15 +40,42 @@
                                 <td>{{ $item->jenis_softskill }}</td>
                                 <td>{{ $item->keterangan_softskill }}</td>
                                 <td>
-                                    <a href="#" data-array="{{ $data[$k] }}" data-target=".modal" data-toggle="modal" class="btn btn-sm btn-success">
+                                    <a href="#" data-array="{{ $data[$k] }}" data-target=".modalform" data-toggle="modal"
+                                        class="btn btn-sm btn-success">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ url('hapuskomponensoftskill') }}/{{ $item->id_komponen_softskill }}"
+                                    {{-- <a href="{{ url('hapuskomponensoftskill') }}/{{ $item->id_komponen_softskill }}"
                                         class="btn btn-sm btn-danger">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> --}}
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-target="#hapus{{ $item->id_komponen_softskill }}" data-array="hapus"><i
+                                            class="fas fa-trash"></i></button>
+                                    <div class="modal fade" id="hapus{{ $item->id_komponen_softskill }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Komponen Softskill</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin Ingin Menghapus Data Komponen Softskill ini ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <a href="{{ url('hapuskomponensoftskill') }}/{{ $item->id_komponen_softskill }}"
+                                                        class="btn btn-danger">Hapus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -60,7 +87,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modalform" id="tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,14 +101,14 @@
                 <input type="hidden" name="id_komponen_softskill" id="id_komponen_softskill">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Jenis Softskill</label>
-                        <textarea name="jenis_softskill" id="jenis_softskill" cols="30" rows="2"
-                            class="form-control"></textarea>
+                        <label for="recipient-name" class="col-form-label">Evaluasi Softskill</label>
+                        <textarea name="jenis_softskill" id="jenis_softskill" cols="30" rows="2" class="form-control"
+                            placeholder="evaluasi softskill" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Keterangan Softskill</label>
+                        <label for="recipient-name" class="col-form-label">Uraian Softskill</label>
                         <textarea name="keterangan_softskill" id="keterangan_softskill" cols="30" rows="5"
-                            class="form-control"></textarea>
+                            class="form-control" placeholder="uraian softskill" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -120,6 +147,8 @@
 
         if(data === ''){
             $('.form').attr('action', "{{ url('tambahkomponensoftskill') }}").trigger('reset')
+        }else if(data == 'hapus'){
+
         }else{
             $('.form').attr('action', "{{ url('editkomponensoftskill') }}")
 

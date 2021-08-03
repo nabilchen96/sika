@@ -17,7 +17,7 @@
         </div>
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" data-toggle="modal" data-target=".modal" data-array="" class="btn btn-sm btn-primary"><i
+                <a href="#" data-toggle="modal" data-target=".modalform" data-array="" class="btn btn-sm btn-primary"><i
                         class="fas fa-plus"></i> Tambah</a>
             </div>
             <div class="card-body">
@@ -39,20 +39,51 @@
                             <td>{{ $k+1 }}</td>
                             <td>{{ $item->judul_template }}</td>
                             <td>
-                                <a target="_blank" href="{{ asset('templatesurat') }}/{{ $item->template }}" class="badge badge-success">Lihat File</a>
+                                <a target="_blank" href="{{ asset('templatesurat') }}/{{ $item->template }}"
+                                    class="badge badge-success">Lihat File</a>
                             </td>
                             <td>{{ $item->keterangan }}</td>
                             <td>
                                 @if ($item->kategori == 1)
-                                    Surat Izin
+                                Surat Izin
                                 @elseif($item->kategori == 2)
-                                    Surat Keterangan
+                                Surat Keterangan
                                 @elseif ($item->kategori == 3)
-                                    Template Penilaian
+                                Template Penilaian
                                 @endif
                             </td>
-                            <td><a href="#" data-target=".modal" data-toggle="modal" data-array="{{ $data[$k] }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
-                            <td><a href="{{ url('hapustemasurat') }}/{{ $item->id_template }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a></td>
+                            <td><a href="#" data-target=".modalform" data-toggle="modal" data-array="{{ $data[$k] }}"
+                                    class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a></td>
+                            <td>
+                                {{-- <a href="{{ url('hapustemasurat') }}/{{ $item->id_template }}" class="btn btn-sm
+                                btn-danger"><i class="fas fa-trash"></i></a> --}}
+                                <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#hapus{{ $item->id_template }}" data-array="hapus"><i
+                                        class="fas fa-trash"></i></button>
+                                <div class="modal fade" id="hapus{{ $item->id_template }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Template Surat</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Yakin Ingin Menghapus Template Surat ini ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <a href="{{ url('hapustemasurat') }}/{{ $item->id_template }}"
+                                                    class="btn btn-danger">Hapus</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                     </table>
@@ -62,7 +93,7 @@
     </div>
 </div>
 
-<div class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modalform" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,11 +108,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-form-label">Judul Template</label>
-                        <input type="text" name="judul_template" class="form-control" id="judul_template">
+                        <input type="text" name="judul_template" required placeholder="judul template surat"
+                            class="form-control" id="judul_template">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Kategori</label>
-                        <select name="kategori" class="form-control" id="kategori">
+                        <select name="kategori" class="form-control" id="kategori" required>
                             <option value="">--Pilih Kategori--</option>
                             <option value="1">Surat Izin</option>
                             <option value="2">Surat Keterangan Kuliah</option>
@@ -89,12 +121,14 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Keterangan</label>
-                        <textarea name="keterangan" id="keterangan" class="form-control" cols="30" rows="5"></textarea>
+                        <textarea name="keterangan" id="keterangan" required class="form-control" cols="30" rows="5"
+                            placeholder="info detail template surat"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Template  <b class="text-danger">*Input file berekstensi .doc</b></label>
-                        <input type="file" name="template" class="form-control" id="template">
-                        <a href="" id="surat" class="badge badge-success">Lihat File</a>
+                        <label class="col-form-label">Template <b class="text-danger">*Input file berekstensi
+                                .docx</b></label>
+                        <input type="file" name="template" class="form-control" id="template" required>
+                        <a href="" id="surat" class="badge badge-success d-none">Lihat File</a>
                     </div>
                 </div>
 
@@ -135,6 +169,8 @@
 
     if(data === ''){
         $('#formtemplate').attr('action', "{{ url('simpantemplatesurat') }}").trigger('reset')
+    }else if(data == 'hapus'){
+        console.log('hapus')
     }else{
         $('#formtemplate').attr('action', "{{ url('edittemplatesurat') }}")
 
@@ -145,6 +181,7 @@
         var surat = data.template
 
         $('#surat').attr('href', '{{ url('templatesurat') }}/'+surat)
+        $('#surat').removeClass('d-none')
     }
 
     })

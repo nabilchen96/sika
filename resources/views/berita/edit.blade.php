@@ -28,7 +28,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Isi Berita</label>
                         <div class="col-sm-10">
-                            <textarea id="editor" name="isi_berita" cols="5" rows="10" class="form-control">{{ $data->isi_berita }}</textarea>
+                            <textarea id="editor" name="isi_berita" cols="5" rows="10" class="form-control" required>{{ $data->isi_berita }}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -42,7 +42,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Kategori</label>
                         <div class="col-sm-10">
-                            <select name="kategori" class="form-control">
+                            <select name="kategori" class="form-control" required>
                                 <option {{ $data->kategori == '1' ? 'selected' : '' }} value="1">Pendidikan</option>
                                 <option {{ $data->kategori == '2' ? 'selected' : '' }} value="2">Lowongan Kerja</option>
                                 <option {{ $data->kategori == '3' ? 'selected' : '' }} value="3">Layanan</option>

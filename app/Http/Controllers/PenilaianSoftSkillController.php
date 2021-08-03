@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\PenilaianSoftskill;
+use App\PenilaianSoftSkill;
 use auth;
 
 class PenilaianSoftSkillController extends Controller

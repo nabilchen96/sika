@@ -34,14 +34,14 @@
                               <div class="modal-body">
                                   <div class="form-group">
                                       <label for="recipient-name" class="col-form-label">Nama Kamar</label>
-                                      <input type="text" name="nama_kamar" class="form-control">
+                                      <input type="text" name="nama_kamar" class="form-control" required placeholder="nama kamar di dalam gedung asrama">
                                       @if (Session::get('submit') == 'tambahkamar' && $errors->data->first('nama_kamar'))
                                         <p class="text-danger">{{ $errors->data->first('nama_kamar') }}</p>
                                       @endif
                                     </div>
                                   <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Nama Asrama</label>
-                                    <select name="nama_asrama" class="form-control" >
+                                    <select name="nama_asrama" class="form-control" required>
                                       <option>Alpha</option>
                                       <option>Bravo</option>
                                       <option>Charlie</option>
@@ -51,7 +51,7 @@
                                   </div>
                                   <div class="form-group">
                                     <label for="col-form-label">Kapasitas Kamar</label>
-                                    <input type="number" name="batas_kamar" class="form-control">
+                                    <input type="number" name="batas_kamar" class="form-control" required placeholder="isi dengan angka">
                                       @if (Session::get('submit') == 'tambahkamar' && $errors->data->first('batas_kamar'))
                                         <p class="text-danger">{{ $errors->data->first('batas_kamar') }}</p>
                                       @endif
@@ -106,18 +106,18 @@
                                           <form id="formtambah" action="{{ url('editkamar') }}" method="post">
                                               @csrf
                                               <input type="hidden" name="submit" value="kamar_{{$item->id_kamar}}">
-                                              <input type="hidden" name="id_kamar" value="{{ $item->id_kamar }}">
+                                              <input type="hidden" name="id_kamar" value="{{ $item->id_kamar }}" required>
                                               <div class="modal-body">
                                                   <div class="form-group">
                                                       <label for="recipient-name" class="col-form-label">Nama Kamar</label>
-                                                      <input type="text" name="nama_kamar" value="{{ $item->nama_kamar }}" class="form-control">
+                                                      <input type="text" name="nama_kamar" value="{{ $item->nama_kamar }}" class="form-control" required placeholder="nama kamar di dalam gedung asrama">
                                                       @if (Session::get('submit') == 'kamar_'.$item->id_kamar && $errors->data->first('nama_kamar'))
                                                         <p class="text-danger">{{ $errors->data->first('nama_kamar') }}</p>
                                                       @endif
                                                     </div>
                                                   <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nama Asrama</label>
-                                                    <select name="nama_asrama" class="form-control" >
+                                                    <select name="nama_asrama" class="form-control" required>
                                                       <option {{ $item->nama_asrama == 'Alpha' ? 'selected' : ''}} >Alpha</option>
                                                       <option {{ $item->nama_asrama == 'Bravo' ? 'selected' : ''}}>Bravo</option>
                                                       <option {{ $item->nama_asrama == 'Charlie' ? 'selected' : ''}}>Charlie</option>
@@ -127,7 +127,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                   <label for="col-form-label">Kapasitas Kamar</label>
-                                                  <input type="number" name="batas_kamar" class="form-control" value="{{ $item->batas_kamar }}">
+                                                  <input type="number" name="batas_kamar" class="form-control" value="{{ $item->batas_kamar }}" required placeholder="isi dengan angka">
                                                   @if (Session::get('submit') == 'kamar_'.$item->id_kamar && $errors->data->first('batas_kamar'))
                                                     <p class="text-danger">{{ $errors->data->first('batas_kamar') }}</p>
                                                   @endif

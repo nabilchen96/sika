@@ -68,7 +68,7 @@
                                     @if($item->surat == null) 
                                       <span class="badge badge-danger">Belum ada file</span> 
                                     @else 
-                                      <a href="{{ asset('surat') }}/{{ $item->surat }}" target="_blank" class="badge badge-success">Download Surat</a> 
+                                      <a href="{{ asset('surat/pdf') }}/{{ $item->surat }}" target="_blank" class="badge badge-success">Download Surat</a> 
                                     @endif
                                   </td>
                                   <td>
@@ -79,7 +79,11 @@
                                     @endif 
                                   </td>
                                   <td>
+                                    @if(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
                                     <a href="#" data-toggle="modal" data-target=".modalhapus" data-idpengajuan="{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                    @else
+                                      <button class="btn btn-sm btn-danger" disabled><i class="fas fa-trash"></i></button>
+                                    @endif 
                                   </td>
                               </tr>
                           @endforeach
