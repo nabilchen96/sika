@@ -87,7 +87,7 @@
                             @foreach ($jawaban as $i)
                             <div class="form-check mt-1">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]"
-                                    value="{{ $i }}" id="exampleRadios2">
+                                    value="{{ $i }}" id="exampleRadios2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">{{ $i }}</label>
                             </div>
                             @endforeach
@@ -103,7 +103,7 @@
                                 value="{{ $item->id_detail_kuesioner }}">
                             <br>
                             <textarea name="{{ $no-1 }}[jawaban]" id="" rows="2" class="form-control mt-1"
-                                style="background-color: white; border-radius: 10px;"></textarea>
+                                style="background-color: white; border-radius: 10px;" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -117,12 +117,12 @@
                             <br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="Ya"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">Ya</label>
                             </div>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="Tidak"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">Tidak</label>
                             </div>
                         </div>
@@ -138,27 +138,27 @@
                             <br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="1"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">1</label>
                             </div>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="2"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">2</label>
                             </div>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="3"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">3</label>
                             </div>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="4"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">4</label>
                             </div>
                             <div class="form-check form-check-inline mt-3">
                                 <input class="form-check-input" type="radio" name="{{ $no-1 }}[jawaban]" value="5"
-                                    id="exampleRadios2" value="option2">
+                                    id="exampleRadios2" value="option2" required>
                                 <label class="form-check-label" for="inlineCheckbox1">5</label>
                             </div>
                         </div>

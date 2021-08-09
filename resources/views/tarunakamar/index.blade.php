@@ -16,8 +16,12 @@
         </div>
         <div class="card mb-12">
             <div class="card-header">
+                @if (auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
                 <a href="{{ url('tambah-tarunakamar') }}" class="btn btn-sm btn-primary"><i
-                        class="fas fa-plus"></i> Tambah</a>
+                    class="fas fa-plus"></i> Tambah</a>
+                @endif
+
+                <a href="{{ url('tarunakamarexport') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
             </div>
             <div class="card-body">
                 <div class="form-group row">
@@ -43,7 +47,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 20px">No</th>
-                                <th>NIP</th>
+                                <th>NIT</th>
                                 <th>Nama Taruna</th>
                                 <th>Program Studi</th>
                                 <th>Kelas</th>
@@ -124,6 +128,8 @@
                 { data: 'nama_kelas', name: 'nama_kelas'},
                 { data: 'nama_kamar', name: 'nama_kamar'},
                 { name: 'hapus', render:function(data, type, row, meta){
+
+                    @if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
                     return `<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+row.id_taruna_kamar+`"><i class="fas fa-trash"></i></button>
                               <div class="modal fade" id="hapus`+row.id_taruna_kamar+`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                   <div class="modal-dialog" role="document">
@@ -144,6 +150,9 @@
                                       </div>
                                   </div>
                               </div>`
+                    @else
+                    return `<button class="btn btn-danger btn-sm" disabled><i class="fas fa-trash"></i></button>`
+                    @endif
                 }}
             ]
         });

@@ -6,6 +6,8 @@
 
 @push('style')
 <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link href="{{ asset('select2.min.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('select2theme4.css')}}">
 @endpush
 
 @section('content')
@@ -21,6 +23,8 @@
                 @if (auth::user()->role != 'taruna')
                 <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modalform" data-array=""><i
                         class="fas fa-plus"></i> Tambah</a>
+
+                <a href="{{ url('nilaisamaptaexport') }}/{{ @$_GET['id_semester'] }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
                 @endif
             </div>
             <div class="card-body">
@@ -30,9 +34,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Semester</label>
                         <div class="col-sm-3">
-                            <?php
-                                $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();    
-                            ?>
+                            <?php $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get(); ?>
                             <select name="id_semester" class="form-control">
                                 <option value="">Pilih Semester</option>
                                 @foreach ($semester as $item)
@@ -52,25 +54,31 @@
                     </div>
                     <br>
                 </form>
-
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
+                    <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0" style="font-size: 12px">
                         <thead>
                             <tr>
-                                <th style="width: 20px">No</th>
-                                <th width="120">Taruna</th>
-                                <th>Nilai Samapta A</th>
-                                <th>Nilai Samapta B</th>
-                                <th width="70">Nilai Samapta</th>
-                                <th>Nilai BMI</th>
-                                <th>Nilai BBI</th>
-                                <th>Bobot (60%) <br>
+                                <th style="width: 20px; vertical-align: middle; text-align: center;" rowspan="2">No</th>
+                                <th style="width: 100px; vertical-align: middle; text-align: center;" rowspan="2">Taruna</th>
+                                <th style="width: 120px; text-align: center">Samapta A</th>
+                                <th style="width: 160px; text-align: center">Samapta B</th>
+                                <th style="text-align: center" width="120">Samapta</th>
+                                <th style="width: 100px; vertical-align: middle; text-align: center;" rowspan="2">Nilai BMI</th>
+                                <th style="text-align: center;">Nilai BBI</th>
+                                <th style="text-align: center;">
                                     Nilai Jasmani
                                 </th>
                                 @if (auth::user()->role != 'taruna')
-                                <th width="10"></th>
-                                <th width="10"></th>
+                                <th style="text-align: center" rowspan="2" width="10"></th>
+                                <th style="text-align: center" rowspan="2" width="10"></th>
                                 @endif
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">(A)</th>
+                                <th style="text-align: center;">(B)</th>
+                                <th style="text-align: center;">S = ( A + B) / 2</th>
+                                <th style="text-align: center;">BBI = BB / (TB / 100) <sup>2</sup></th>
+                                <th style="text-align: center;">(S + 70 / 100) + (BBI + 30 / 100) / 2</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -119,7 +127,6 @@
                                             class="fas fa-edit"></i></a>
                                 </td>
                                 <td>
-
                                     <button class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#hapus{{ $item->id_nilai_samapta }}" data-array="hapus"><i
                                             class="fas fa-trash"></i></button>
@@ -127,27 +134,29 @@
                                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <form action="{{ route('penilaiansamapta.destroy', [$item->id_nilai_samapta]) }}"
+                                                <form
+                                                    action="{{ route('penilaiansamapta.destroy', [$item->id_nilai_samapta]) }}"
                                                     method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Template Surat
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Yakin Ingin Menghapus Data Nilai ini ?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Template
+                                                            Surat
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Yakin Ingin Menghapus Data Nilai ini ?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </div>
-                                            </form>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +187,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Taruna</label>
-                        <select name="id_mahasiswa" class="form-control" id="id_mahasiswa" required>
+                        <select name="id_mahasiswa" class="form-control mahasiswa" id="id_mahasiswa" required>
                             @foreach ($taruna as $item)
                             <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} | {{ $item->nim }}
                             </option>
@@ -186,21 +195,32 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="">Semester</label>
+                        <?php 
+                            use App\Semester; 
+                        ?>
+                        <input readonly value="{{ Semester::where('is_semester_aktif', '1')->value('nama_semester') }}"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
                         <label for="">Jarak Lari (meter)</label>
-                        <input type="number" class="form-control" id="lari" name="lari" max="3507" required>
+                        <input type="number" class="form-control" id="lari" name="lari" min="16007" max="3507" required
+                            placeholder="Min: 16007 dan Max: 35007">
                     </div>
                     <div class="form-group">
                         <label for="">Push Up (JML)</label>
-                        <input type="number" class="form-control" id="pushup" name="pushup" max="43" required>
+                        <input type="number" class="form-control" id="pushup" name="pushup" min="16" max="43" required
+                            placeholder="Min: 16 dan Max: 43">
                     </div>
                     <div class="form-group">
                         <label for="">Sit Up (JML)</label>
-                        <input type="number" class="form-control" id="situp" name="situp" max="41" required>
+                        <input type="number" class="form-control" id="situp" name="situp" max="41" min="14" required
+                            placeholder="Min: 14 dan Max: 41">
                     </div>
                     <div class="form-group">
                         <label for="">Shuttle Run (DTK)</label>
-                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="25.8"
-                            name="shuttlerun" required>
+                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="25.8" min="27"
+                            name="shuttlerun" required placeholder="Min: 27 dan Max: 25.8">
                     </div>
                     <div class="form-group">
                         <label for="">Tinggi Badan</label>
@@ -231,6 +251,7 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('template/js/demo/datatables-demo.js') }}"></script>
+<script src="{{ asset('select2.min.js') }}"></script>
 <script>
     @if($message = Session::get('sukses'))
         toastr.success("{{ $message }}")
@@ -253,6 +274,8 @@
 
         }else if(data == 'hapus'){
 
+        }else if(data == 'export'){
+
         }else{
             $('.form').attr('action', "{{ url('updatepenilaiansamapta') }}")
             
@@ -267,5 +290,11 @@
         }
     })
     
+</script>
+<script>
+    $(".mahasiswa").select2({
+        theme: 'bootstrap4',
+        placeholder: "Please Select"
+    })
 </script>
 @endpush

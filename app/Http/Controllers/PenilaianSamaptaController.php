@@ -7,6 +7,8 @@ use DB;
 use auth;
 use App\PenilaianSamapta;
 use App\AturanNilaibbi;
+use App\Exports\NilaiSamaptaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenilaianSamaptaController extends Controller
 {
@@ -22,28 +24,66 @@ class PenilaianSamaptaController extends Controller
             $taruna = DB::table('tarunas')->get();
 
             $data = DB::table('penilaian_samaptas')
-                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
-                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
-                    ->where('semesters.id_semester', $request->id_semester)
-                    ->get();
+                        ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                        ->where('semesters.id_semester', $request->id_semester)
+                        ->get();
 
         }elseif(auth::user()->role == 'taruna'){
             $taruna = [];
             $data = DB::table('penilaian_samaptas')
-                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
-                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
-                    ->where('semesters.id_semester', $request->id_semester)
-                    ->where('tarunas.nim', auth::user()->nip)
-                    ->get();
-
-        }else{
-            $taruna = DB::table('asuhans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                        ->where('asuhans.id_pengasuh', Auth::id())            
+                        ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                        ->where('semesters.id_semester', $request->id_semester)
+                        ->where('tarunas.nim', auth::user()->nip)
                         ->get();
 
-            $data = [];
+        }else{
+
+            $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+
+            if($kordinator){
+
+                $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                $data = DB::table('penilaian_samaptas')
+                            ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('semesters.id_semester', $request->id_semester)
+                            ->where(function($q) use ($grup_kordinasi) {
+                                foreach($grup_kordinasi  as $k) {
+                                    $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                }
+                            })           
+                            ->get();
+
+                $taruna = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where(function($q) use ($grup_kordinasi) {
+                                foreach($grup_kordinasi  as $k) {
+                                    $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                }
+                            })                       
+                            ->get();
+            }else{
+                $data = DB::table('penilaian_samaptas')
+                            ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('semesters.id_semester', $request->id_semester)
+                            ->where('asuhans.id_pengasuh', Auth::id())
+                            ->get();
+
+                $taruna = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->get();
+            }            
         }
 
         return view('nilaisamapta.index')->with('taruna', $taruna)->with('data', $data);
@@ -77,6 +117,18 @@ class PenilaianSamaptaController extends Controller
             'id_mahasiswa'  => 'required',
         ]);
 
+        $cekdata = DB::table('penilaian_samaptas')
+                        ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                        ->where('semesters.is_semester_aktif', 1)
+                        ->where('penilaian_samaptas.id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
+
+        // dd($cekdata);
+
+        if(@$cekdata){
+            return back()->with(['gagal' => 'Gagal insert data karena data sudah ada pada semester ini']);
+        }
+
         $taruna = DB::table('tarunas')
                     ->where('id_mahasiswa', $request->id_mahasiswa)
                     ->value('jenis_kelamin');
@@ -92,10 +144,10 @@ class PenilaianSamaptaController extends Controller
         $nilai_shuttlerun   = $nilai->where('jenis_samapta', 'Shuttle Run')->where('jumlah', $request->shuttlerun)->first();
 
 
-        if(@$nilai_lari         == null)  return back()->with(['gagal' => 'nilai lari tidak ditemukan']);
-        if(@$nilai_situp        == null)  return back()->with(['gagal' => 'nilai Sit Up tidak ditemukan']); 
-        if(@$nilai_pushup       == null)  return back()->with(['gagal' => 'nilai Push Up tidak ditemukan']); 
-        if(@$nilai_shuttlerun   == null)  return back()->with(['gagal' => 'nilai Shuttle Run tidak ditemukan']); 
+        if(@$nilai_lari         == null)  return back()->with(['gagal' => 'nilai lari tidak ditemukan, silahkan lihat aturan nilai lari di pedoman']);
+        if(@$nilai_situp        == null)  return back()->with(['gagal' => 'nilai Sit Up tidak ditemukan, silahkan lihat aturan nilai situp di pedoman']); 
+        if(@$nilai_pushup       == null)  return back()->with(['gagal' => 'nilai Push Up tidak ditemukan, silahkan lihat aturan nilai pushup di pedoman']); 
+        if(@$nilai_shuttlerun   == null)  return back()->with(['gagal' => 'nilai Shuttle Run tidak ditemukan, silahkan lihat aturan nilai shuttle run di pedoman']); 
 
         $nilai_samapta  = ($nilai_lari->nilai + (($nilai_pushup->nilai + $nilai_situp->nilai + $nilai_shuttlerun->nilai) / 3)) / 2;
 
@@ -244,5 +296,10 @@ class PenilaianSamaptaController extends Controller
         $data->delete();
 
         return back()->with(['sukses' => 'Data berhasil dihapus']);
+    }
+
+    public function export($id_semester){
+    
+        return Excel::download(new NilaiSamaptaExport($id_semester), 'Nilai Samapta Taruna.xlsx');
     }
 }

@@ -45,31 +45,8 @@
                             </select>
                         </div>
                     </div>
-                    <div id="form_izin" class="d-none">
-                        <div class="form-group row">
-                            <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
-                            <div class="col-sm-5">
-                                <input type="text" name="tempat_tujuan" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-3 col-form-label">Keperluan</label>
-                            <div class="col-sm-5">
-                                <input type="text" name="keperluan" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-3 col-form-label">Berangkat Tanggal</label>
-                            <div class="col-sm-5">
-                                <input type="date" name="berangkat_tanggal" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-3 col-form-label">Kembali Tanggal</label>
-                            <div class="col-sm-5">
-                                <input type="date" name="kembali_tanggal" class="form-control">
-                            </div>
-                        </div>
+                    <div id="form_izin">
+                        
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
@@ -102,9 +79,34 @@
     function pilihform(){
         var jenis_pengajuan = document.getElementById('jenis_pengajuan').value
         if(jenis_pengajuan == 'surat izin'){
-            document.getElementById('form_izin').removeAttribute('class')
+            document.getElementById('form_izin').innerHTML = `
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="tempat_tujuan" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Keperluan</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="keperluan" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Berangkat Tanggal</label>
+                    <div class="col-sm-5">
+                        <input type="date" name="berangkat_tanggal" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Kembali Tanggal</label>
+                    <div class="col-sm-5">
+                        <input type="date" name="kembali_tanggal" class="form-control" required>
+                    </div>
+                </div>
+            `
         }else{
-            document.getElementById('form_izin').setAttribute('class', 'd-none')
+            document.getElementById('form_izin').innerHTML = ''
         }
     }
   </script>

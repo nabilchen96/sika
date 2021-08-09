@@ -41,7 +41,7 @@
                                   <td>{{ $k+1 }}</td>
                                   <td>{{ $item->nama_mahasiswa }}</td>
                                   <td>{{ $item->jenis_pengajuan }}</td>
-                                  <td>{{ $item->created_at }}</td>
+                                  <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
                                   <td>
                                     @if ($item->jenis_pengajuan == 'surat izin')
                                       <?php $jawaban = unserialize($item->keterangan); ?>
@@ -72,15 +72,21 @@
                                     @endif
                                   </td>
                                   <td>
-                                    @if(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
+                                    @if(auth::user()->role == 'taruna' and $item->status_pengajuan == '1')
+                                      <button class="btn btn-sm btn-success" disabled><i class="fas fa-edit"></i></button>
+                                    @elseif(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
                                       <a href="{{ url('editpengajuansurat') }}/{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
                                     @else
                                       <button class="btn btn-sm btn-success" disabled><i class="fas fa-edit"></i></button>
                                     @endif 
                                   </td>
                                   <td>
-                                    @if(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
-                                    <a href="#" data-toggle="modal" data-target=".modalhapus" data-idpengajuan="{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                    @if(auth::user()->role == 'taruna' and $item->status_pengajuan == '1')
+                                      <button class="btn btn-sm btn-danger" disabled><i class="fas fa-trash"></i></button>
+                                    @elseif(auth::user()->role == 'pengasuh')
+                                      <button class="btn btn-sm btn-danger" disabled><i class="fas fa-trash"></i></button>
+                                    @elseif(($item->status_pengajuan == '1' and $item->surat == null) || $item->status_pengajuan == 0)
+                                      <a href="#" data-toggle="modal" data-target=".modalhapus" data-idpengajuan="{{ $item->id_pengajuan_surat }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                                     @else
                                       <button class="btn btn-sm btn-danger" disabled><i class="fas fa-trash"></i></button>
                                     @endif 

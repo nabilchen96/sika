@@ -19,6 +19,7 @@
         <div class="card mb-12">
             <div class="card-header">
               <a href="{{url('update-taruna-server')}}" class="btn btn-sm btn-success"><i class="fas fa-cloud-download-alt"></i> Update</a>
+              <a href="{{ url('exporttaruna') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

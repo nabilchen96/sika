@@ -59,28 +59,28 @@
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
                             <div class="col-sm-5">
-                                <input type="text" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                <input type="text" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="tempat_tujuan" class="form-control" value="{{ $keterangan[0] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Keperluan</label>
                             <div class="col-sm-5">
-                                <input type="text" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                <input type="text" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="keperluan" class="form-control" value="{{ $keterangan[1] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Berangkat Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                <input type="date" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="berangkat_tanggal" class="form-control" value="{{ $keterangan[2] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Kembali Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                                <input type="date" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="kembali_tanggal" class="form-control" value="{{ $keterangan[3] }}" required>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                 cols="30" rows="5" class="form-control" required>{{ $keterangan[4] }}</textarea>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' ? 'readonly' : '' }}
+                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                 cols="30" rows="5" class="form-control" required>{{ $data->keterangan }}</textarea>
                         </div>
                     </div>
@@ -106,8 +106,7 @@
                         <label class="col-sm-3 col-form-label">ACC/Tolak Pengajuan</label>
                         <div class="col-sm-5">
                             <select name="status_pengajuan" id="status_pengajuan" onchange="statuspengajuan()"
-                                {{ auth::user()->role == 'pusbangkar' ? 'disabled' : '' }}
-                                onchange="pilihstatuspengajuan()" class="form-control">
+                                {{ auth::user()->role == 'pusbangkar' ? 'disabled' : '' }} class="form-control">
                                 <option {{ $data->status_pengajuan == '0' ? 'selected' : '' }} value="0">Sedang Diproses
                                 </option>
                                 <option {{ $data->status_pengajuan == '1' ? 'selected' : '' }} value="1">Pengajuan
@@ -118,13 +117,8 @@
                         </div>
                     </div>
 
-                    <div id="form_alasan" class="d-none">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Alasan Ditolak</label>
-                            <div class="col-sm-5">
-                                <textarea name="alasan" id="alasan" class="form-control" cols="30" rows="5">{{ $data->alasan_tolak }}</textarea>
-                            </div>
-                        </div>
+                    <div id="form_alasan">
+
                     </div>
 
                     @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
@@ -183,9 +177,16 @@
         var status_pengajuan = document.getElementById('status_pengajuan').value
 
         if(status_pengajuan == 2){
-            document.getElementById('form_alasan').removeAttribute('class')
+            document.getElementById('form_alasan').innerHTML=`
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Alasan Ditolak</label>
+                    <div class="col-sm-5">
+                        <textarea name="alasan" id="alasan" class="form-control" cols="30" rows="5" required>{{ $data->alasan_tolak }}</textarea>
+                    </div>
+                </div>
+            `
         }else{
-            document.getElementById('form_alasan').setAttribute("class", "d-none");
+            document.getElementById('form_alasan').innerHTML = ''
         }
     }
 </script>

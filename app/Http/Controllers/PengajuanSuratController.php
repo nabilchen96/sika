@@ -16,24 +16,68 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class PengajuanSuratController extends Controller
 {
     public function index(){
-
-
         if(auth::user()->role == 'taruna'){
             $data = DB::table('pengajuan_surats')
                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                 ->where('tarunas.nim', auth::user()->nip)
+                ->select(
+                    'pengajuan_surats.*',
+                    'tarunas.nama_mahasiswa',
+                    'tarunas.id_mahasiswa'
+                )
+                ->orderBy('pengajuan_surats.created_at', 'DESC')
                 ->get();
         }else{
             if(auth::user()->role == 'pengasuh'){
-                $data = DB::table('pengajuan_surats')
-                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
-                    ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                    ->where('asuhans.id_pengasuh', auth::user()->id)
-                    ->get();
+
+                $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+
+                if($kordinator){
+                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                    $data = DB::table('pengajuan_surats')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->where(function($q) use ($grup_kordinasi) {
+
+                                    foreach($grup_kordinasi  as $k) {
+                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                    }
+
+                                })
+                                ->select(
+                                    'pengajuan_surats.*',
+                                    'tarunas.nama_mahasiswa',
+                                    'tarunas.id_mahasiswa'
+                                )
+                                ->orderBy('pengajuan_surats.created_at', 'DESC')
+                                ->get();
+                
+                }else{
+                    $data = DB::table('pengajuan_surats')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                            ->where('asuhans.id_pengasuh', auth::user()->id)
+                            ->select(
+                                'pengajuan_surats.*',
+                                'tarunas.nama_mahasiswa',
+                                'tarunas.id_mahasiswa'
+                            )
+                            ->orderBy('pengajuan_surats.created_at', 'DESC')
+                            ->get();
+                }
+
             }else{
                 $data = DB::table('pengajuan_surats')
-                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
-                ->get();
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                            ->select(
+                                'pengajuan_surats.*',
+                                'tarunas.nama_mahasiswa',
+                                'tarunas.id_mahasiswa'
+                            )
+                            ->orderBy('pengajuan_surats.created_at', 'DESC')
+                            ->get();
             }
         }
 
@@ -238,7 +282,7 @@ class PengajuanSuratController extends Controller
             $nama_file = date('YmdHis');
 
             //memindahkan surat
-            $templateProcessor->saveAs('surat/'.$nama_file."docx");
+            $templateProcessor->saveAs('surat/'.$nama_file.".docx");
 
             $surat = public_path('surat/'.$nama_file.".docx");
 

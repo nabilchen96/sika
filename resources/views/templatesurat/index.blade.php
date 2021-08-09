@@ -127,7 +127,7 @@
                     <div class="form-group">
                         <label class="col-form-label">Template <b class="text-danger">*Input file berekstensi
                                 .docx</b></label>
-                        <input type="file" name="template" class="form-control" id="template" required>
+                        <input type="file" name="template" class="form-control" id="template">
                         <a href="" id="surat" class="badge badge-success d-none">Lihat File</a>
                     </div>
                 </div>

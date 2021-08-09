@@ -28,6 +28,12 @@
     .bg-gradient-primary {
       background-image: linear-gradient(to top, rgb(76 175 80 / 80%), #3f51b5), url(https://poltekbangplg.ac.id/wp-content/uploads/2020/05/gedung-trbu-new.png)
     }
+
+    @media only screen and (max-width: 600px){
+      .formsemester{
+        display: none;
+      }
+    }
   </style>
 
 </head>
@@ -121,83 +127,83 @@
           data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item @stack('aturannilaisamapta')" href="{{ url('aturannilaisamapta') }}">Aturan Nilai
-              Samapta</a>
-            <a class="collapse-item @stack('aturannilaibbi')" href="{{ url('aturannilaibbi') }}">Aturan Nilai BBI</a>
-            <a class="collapse-item @stack('komponensoftskill')" href="{{ url('komponensoftskill') }}">Komponen
-              Softskill</a>
-          </div>
-        </div>
-      </li> --}}
-      @endif
-      @if (auth::user()->role == 'taruna')
-      <li class="nav-item @stack('pengajuansurat')">
-        <a class="nav-link" href="{{url('pengajuansurat')}}">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Pengajuan Surat</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('catatan')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-clipboard"></i>
-        <span>Catatan</span>
-        </a>
-        <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
-              Pelanggaran</a>
-            <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
-            <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
-              Penghargaan</a>
-            <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
-            <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
-              Perizinan</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item @stack('nilai')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#nilai" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-star"></i>
-          <span>Penilaian</span>
-        </a>
-        <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian Jasmani</a>
-            <a class="collapse-item @stack('penilaiansoftskill')"
-              href="{{ route('penilaiansoftskill.index') }}">Penilaian Softskill</a>
-            <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
-          </div>
-        </div>
-      </li>
-      @else
-      <li class="nav-item @stack('grupkordinasipengasuh')">
-        <a class="nav-link" href="{{url('grupkordinasipengasuh')}}">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Grup Kordinasi Pengasuh</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('tarunakamar')">
-        <a class="nav-link" href="{{url('tarunakamar')}}">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Taruna Kamar</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('tarunapengasuh')">
-        <a class="nav-link" href="{{url('tarunapengasuh')}}">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Taruna Pengasuh</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('pengajuansurat')">
-        <a class="nav-link" href="{{url('pengajuansurat')}}">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Pengajuan Surat
-            @if (auth::user()->role == 'pengasuh')
-            <sup class="badge badge-danger">
-              {{ 
+      Samapta</a>
+      <a class="collapse-item @stack('aturannilaibbi')" href="{{ url('aturannilaibbi') }}">Aturan Nilai BBI</a>
+      <a class="collapse-item @stack('komponensoftskill')" href="{{ url('komponensoftskill') }}">Komponen
+        Softskill</a>
+  </div>
+  </div>
+  </li> --}}
+  @endif
+  @if (auth::user()->role == 'taruna')
+  <li class="nav-item @stack('pengajuansurat')">
+    <a class="nav-link" href="{{url('pengajuansurat')}}">
+      <i class="fas fa-fw fa-layer-group"></i>
+      <span>Pengajuan Surat</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('catatan')">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+      aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Catatan</span>
+    </a>
+    <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+          Pelanggaran</a>
+        <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
+        <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+          Penghargaan</a>
+        <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
+        <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+          Perizinan</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item @stack('nilai')">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#nilai" aria-expanded="true"
+      aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-star"></i>
+      <span>Penilaian</span>
+    </a>
+    <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian
+          Jasmani</a>
+        <a class="collapse-item @stack('penilaiansoftskill')" href="{{ route('penilaiansoftskill.index') }}">Penilaian
+          Softskill</a>
+        <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
+      </div>
+    </div>
+  </li>
+  @else
+  <li class="nav-item @stack('grupkordinasipengasuh')">
+    <a class="nav-link" href="{{url('grupkordinasipengasuh')}}">
+      <i class="fas fa-fw fa-layer-group"></i>
+      <span>Grup Kordinasi Pengasuh</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('tarunakamar')">
+    <a class="nav-link" href="{{url('tarunakamar')}}">
+      <i class="fas fa-fw fa-layer-group"></i>
+      <span>Taruna Kamar</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('tarunapengasuh')">
+    <a class="nav-link" href="{{url('tarunapengasuh')}}">
+      <i class="fas fa-fw fa-layer-group"></i>
+      <span>Taruna Pengasuh</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('pengajuansurat')">
+    <a class="nav-link" href="{{url('pengajuansurat')}}">
+      <i class="fas fa-fw fa-layer-group"></i>
+      <span>Pengajuan Surat
+        @if (auth::user()->role == 'pengasuh')
+        <sup class="badge badge-danger">
+          {{ 
                       DB::table('pengajuan_surats')
                         ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                         ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
@@ -205,244 +211,195 @@
                         ->where('asuhans.id_pengasuh', auth::user()->id)
                         ->count() 
                     }}
-            </sup>
-            @elseif(auth::user()->role == 'pusbangkar')
-            <sup class="badge badge-danger">
-              {{ 
+        </sup>
+        @elseif(auth::user()->role == 'pusbangkar')
+        <sup class="badge badge-danger">
+          {{ 
                         DB::table('pengajuan_surats')
                             ->where('status_pengajuan', '1')
                             ->where('surat', '')
                             ->count() 
                     }}
-            </sup>
-            @endif
-          </span>
-        </a>
-      </li>
-      <li class="nav-item @stack('catatan')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-clipboard"></i>
-          <span>Catatan</span>
-        </a>
-        <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
-              Pelanggaran</a>
-            <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
-            <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
-              Penghargaan</a>
-            <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
-            <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
-              Perizinan</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item @stack('nilai')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#nilai" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-star"></i>
-          <span>Penilaian</span>
-        </a>
-        <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian
-              Jasmani</a>
-            <a class="collapse-item @stack('penilaiansoftskill')"
-              href="{{ route('penilaiansoftskill.index') }}">Penilaian Softskill</a>
-            <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('berita')}}">
-          <i class="fas fa-fw fa-bullhorn"></i>
-          <span>Pengumuman & Berita</span>
-        </a>
-      </li>
-      @endif
-      @else
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ url('home') }}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('alumni')">
-        <a class="nav-link" href="{{ url('alumni') }}">
-          <i class="fas fa-fw fa-user-graduate"></i>
-          <span> Data Alumni</span>
-        </a>
-      </li>
-      <li class="nav-item @stack('kuesioner')">
-        <a class="nav-link" href="{{url('kuesioner')}}">
-          <i class="fas fa-fw fa-question"></i>
-          <span>Kuesioner</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url('berita')}}">
-          <i class="fas fa-fw fa-bullhorn"></i>
-          <span>Pengumuman & Berita</span>
-        </a>
-      </li>
-      @endif
-    </ul>
-    <!-- End of Sidebar -->
+        </sup>
+        @endif
+      </span>
+    </a>
+  </li>
+  <li class="nav-item @stack('catatan')">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+      aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Catatan</span>
+    </a>
+    <div id="collapseTwo" class="collapse @stack('sub-catatan')" aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item @stack('catatanpelanggaran')" href="{{ url('catatanpelanggaran') }}">Catatan
+          Pelanggaran</a>
+        <a href="{{ url('catatanhukuman') }}" class="collapse-item @stack('catatanhukuman')">Catatan Hukuman</a>
+        <a class="collapse-item @stack('catatanpenghargaan')" href="{{ url('catatanpenghargaan') }}">Catatan
+          Penghargaan</a>
+        <a class="collapse-item @stack('catatansakit')" href="{{ url('catatansakit') }}">Catatan Sakit</a>
+        <a class="collapse-item @stack('catatanperizinan')" href="{{ url('catatanperizinan') }}">Catatan
+          Perizinan</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item @stack('nilai')">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#nilai" aria-expanded="true"
+      aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-star"></i>
+      <span>Penilaian</span>
+    </a>
+    <div id="nilai" class="collapse @stack('sub-nilai')" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item @stack('penilaiansamapta')" href="{{ route('penilaiansamapta.index') }}">Penilaian
+          Jasmani</a>
+        <a class="collapse-item @stack('penilaiansoftskill')" href="{{ route('penilaiansoftskill.index') }}">Penilaian
+          Softskill</a>
+        <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{url('berita')}}">
+      <i class="fas fa-fw fa-bullhorn"></i>
+      <span>Pengumuman & Berita</span>
+    </a>
+  </li>
+  @endif
+  @else
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ url('home') }}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('alumni')">
+    <a class="nav-link" href="{{ url('alumni') }}">
+      <i class="fas fa-fw fa-user-graduate"></i>
+      <span> Data Alumni</span>
+    </a>
+  </li>
+  <li class="nav-item @stack('kuesioner')">
+    <a class="nav-link" href="{{url('kuesioner')}}">
+      <i class="fas fa-fw fa-question"></i>
+      <span>Kuesioner</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{url('berita')}}">
+      <i class="fas fa-fw fa-bullhorn"></i>
+      <span>Pengumuman & Berita</span>
+    </a>
+  </li>
+  @endif
+  </ul>
+  <!-- End of Sidebar -->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+    <!-- Main Content -->
+    <div id="content">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-          <button class="btn btn-link rounded-circle border-0 mr-3" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-          </button>
+      <!-- Topbar -->
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <button class="btn btn-link rounded-circle border-0 mr-3" id="sidebarToggle">
+          <i class="fas fa-bars"></i>
+        </button>
 
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
+        <!-- Topbar Navbar -->
+        <ul class="navbar-nav ml-auto">
 
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                      aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
+          <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+          <li class="nav-item dropdown no-arrow d-sm-none">
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+              aria-labelledby="searchDropdown">
+              <form class="form-inline mr-auto w-100 navbar-search">
+                <div class="input-group">
+                  <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                    aria-label="Search" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
                   </div>
-                </form>
-              </div>
-            </li>
+                </div>
+              </form>
+            </div>
+          </li>
 
-            <li class="nav-item dropdown no-arrow mx-1">
-              {{-- <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                      problem I've been having.</div>
-                    <div class="small text-gray-500">Emily Fowler · 58m</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                    <div class="status-indicator"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">I have the photos that you ordered last month, how
-                      would you like them sent to you?</div>
-                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                    <div class="status-indicator bg-warning"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Last month's report looks great, I am very happy with
-                      the progress so far, keep up the good work!</div>
-                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                      told me that people say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div> --}}
-            </li>
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <input type="text" readonly
+              <?php 
+                use App\Semester; 
+              ?>
+                value="SEMESTER AKTIF: {{ strtoupper(Semester::where('is_semester_aktif', '1')->value('nama_semester')) }}"
+                class="form-control formsemester" style="width: 280px;">
+                {{-- <p class="alert alert-info">{{ db::table('semesters')->where('is_semester_aktif', '1')->value('nama_semester') }}</p> --}}
+            </a>
+          </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
-                  width="30" height="30">
-                {{-- <i class="fas fa-user" width="200px"></i> --}}
-              </a>
-              <!-- Dropdown - User Information -->
-              <?php
+          <div class="topbar-divider d-none d-sm-block"></div>
+          <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                width="30" height="30">
+              {{-- <i class="fas fa-user" width="200px"></i> --}}
+            </a>
+            <!-- Dropdown - User Information -->
+            <?php
                 $id_user = Auth::user()->id;
               ?>
 
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                {{-- <a class="dropdown-item" href="{{url('ubahpassword')}}/{{$id_user}}">
-                <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                Ubah Username & Password
-                </a> --}}
-                {{-- <div class="dropdown-divider"></div> --}}
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+              {{-- <a class="dropdown-item" href="{{url('ubahpassword')}}/{{$id_user}}">
+              <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+              Ubah Username & Password
+              </a> --}}
+              {{-- <div class="dropdown-divider"></div> --}}
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-                </form>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- End of Topbar -->
+                {{ __('Logout') }}
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
 
-          @yield('content')
-
-        </div>
-        <!-- /.container-fluid -->
+        @yield('content')
 
       </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Developed By Mustechs {{  date('Y') }}</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+      <!-- /.container-fluid -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Developed By Mustechs {{  date('Y') }}</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->

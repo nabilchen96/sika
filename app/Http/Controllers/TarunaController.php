@@ -9,6 +9,8 @@ use App\Taruna;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
 use DB;
+use App\Exports\TarunaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TarunaController extends Controller
 {
@@ -138,5 +140,11 @@ class TarunaController extends Controller
         ]);
 
         return back()->with(['sukses' => 'Update Data Berhasil']);
+    }
+
+    public function export() {
+        // dd('tes');
+        return Excel::download(new TarunaExport, 'Data Taruna.xlsx');
+        // return dd(Taruna::all());
     }
 }

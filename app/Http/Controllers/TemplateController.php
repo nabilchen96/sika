@@ -46,7 +46,8 @@ class TemplateController extends Controller
             'id_template'       => 'required',
             'judul_template'    => 'required',
             'kategori'          => 'required',
-            'keterangan'        => 'required'
+            'keterangan'        => 'required',
+            'template'          => 'mimes:docx',
         ]);
 
         $data = TemplateSurat::find($request->id_template);

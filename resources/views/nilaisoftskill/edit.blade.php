@@ -13,7 +13,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="{{ url()->previous() }}" class="btn btn-sm btn-success"><i
+                <a href="{{ url('penilaiansoftskill') }}?id_mahasiswa={{ $taruna->id_mahasiswa }}" class="btn btn-sm btn-success"><i
                         class="fas fa-arrow-left"></i> Kembali</a>
             </div>
             <div class="card-body">
@@ -64,7 +64,7 @@
                                         <select name="nilai[]" class="form-control">
                                             <option {{ @$nilai === null ? 'selected' : '' }} value="">----</option>
                                             <option {{ @$nilai->nilai == 100 ? 'selected' : '' }} value=100>Ya</option>
-                                            <option {{ @$nilai->nilai === 0 ? 'selected' : '' }} value=0>Tidak</option>
+                                            <option {{ @$nilai->nilai === 0.00 ? 'selected' : '' }} value=0>Tidak</option>
                                         </select>
                                         <input type="hidden" value="{{ $item->id_komponen_softskill }}"
                                             name="id_komponen_softskill[]">

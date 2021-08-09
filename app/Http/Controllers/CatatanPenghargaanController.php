@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use DB;
 use App\CatatanPenghargaan;
 use auth;
+use App\Exports\PenghargaanTarunaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CatatanPenghargaanController extends Controller
 {
     public function index(Request $request){
-        if(!$request->input('id_mahasiswa')){
+
+
             if(auth::user()->role == 'taruna'){
 
                 $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->value('id_mahasiswa');
@@ -33,31 +36,85 @@ class CatatanPenghargaanController extends Controller
                     'penghargaans.id_penghargaan'
                 )
                 ->get();
+            }elseif(auth::user()->role == 'pengasuh'){
+
+                $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+
+                if($kordinator){
+                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                    $data = DB::table('catatan_penghargaans')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
+                                ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->select(
+                                    'tarunas.nama_mahasiswa',
+                                    'tarunas.nim',
+                                    'catatan_penghargaans.id_catatan_penghargaan',
+                                    'penghargaans.penghargaan',
+                                    'penghargaans.bidang_penghargaan',
+                                    'penghargaans.poin_penghargaan',
+                                    'catatan_penghargaans.created_at',
+                                    'tarunas.id_mahasiswa',
+                                    'catatan_penghargaans.tgl_penghargaan',
+                                    'catatan_penghargaans.sk_penghargaan',
+                                    'penghargaans.id_penghargaan'
+                                )
+                                ->where(function($q) use ($grup_kordinasi) {
+                                    foreach($grup_kordinasi  as $k) {
+                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                    }
+                                })   
+                                ->get();
+
+                    $taruna = null;
+                }else{
+
+                    $data = DB::table('catatan_penghargaans')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
+                                ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->select(
+                                    'tarunas.nama_mahasiswa',
+                                    'tarunas.nim',
+                                    'catatan_penghargaans.id_catatan_penghargaan',
+                                    'penghargaans.penghargaan',
+                                    'penghargaans.bidang_penghargaan',
+                                    'penghargaans.poin_penghargaan',
+                                    'catatan_penghargaans.created_at',
+                                    'tarunas.id_mahasiswa',
+                                    'catatan_penghargaans.tgl_penghargaan',
+                                    'catatan_penghargaans.sk_penghargaan',
+                                    'penghargaans.id_penghargaan'
+                                )
+                                ->where('asuhans.id_pengasuh', Auth::id())
+                                ->get();
+
+                    $taruna = null;
+                }                
             }else{
-                $data = [];
+                $data = DB::table('catatan_penghargaans')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
+                        ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                        ->select(
+                            'tarunas.nama_mahasiswa',
+                            'tarunas.nim',
+                            'catatan_penghargaans.id_catatan_penghargaan',
+                            'penghargaans.penghargaan',
+                            'penghargaans.bidang_penghargaan',
+                            'penghargaans.poin_penghargaan',
+                            'catatan_penghargaans.created_at',
+                            'tarunas.id_mahasiswa',
+                            'catatan_penghargaans.tgl_penghargaan',
+                            'catatan_penghargaans.sk_penghargaan',
+                            'penghargaans.id_penghargaan'
+                        )
+                        ->get();
+
                 $taruna = null;
             }
-        }else{
-            $taruna = DB::table('tarunas')->where('id_mahasiswa', $request->input('id_mahasiswa'))->first();
-            $data = DB::table('catatan_penghargaans')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
-            ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
-            ->where('catatan_penghargaans.id_mahasiswa', $request->input('id_mahasiswa'))
-            ->select(
-                'tarunas.nama_mahasiswa',
-                'tarunas.nim',
-                'catatan_penghargaans.id_catatan_penghargaan',
-                'penghargaans.penghargaan',
-                'penghargaans.bidang_penghargaan',
-                'penghargaans.poin_penghargaan',
-                'catatan_penghargaans.created_at',
-                'tarunas.id_mahasiswa',
-                'catatan_penghargaans.tgl_penghargaan',
-                'catatan_penghargaans.sk_penghargaan',
-                'penghargaans.id_penghargaan'
-            )
-            ->get();
-        }
 
         $pengharagaan = DB::table('penghargaans')->get();
 
@@ -76,12 +133,29 @@ class CatatanPenghargaanController extends Controller
                     ->select('id_mahasiswa', 'nama_mahasiswa')->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')
                     ->get();
                 }else{
-                    $data = DB::table('asuhans')
-                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                    ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                    ->where('asuhans.id_pengasuh', Auth::id())
-                    ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
-                    ->get();
+                    $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+                    if($kordinator) {
+                        //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
+                        $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                        $data = DB::table('asuhans')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->where(function($q) use ($grup_kordinasi) {
+                                    foreach($grup_kordinasi  as $k) {
+                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                    }
+                                })
+                                ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
+                                ->get();
+                    }else{
+                        $data = DB::table('asuhans')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->where('asuhans.id_pengasuh', Auth::id())
+                                ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
+                                ->get();
+                    }
                 }
                 return response()->json($data);
             }
@@ -106,7 +180,7 @@ class CatatanPenghargaanController extends Controller
             'id_semester'       => $semester->id_semester
         ]);
 
-        return back()->with(['sukses' => 'Data Berhasil Disimpan!']);
+        return redirect('catatanpenghargaan')->with(['sukses' => 'Data Berhasil Disimpan!']);
     }
 
     public function update(Request $request){
@@ -135,5 +209,10 @@ class CatatanPenghargaanController extends Controller
         $data->delete();
 
         return back()->with(['sukses' => 'Data Berhasil Dihapus!']);
+    }
+
+    public function export(){
+
+        return Excel::download(new PenghargaanTarunaExport, 'Catatan Penghargaan Taruna.xlsx');
     }
 }

@@ -22,12 +22,13 @@
                 <a href="#" class=""></a>
             </div>
             <div class="card-body">
+                @if(auth::user()->role != 'taruna')
                 <form action="{{ route('rekapnilai.index') }}" method="GET">
                     {{-- @csrf --}}
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Nama Taruna</label>
                         <div class="col-sm-3">
-                            <select name="id_mahasiswa" class="form-control">
+                            <select name="id_mahasiswa" class="form-control mahasiswa">
                                 <option value="">----</option>
                                 @foreach ($data as $d)
                                 <option value="{{ $d->id_mahasiswa }}">{{ $d->nama_mahasiswa }} | {{ $d->nim }}</option>
@@ -45,6 +46,34 @@
                     </div>
                     <br>
                 </form>
+                @else
+                <form action="{{ route('rekapnilai.index') }}" method="GET">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Semester</label>
+                        <div class="col-sm-3">
+                            <?php
+                                  $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();    
+                              ?>
+                            <select name="id_semester" class="form-control">
+                                <option value="">Pilih Semester</option>
+                                @foreach ($semester as $item)
+                                <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
+                                    value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="fas fa-search"></i> Tampilkan
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                @endif
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
@@ -86,20 +115,33 @@
                                         $nilai4 = $nilai4 * 25 / 100;
                                     ?>
                                     {{ 
-                                        @$nilai1 + (($nilai2 + $nilai3 + $nilai4) * 60 / 100)
+                                        round(@$nilai1 + (($nilai2 + $nilai3 + $nilai4) * 60 / 100), 2)
                                     }}
                                 </td>
                                 <td>
                                     @if (@$data_nilai->id_rekap_nilai != null)
-                                    <a href="#" class="btn btn-sm btn-success">
+                                    <a href="{{ url('rapot') }}/{{ @$data_nilai->id_mahasiswa }}" class="btn btn-sm btn-success">
                                         <i class="fas fa-print"></i>
                                     </a>
                                     @else
-                                    <a href="#" data-toggle="modal"
-                                        data-target="#modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
-                                        class="btn btn-sm btn-success">
+                                    @if (auth::user()->role == 'pengasuh')
+                                    <?php $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first(); ?>
+                                        @if($kordinator)
+                                            <a href="#" data-toggle="modal"
+                                                data-target="#modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
+                                                class="btn btn-sm btn-success">
+                                                Sahkan Nilai!
+                                            </a>
+                                        @else
+                                            <button disabled class="btn btn-sm btn-success">
+                                                Sahkan Nilai!
+                                            </button>
+                                        @endif
+                                    @else
+                                    <button disabled class="btn btn-sm btn-success">
                                         Sahkan Nilai!
-                                    </a>
+                                    </button>
+                                    @endif
                                     <div class="modal fade"
                                         id="modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
                                         tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -116,9 +158,9 @@
                                                 </div>
                                                 @if (
                                                 @$data_nilai[0]['nilai_jasmani'] == 0 ||
-                                                @$data_nilai[0]['nilai_softskill'] == 0 ||
-                                                @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
-                                                @$data_nilai[0]['nilai_penghargaan'] == 0
+                                                @$data_nilai[0]['nilai_softskill'] == 0
+                                                // @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
+                                                // @$data_nilai[0]['nilai_penghargaan'] == 0
                                                 )
                                                 <div class="modal-body">
                                                     Ada Nilai yang Belum Diisi, Harap isi Nilai Kosong Terlebih Dahulu!
@@ -191,6 +233,12 @@
         $('#carisemester').select2({
             theme: 'bootstrap4'
         })
+    })
+</script>
+<script>
+    $(".mahasiswa").select2({
+        theme: 'bootstrap4',
+        placeholder: "Please Select"
     })
 </script>
 @endpush

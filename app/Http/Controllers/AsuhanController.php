@@ -10,6 +10,8 @@ use App\Asuhan;
 use App\Taruna;
 use DB;
 use Auth;
+use App\Exports\AsuhanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AsuhanController extends Controller
 {
@@ -39,19 +41,38 @@ class AsuhanController extends Controller
 
         if( !$request->input('cari') ){
             if(Auth::user()->role == 'pengasuh'){
+                $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                $data = DB::table('asuhans')
-                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                ->where('asuhans.id_pengasuh', Auth::id())            
-                ->get();
+                if($kordinator){
+                    //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
+                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                    $data= DB::table('asuhans')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                        ->where(function($q) use ($grup_kordinasi) {
+
+                            foreach($grup_kordinasi  as $k) {
+                                $q->orWhere('asuhans.id_pengasuh', $k->id);
+                            }
+
+                        })->get();
+
+                }else{
+                    //jika dia bukan kordinator pengasuh maka tampilkan hanya taruna yang diasuhnya saja
+                    $data = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->get();
+                }
 
             }elseif(Auth::user()->role == 'admin' or auth::user()->role == 'pusbangkar'){
 
                 $data = DB::table('asuhans')
-                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')         
-                ->get();
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')         
+                        ->get();
             }
 
         }else{
@@ -65,7 +86,17 @@ class AsuhanController extends Controller
     }
 
     public function create(){
-        $data = User::where('role', 'pengasuh')->get();
+        $data = DB::table('users')
+                ->leftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
+                ->where('role', 'pengasuh')
+                ->whereNotIn('users.id', function($query){
+                    $query->select('id')->from('kordinator_pengasuhs');
+                })
+                ->select(
+                    'users.*'
+                )
+                ->get();
+
         $taruna = DB::table('tarunas')
             ->whereNotIn('id_mahasiswa', function($query){
                 $query->select('id_mahasiswa')->from('asuhans');
@@ -110,5 +141,9 @@ class AsuhanController extends Controller
         $data->delete();
 
         return back()->with(['sukses' => 'Data Berhasil Dihapus']);
+    }
+
+    public function export(){
+        return Excel::download(new AsuhanExport, 'Taruna Pengasuh.xlsx');
     }
 }

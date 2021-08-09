@@ -16,8 +16,11 @@
 
         <div class="card mb-12">
             <div class="card-header">
+                @if (auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
                 <a href="{{url('tambah-tarunapengasuh')}}" class="btn btn-sm btn-primary"><i
-                        class="fas fa-plus"></i>Tambah</a>
+                    class="fas fa-plus"></i>Tambah</a>
+                @endif
+                <a href="{{ url('tarunapengasuhexport') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
             </div>
             <div class="card-body">
                 <div class="div @if(auth::user()->role != 'admin') d-none @endif">
@@ -45,7 +48,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 20px">No</th>
-                                <th>NIP</th>
+                                <th>NIT</th>
                                 <th>Nama Taruna</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Program Studi</th>
@@ -127,7 +130,10 @@
                 { data: 'nama_program_studi', name:'nama_program_studi'},
                 { data: 'name', name: 'name'},
                 { name: 'hapus', render:function(data, type, row, meta){
-                    return `<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+row.id_asuhan+`"><i class="fas fa-trash"></i></button>
+                    @if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar')
+                    return ` 
+                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+row.id_asuhan+`"><i class="fas fa-trash"></i></button>
+
                               <div class="modal fade" id="hapus`+row.id_asuhan+`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                   <div class="modal-dialog" role="document">
                                       <div class="modal-content">
@@ -141,12 +147,16 @@
                                               <p>Yakin Ingin Menghapus Data ini ?</p>
                                           </div>
                                           <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                         
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                               <a href="{{ url('hapustarunapengasuh') }}/`+row.id_asuhan+`" class="btn btn-danger">Hapus</a>
                                           </div>
                                       </div>
                                   </div>
                               </div>`
+                              @else
+                              return `<button class="btn btn-danger btn-sm" disabled><i class="fas fa-trash"></i></button>`
+                              @endif
                 }}
             ]
         });

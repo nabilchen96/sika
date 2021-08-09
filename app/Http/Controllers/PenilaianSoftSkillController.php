@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\PenilaianSoftSkill;
 use auth;
+use App\Exports\NilaiSoftSkillExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenilaianSoftSkillController extends Controller
 {
@@ -16,7 +18,39 @@ class PenilaianSoftSkillController extends Controller
      */
     public function index(Request $request)
     {
-        $data = DB::table('tarunas')->get();
+        if(auth::user()->role == 'pengasuh'){
+
+            $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+
+                if($kordinator){
+
+                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                    $data= DB::table('asuhans')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                        ->where(function($q) use ($grup_kordinasi) {
+
+                            foreach($grup_kordinasi  as $k) {
+                                $q->orWhere('asuhans.id_pengasuh', $k->id);
+                            }
+
+                        })->get();
+
+                }else{
+
+                    $data = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->get();
+
+                }
+
+        }else{
+            $data = DB::table('tarunas')->get();
+        }
+
 
         if($request->id_mahasiswa){
             $taruna = DB::table('tarunas')
@@ -160,7 +194,7 @@ class PenilaianSoftSkillController extends Controller
      */
     public function update(Request $request)
     {
-        // dd(count($request->nilai));
+        // dd($_GET['id_mahasiswa']);
 
         for ($i=0; $i < count($request->nilai); $i++) { 
             PenilaianSoftskill::updateOrCreate(
@@ -178,14 +212,8 @@ class PenilaianSoftSkillController extends Controller
         return back()->with(['sukses' => 'Data berhasil disimpan']);
     }   
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function export($id_mahasiswa){
+
+        return Excel::download(new NilaiSoftSkillExport($id_mahasiswa), 'Nilai Softskill Taruna.xlsx');
     }
 }

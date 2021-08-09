@@ -9,6 +9,8 @@ use Exception;
 use App\TarunaKamar;
 use Session;
 use DataTables;
+use App\Exports\TarunaKamarExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TarunaKamarController extends Controller
 {
@@ -32,15 +34,15 @@ class TarunaKamarController extends Controller
 
         if( !$request->input('cari')){
             $data = DB::table('taruna_kamars')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'taruna_kamars.id_mahasiswa')
-            ->join('kamars', 'kamars.id_kamar', '=', 'taruna_kamars.id_kamar')
-            ->get();
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'taruna_kamars.id_mahasiswa')
+                    ->join('kamars', 'kamars.id_kamar', '=', 'taruna_kamars.id_kamar')
+                    ->get();
         }else{
             $data = DB::table('taruna_kamars')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'taruna_kamars.id_mahasiswa')
-            ->join('kamars', 'kamars.id_kamar', '=', 'taruna_kamars.id_kamar')
-            ->where('taruna_kamars.id_kamar', $request->input('cari'))
-            ->get();
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'taruna_kamars.id_mahasiswa')
+                    ->join('kamars', 'kamars.id_kamar', '=', 'taruna_kamars.id_kamar')
+                    ->where('taruna_kamars.id_kamar', $request->input('cari'))
+                    ->get();
         }
 
         return Datatables::of($data)->make(true);
@@ -114,5 +116,9 @@ class TarunaKamarController extends Controller
         }
 
         return redirect('tarunakamar')->with(['sukses' => 'Data Sukses Disimpan']);
+    }
+
+    public function export(){
+        return Excel::download(new TarunaKamarExport, 'Data Taruna kamar.xlsx');
     }
 }

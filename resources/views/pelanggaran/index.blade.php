@@ -18,6 +18,7 @@
         <div class="card mb-12">
             <div class="card-header">
               <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah</a>
+              <a href="{{ url('exportpelanggaran') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
               <div class="modal fade" id="tambah" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">

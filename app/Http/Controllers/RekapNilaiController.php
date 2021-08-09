@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\RekapNilai;
+use auth;
 
 class RekapNilaiController extends Controller
 {
@@ -16,7 +17,38 @@ class RekapNilaiController extends Controller
     public function index(Request $request)
     {
         
-        $data = DB::table('tarunas')->get();
+        if(auth::user()->role == 'pengasuh'){
+
+            $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+
+                if($kordinator){
+
+                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+
+                    $data= DB::table('asuhans')
+                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                        ->where(function($q) use ($grup_kordinasi) {
+
+                            foreach($grup_kordinasi  as $k) {
+                                $q->orWhere('asuhans.id_pengasuh', $k->id);
+                            }
+
+                        })->get();
+
+                }else{
+
+                    $data = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->get();
+
+                }
+
+        }else{
+            $data = DB::table('tarunas')->get();
+        }
 
         if($request->id_mahasiswa){
 
@@ -194,5 +226,12 @@ class RekapNilaiController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function rapot($id){
+
+        // echo 'tes';
+
+        return view('rekapnilai.rapot');
     }
 }

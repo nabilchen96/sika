@@ -7,6 +7,8 @@ use App\Pelanggaran;
 use DataTables;
 use App\Kamar;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\PelanggaranExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PelanggaranController extends Controller
 {
@@ -74,5 +76,10 @@ class PelanggaranController extends Controller
         $pelanggaran->delete();
 
         return back()->with(['sukses' => 'Data Berhasil Dihapus']);
+    }
+
+    public function export(){
+
+        return Excel::download(new PelanggaranExport, 'Komponen Pelanggaran.xlsx');
     }
 }

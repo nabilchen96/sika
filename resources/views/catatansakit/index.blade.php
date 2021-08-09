@@ -23,6 +23,8 @@
                 @if (auth::user()->role != 'taruna')
                 <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
                         class="fas fa-plus"></i> Tambah</a>
+
+                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -56,6 +58,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label">Surat Sakit</label>
                                         <input type="file" class="form-control" name="surat_sakit" required>
+                                        <p class="text-danger">Upload File png atau jpg</p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -75,7 +78,6 @@
                     </div>
                 </div>
                 @endif
-                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
             </div>
             <div class="card-body">
                 @if (auth::user()->role != 'taruna')
@@ -195,6 +197,7 @@
                                         <div class="form-group">
                                             <label for="col-form-label">Surat Sakit <div id="link"></div></label>
                                             <input type="file" name="surat_sakit" class="form-control" required>
+                                            <p class="text-danger">Upload File png atau jpg</p>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

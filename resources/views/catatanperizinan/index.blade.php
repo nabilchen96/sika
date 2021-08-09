@@ -21,7 +21,7 @@
         <div class="card mb-12">
             <div class="card-header">
                 @if (auth::user()->role != 'taruna')
-                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
+                {{-- <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
                         class="fas fa-plus"></i> Tambah</a>
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -68,7 +68,7 @@
                             @endif
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 @endif
             </div>
             <div class="card-body">

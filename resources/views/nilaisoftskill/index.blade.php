@@ -6,6 +6,8 @@
 
 @push('style')
 <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link href="{{ asset('select2.min.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('select2theme4.css')}}">
 @endpush
 
 @section('content')
@@ -17,6 +19,7 @@
 
     <div class="card mb-12">
       <div class="card-header">
+        {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
       </div>
       <div class="card-body">
         @if (auth::user()->role != 'taruna')
@@ -25,7 +28,7 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nama Taruna</label>
             <div class="col-sm-3">
-              <select name="id_mahasiswa" class="form-control">
+              <select name="id_mahasiswa" class="form-control mahasiswa">
                 <option value="">----</option>
                 @foreach ($data as $d)
                 <option value="{{ $d->id_mahasiswa }}">{{ $d->nama_mahasiswa }} | {{ $d->nim }}</option>
@@ -79,6 +82,7 @@
                   <th>Taruna</th>
                   <th width="50%">Nilai Per-evaluasi</th>
                   <th width="100">Nilai SoftSkill</th>
+                  <th width="10px"></th>
                 </tr>
               </thead>
               <tbody>
@@ -87,27 +91,26 @@
                 <tr>
                   <td>{{ $k+1 }}</td>
                   <td>
-                    {{ $item->nama_mahasiswa }} <br>
-                    {{ $item->nim }}
+                    {{ $item->nama_mahasiswa ? $item->nama_mahasiswa : auth::user()->name }} <br>
+                    {{ $item->nim ? $item->nim : auth::user()->nip }}
                   </td>
                   <td>
                     @foreach ($komponen_nilai as $j)
                     <li>
                       {{ $j->jenis_softskill }}:
                       <?php
-                    
-                    $perevaluasi = DB::table('penilaian_soft_skills')
-                                    ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                                    ->where('semesters.is_semester_aktif', '1')
-                                    ->where('penilaian_soft_skills.id_mahasiswa', $item->id_mahasiswa)
-                                    ->where('komponen_softskills.jenis_softskill', $j->jenis_softskill)
-                                    ->sum('nilai');
+                        $perevaluasi = DB::table('penilaian_soft_skills')
+                                        ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
+                                        ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                                        ->where('semesters.is_semester_aktif', '1')
+                                        ->where('penilaian_soft_skills.id_mahasiswa', $item->id_mahasiswa)
+                                        ->where('komponen_softskills.jenis_softskill', $j->jenis_softskill)
+                                        ->sum('nilai');
 
-                    echo $perevaluasi/$j->nilai;
-                    
-                    $nilai = $nilai + ($perevaluasi/$j->nilai);
-                    ?>
+                        echo round($perevaluasi/$j->nilai, 2);
+                        
+                        $nilai = $nilai + ($perevaluasi/$j->nilai);
+                      ?>
                       <a
                         href="{{ url('editpenilaiansoftskill') }}/{{ @$_GET['id_mahasiswa'] }}/{{ $j->jenis_softskill }}"><i
                           class="fas fa-edit"></i></a>
@@ -118,7 +121,13 @@
                     {{-- {{ $item->nilai_softskill }} <br>
                     {{ $total_soal }} --}}
                     {{-- {{ ($item->nilai_softskill / $total_soal) }} --}}
-                    {{ $nilai / $komponen_nilai->count('nilai') }}
+                    {{ round($nilai / $komponen_nilai->count('nilai'), 2) }}
+                  </td>
+                  <td>
+                    <a href="{{ url('nilaisoftskillexport') }}/{{ $item->id_mahasiswa }}"
+                      class="btn btn-sm btn-success">
+                      <i class="fas fa-file-excel"></i>
+                    </a>
                   </td>
                 </tr>
                 @endforeach
@@ -135,6 +144,7 @@
 <!-- Page level plugins -->
 <script src="{{ asset('template/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('select2.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
 <script>
@@ -143,5 +153,11 @@
     @elseif($message = Session::get('gagal'))
         toastr.error("{{ $message }}")
     @endif
+</script>
+<script>
+  $(".mahasiswa").select2({
+      theme: 'bootstrap4',
+      placeholder: "Please Select"
+  })
 </script>
 @endpush

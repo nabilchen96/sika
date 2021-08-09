@@ -12,96 +12,80 @@ use App\Hukuman;
 use App\Semester;
 use App\Taruna;
 use Auth;
+use DataTables;
+use App\Exports\CatatanPelanggaranExport;
+use App\Exports\CatatanPelanggaranPertarunaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CatatanPelanggaranController extends Controller
 {
     public function index(Request $request){
 
-        if(!empty($request->input('id_mahasiswa'))){
-            $data               = DB::table('catatan_pelanggarans')
-                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_pelanggarans.id_mahasiswa')
-                                ->join('users', 'users.id', '=', 'catatan_pelanggarans.id_pencatat')
-                                ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                ->where('tarunas.id_mahasiswa', $request->input('id_mahasiswa'))
-                                ->select(
-                                    'catatan_pelanggarans.id_catatan_pelanggaran',
-                                    'pelanggarans.id_pelanggaran',
-                                    'catatan_pelanggarans.created_at', 
-                                    'pelanggarans.pelanggaran', 
-                                    'catatan_pelanggarans.poin_pelanggaran', 
-                                    'users.name', 
-                                    'catatan_pelanggarans.bukti_pelanggaran'
-                                )
-                                ->get();
+        //taruna
+        if(auth::user()->role == 'taruna'){
 
-            $taruna             = DB::table('tarunas')->where('id_mahasiswa', $request->input('id_mahasiswa'))->first();
+            $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->get();
 
-            $poin_bulanan       = DB::table('catatan_pelanggarans')
-                                ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                ->where('id_mahasiswa', $request->input('id_mahasiswa'))
-                                ->whereMonth('catatan_pelanggarans.created_at', date('m'))
-                                ->sum('catatan_pelanggarans.poin_pelanggaran');
+        }elseif(auth::user()->role == 'pengasuh'){
 
-            $poin_semester      = DB::table('catatan_pelanggarans')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
-                                    ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                    ->where('id_mahasiswa', $request->input('id_mahasiswa'))
-                                    ->where('semesters.is_semester_aktif', 1)
-                                    ->sum('catatan_pelanggarans.poin_pelanggaran');
-            $poin_penghargaan   = null;
-        }else{
-            if(auth::user()->role == 'taruna'){
+            $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                $taruna = DB::table('tarunas')->where('nim', auth::user()->nip)->first();
+            if($kordinator){
 
-                $data               = DB::table('catatan_pelanggarans')
-                                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_pelanggarans.id_mahasiswa')
-                                        ->join('users', 'users.id', '=', 'catatan_pelanggarans.id_pencatat')
-                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                        ->where('tarunas.id_mahasiswa', $taruna->id_mahasiswa)
-                                        ->select(
-                                            'catatan_pelanggarans.id_catatan_pelanggaran',
-                                            'pelanggarans.id_pelanggaran',
-                                            'catatan_pelanggarans.created_at', 
-                                            'pelanggarans.pelanggaran', 
-                                            'catatan_pelanggarans.poin_pelanggaran', 
-                                            'users.name', 
-                                            'catatan_pelanggarans.bukti_pelanggaran'
-                                        )
-                                        ->get(); 
+                $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                $poin_bulanan       = DB::table('catatan_pelanggarans')
-                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                        ->where('id_mahasiswa', $taruna->id_mahasiswa)
-                                        ->whereMonth('catatan_pelanggarans.created_at', date('m'))
-                                        ->sum('catatan_pelanggarans.poin_pelanggaran');
-
-                $poin_semester      = DB::table('catatan_pelanggarans')
-                                        ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
-                                        ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
-                                        ->where('id_mahasiswa', $taruna->id_mahasiswa)
-                                        ->where('semesters.is_semester_aktif', 1)
-                                        ->sum('catatan_pelanggarans.poin_pelanggaran');
-                                        
-                $poin_penghargaan   = null;
+                $taruna = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where(function($q) use ($grup_kordinasi) {
+                                foreach($grup_kordinasi  as $k) {
+                                    $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                }
+                            })           
+                            ->get();
             }else{
-                $data               = [];
-                $taruna             = null;
-                $poin_bulanan       = null;
-                $poin_semester      = null;
-                $poin_penghargaan   = null;
+                $taruna = DB::table('asuhans')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->get();
             }
+        }else{
+            $taruna = DB::table('tarunas')->get();
         }
 
-        $pelanggaran = Pelanggaran::all();
+        $data = [];
 
-        return view('catatanpelanggaran.index')
-                ->with('pelanggaran', $pelanggaran)
-                ->with('taruna', $taruna)
-                ->with('poin_bulanan', $poin_bulanan)
-                ->with('poin_semester', $poin_semester)
-                ->with('poin_penghargaan', $poin_penghargaan)
-                ->with('data', $data);
+        if(request()->ajax()){
+            foreach ($taruna as $value) {
+            
+                $poin_semester_ini = DB::table('catatan_pelanggarans')
+                                        ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
+                                        ->where('semesters.is_semester_aktif', '1')
+                                        ->where('catatan_pelanggarans.id_mahasiswa', $value->id_mahasiswa)
+                                        ->sum('catatan_pelanggarans.poin_pelanggaran');
+    
+                $poin_bulan_ini = DB::table('catatan_pelanggarans')
+                                        ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
+                                        ->whereMonth('catatan_pelanggarans.created_at', date('m'))
+                                        ->where('catatan_pelanggarans.id_mahasiswa', $value->id_mahasiswa)
+                                        ->sum('catatan_pelanggarans.poin_pelanggaran');            
+    
+                $data[] = array(
+                    'nim'                   => $value->nim,
+                    'id_mahasiswa'          => $value->id_mahasiswa,
+                    'nama_mahasiswa'        => $value->nama_mahasiswa,
+                    'poin_semester_ini'     => $poin_semester_ini,
+                    'poin_bulan_ini'        => $poin_bulan_ini,
+                    'nama_program_studi'    => $value->nama_program_studi,
+                    'jenis_kelamin'         => $value->jenis_kelamin
+                );
+            }
+    
+            return Datatables::of($data)->make(true);
+        }
+
+        return view('catatanpelanggaran.index');
     }
 
     public function tarunajson(Request $request){
@@ -123,6 +107,34 @@ class CatatanPelanggaranController extends Controller
                 return response()->json($data);
             }
         }
+    }
+
+    public function detail($id){
+
+        
+        $data = DB::table('catatan_pelanggarans')
+                    ->join('pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran')
+                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_pelanggarans.id_mahasiswa')
+                    ->select(
+                        'catatan_pelanggarans.*',
+                        'pelanggarans.pelanggaran',
+                        'tarunas.nama_mahasiswa',
+                        'tarunas.id_mahasiswa'
+                    )
+                    ->where('semesters.is_semester_aktif', '1')
+                    ->where('catatan_pelanggarans.id_mahasiswa', $id)
+                    ->get();
+
+        $pelanggaran = DB::table('pelanggarans')->get();
+
+        $taruna = DB::table('tarunas')->where('id_mahasiswa', $id)->first();
+
+        return view('catatanpelanggaran.detail')
+                    ->with('pelanggaran', $pelanggaran)
+                    ->with('taruna', $taruna)
+                    ->with('data', $data);
+
     }
 
     public function create($id){
@@ -198,6 +210,7 @@ class CatatanPelanggaranController extends Controller
             'id_mahasiswa'          => 'required',
             'id_pelanggaran'        => 'required',
             'id_catatan_pelanggaran'=> 'required',
+            'bukti_pelanggaran'     => 'mimetypes:image/jpeg,image/png|max:2048'
         ]);
 
         $catatan_pelanggaran = CatatanPelanggaran::find($request->input('id_catatan_pelanggaran'));
@@ -287,4 +300,15 @@ class CatatanPelanggaranController extends Controller
         }
 
     }
+
+    public function exportall(){
+
+        return Excel::download(new CatatanPelanggaranExport, 'Catatan Pelanggaran Taruna.xlsx');
+    }
+
+    public function exportperson($id){
+
+        return Excel::download(new CatatanPelanggaranPertarunaExport($id), 'Catatan Pelanggaran Pertaruna.xlsx');
+    }
 }
+

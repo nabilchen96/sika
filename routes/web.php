@@ -35,6 +35,7 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::get('/taruna', 'TarunaController@index');
     Route::get('/taruna/{id}', 'TarunaController@detail');
     Route::post('/updatetaruna', 'TarunaController@updatetaruna');
+    Route::get('/exporttaruna', 'TarunaController@export');
 
     Route::get('/kamar', 'KamarController@index');
     Route::post('/tambahkamar', 'KamarController@store');
@@ -46,11 +47,13 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/tambahpelanggaran', 'PelanggaranController@store');
     Route::post('/editpelanggaran', 'PelanggaranController@update');
     Route::get('/hapuspelanggaran/{id}', 'PelanggaranController@destroy');
+    Route::get('/exportpelanggaran', 'PelanggaranController@export');
 
     Route::get('/penghargaan', 'PenghargaanController@index');
     Route::post('/tambahpenghargaan', 'PenghargaanController@store');
     Route::post('/editpenghargaan', 'PenghargaanController@update');
     Route::get('/hapuspenghargaan/{id}', 'PenghargaanController@destroy');
+    Route::get('/exportpenghargaan', 'PenghargaanController@export');
 
     Route::get('/hukuman', 'HukumanController@index');
     Route::get('/hukuman-json', 'HukumanController@json');
@@ -131,11 +134,13 @@ Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRol
 Route::get('/tarunakamar-json', 'TarunaKamarController@kamarjson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/kelompokkamartaruna-json', 'TarunaKamarController@kelompokkamarjson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/tambah-tarunakamar-json', 'TarunaKamarController@tambahtarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/tarunakamarexport', 'TarunaKamarController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('/tarunapengasuh', 'AsuhanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/tarunapengasuh-json', 'AsuhanController@pengasuh')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/kelompoktarunapengasuh-json', 'AsuhanController@kelompoktaruna')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-Route::get('/tambah-tarunapengasuh-json', 'AsuhanController@tambahtarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);   
+Route::get('/tambah-tarunapengasuh-json', 'AsuhanController@tambahtarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);  
+Route::get('/tarunapengasuhexport', 'AsuhanController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']); 
 
 Route::get('/catatanpelanggaran', 'CatatanPelanggaranController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('/catatanpelanggarantaruna-json', 'CatatanPelanggaranController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
@@ -143,16 +148,21 @@ Route::get('/tambah-catatanpelanggaran/{id}', 'CatatanPelanggaranController@crea
 Route::post('/simpan-catatanpelanggaran', 'CatatanPelanggaranController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('updatecatatanpelanggaran', 'CatatanPelanggaranController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/hapuscatatanpelanggaran/{id}', 'CatatanPelanggaranController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanpelanggarandetail/{id}', 'CatatanPelanggaranController@Detail')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('/catatanpelanggaranexportall', 'CatatanPelanggaranController@exportall')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanpelanggaranexportperson/{id}', 'CatatanPelanggaranController@exportperson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('/catatanhukuman', 'CatatanHukumanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('/status-catatanhukuman/{id}', 'CatatanHukumanController@updatestatus')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/update-hukuman', 'CatatanHukumanController@updatehukuman')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/catatanhukumanexport', 'CatatanHukumanController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
 Route::get('/catatanpenghargaan', 'CatatanPenghargaanController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('/catatanpenghargaan-json', 'CatatanPenghargaanController@tarunajson')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('/tambah-catatanpenghargaan', 'CatatanPenghargaanController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/edit-catatanpenghargaan', 'CatatanPenghargaanController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/hapus-catatanpenghargaan/{id}', 'CatatanPenghargaanController@destroy')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/penghargaantarunaexport', 'CatatanPenghargaanController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('/catatansakit', 'CatatanSakitController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('/tambah-catatansakit', 'CatatanSakitController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
@@ -165,14 +175,17 @@ Route::post('/edit-catatanperizinan', 'CatatanPerizinanController@update')->midd
 Route::get('/hapus-catatanperizinan/{id}', 'CatatanPerizinanController@destroy')->middleware(['checkRole:pengasuh,admin']);
 
 Route::resource('penilaiansamapta', 'PenilaianSamaptaController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
-Route::post('updatepenilaiansamapta', 'PenilaianSamaptaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::post('updatepenilaiansamapta', 'PenilaianSamaptaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/nilaisamaptaexport/{id_semester}', 'PenilaianSamaptaController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
-Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/nilaisoftskillexport/{id_mahasiswa}', 'PenilaianSoftSkillController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::resource('rekapnilai', 'RekapNilaiController')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::resource('rekapnilai', 'RekapNilaiController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('simpanrekapnilai', 'RekapNilaiController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/rapot/{id}', 'RekapNilaiController@rapot')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');
@@ -184,7 +197,7 @@ Route::get('/editpengajuansurat/{id}', 'PengajuanSuratController@edit')->middlew
 Route::post('/updatepengajuansurat', 'PengajuanSuratController@update')->middleware(['checkRole:pengasuh,admin,taruna']);
 Route::get('/hapuspengajuansurat/{id}', 'PengajuanSuratController@destroy')->middleware(['checkRole:pengasuh,admin,taruna']);
 Route::post('/jawabpengajuan', 'PengajuanSuratController@jawabpengajuan')->middleware(['checkRole:pengasuh,admin,taruna']);
-Route::post('/terbitkansurat', 'PengajuanSuratController@terbitkansurat')->middleware(['checkRole:pusbangkar']);;
+Route::post('/terbitkansurat', 'PengajuanSuratController@terbitkansurat')->middleware(['checkRole:pusbangkar']);
 
 Route::get('/grupkordinasipengasuh', 'GrupKordinasiPengasuhController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 

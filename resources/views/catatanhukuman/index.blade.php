@@ -14,38 +14,15 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 alert alert-primary">
-            <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Master Data / Data Catatan Pelanggaran
+            <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Catatan / Data Catatan Hukuman
             </h2>
         </div>
 
         <div class="card mb-12">
             <div class="card-header">
-                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
+                <a href="{{ url('catatanhukumanexport') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
             </div>
             <div class="card-body">
-
-                @if (auth::user()->role != 'taruna')
-                <form action="{{ url('catatanhukuman') }}" method="GET">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Pilih Taruna</label>
-                        <div class="col-sm-3">
-                            <select data-allow-clear="true" name="id_mahasiswa" id="cari" class="form-control cari">
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-sm btn-success">
-                                <i class="fas fa-search"></i> Tampilkan
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                @endif
-                <br>
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
                         <thead>
@@ -53,7 +30,7 @@
                                 <th style="width: 20px">No</th>
                                 <th>Penerima Hukuman</th>
                                 <th>Tanggal Hukuman</th>
-                                <th>Keterangan</th>
+                                <th>Keterangan Hukuman</th>
                                 <th>Status</th>
                                 @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
@@ -78,15 +55,19 @@
                             <td>
                                 @if ($item->is_dikerjakan == 0)
                                 <a href="{{ url('status-catatanhukuman') }}/{{ $item->id_catatan_hukuman}}"
-                                    class="btn btn-sm btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                    class="btn btn-sm btn-success btn-sm"><i class="fas fa-check"></i></a>
                                 @else
-                                <a href="#" class="btn btn-sm btn-success btn-sm"><i class="fas fa-check"></i></a>
+                                <button disabled class="btn btn-sm btn-success btn-sm"><i class="fas fa-check"></i></button>
                                 @endif
                             </td>
                             <td>
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                @if ($item->is_dikerjakan == 0)
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                     data-target="#exampleModal" data-id="{{ $item->id_catatan_hukuman }}"
                                     data-hukuman="{{ $item->keterangan }}"><i class="fas fa-edit"></i></button>
+                                @else
+                                    <button type="button" class="btn btn-success btn-sm" disabled><i class="fas fa-edit"></i></button>
+                                @endif
                             </td>
                             @endif
                         </tr>

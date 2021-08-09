@@ -23,6 +23,8 @@
                 @if (auth::user()->role != 'taruna')
                 <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambah"><i
                     class="fas fa-plus"></i> Tambah</a>
+                    <a href="{{ url('penghargaantarunaexport') }}" class="btn btn-sm btn-success"><i
+                        class="fas fa-file-excel"></i> Export</a>
                 @endif
                 <div class="modal fade" id="tambah" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -33,15 +35,14 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            @if (@$taruna->id_mahasiswa)
                             <form id="formtambah" action="{{ url('tambah-catatanpenghargaan') }}" method="post">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label class="col-form-label">Nama Taruna</label>
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ @$taruna->nama_mahasiswa }}">
-                                        <input type="hidden" name="id_mahasiswa" value="{{ @$taruna->id_mahasiswa }}">
+                                        <select data-allow-clear="true" name="id_mahasiswa" class="form-control cari">
+
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">SK Penghargaan</label>
@@ -66,45 +67,11 @@
                                     <input type="submit" class="btn btn-primary" value="Tambah">
                                 </div>
                             </form>
-                            @else
-                            <div class="modal-body">
-                                <p>Pilih Taruna Terlebih Dahulu</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                            @endif
                         </div>
                     </div>
                 </div>
-                {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
             </div>
             <div class="card-body">
-
-                @if (auth::user()->role != 'taruna')
-                    
-                <form action="{{ url('catatanpenghargaan') }}" method="GET">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Pilih Taruna</label>
-                        <div class="col-sm-3">
-                            <select data-allow-clear="true" name="id_mahasiswa" id="cari" class="form-control cari">
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-sm btn-success">
-                                <i class="fas fa-search"></i> Tampilkan
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <br>
-                
-                @endif
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
                         <thead>

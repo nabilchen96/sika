@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Penghargaan;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\PenghargaanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenghargaanController extends Controller
 {
@@ -67,5 +69,10 @@ class PenghargaanController extends Controller
         $penghargaan->delete();
 
         return back()->with(['sukses' => 'Data Berhasil Dihapus']);
+    }
+
+    public function export(){
+
+        return Excel::download(new PenghargaanExport, 'Komponen Penghargaan.xlsx');
     }
 }
