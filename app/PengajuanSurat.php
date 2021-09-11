@@ -8,6 +8,6 @@ class PengajuanSurat extends Model
 {
     protected $primaryKey   = 'id_pengajuan_surat';
     protected $fillable     = [
-        'id_mahasiswa', 'jenis_pengajuan', 'keterangan', 'status_pengajuan', 'id_semester', 'surat', 'alasan_tolak'
+        'id_mahasiswa', 'jenis_pengajuan', 'keterangan', 'status_pengajuan', 'id_semester', 'surat', 'alasan_tolak', 'nomor_surat'
     ];
 }

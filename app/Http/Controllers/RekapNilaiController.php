@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use DB;
 use App\RekapNilai;
 use auth;
+use App\Exports\RekapNilaiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class RekapNilaiController extends Controller
 {
@@ -230,8 +233,53 @@ class RekapNilaiController extends Controller
 
     public function rapot($id){
 
-        // echo 'tes';
 
-        return view('rekapnilai.rapot');
+
+    //     // $datas = [  
+    //                 // 'data' =>
+    //                  $data = DB::table('rekap_nilais')
+    //                             ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+    //                             ->join('semesters', 'semesters.id_semester', '=', 'rekap_nilais.id_semester')
+    //                             ->where('rekap_nilais.id_mahasiswa', $id)
+    //                             ->first();
+
+    //                 // 'nilai_jasmani' => 
+    //                 $nilai_jasmani = DB::table('penilaian_samaptas')
+    //                             ->where('id_semester', $data->id_semester)
+    //                             ->where('id_mahasiswa', $id)
+    //                             ->first();
+    //     // ];
+
+
+    // // $pdf = PDF::loadView('rekapnilai.rapot', $datas);  
+    // // return $pdf->download('rapot non akademik taruna.pdf');        
+
+    //     return view('rekapnilai.rapot')
+    //             ->with('data', $data)
+    //             ->with('nilai_jasmani', $nilai_jasmani);
+
+
+    $datas = [  
+                    'data' =>
+                    $data = DB::table('rekap_nilais')
+                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                    ->join('semesters', 'semesters.id_semester', '=', 'rekap_nilais.id_semester')
+                    ->where('rekap_nilais.id_mahasiswa', $id)
+                    ->first(),
+
+        'nilai_jasmani' => 
+        $nilai_jasmani = DB::table('penilaian_samaptas')
+                    ->where('id_semester', $data->id_semester)
+                    ->where('id_mahasiswa', $id)
+                    ->first()
+];
+
+
+$pdf = PDF::loadView('rekapnilai.rapot', $datas);  
+return $pdf->download('rapot non akademik taruna.pdf'); 
+    }
+
+    public function export(){
+        return Excel::download(new RekapNilaiExport, 'Rekap Nilai Taruna.xlsx');
     }
 }

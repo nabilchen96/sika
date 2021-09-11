@@ -19,7 +19,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="#" class=""></a>
+                <a href="{{ url('rekapnilaiexport') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
             </div>
             <div class="card-body">
                 @if(auth::user()->role != 'taruna')
@@ -105,7 +105,7 @@
 
                                 <td>{{ $nilai3 = @$data_nilai->nilai_pelanggaran == null ? round(@$data_nilai[0]['nilai_pelanggaran'], 2) : round(@$data_nilai->nilai_pelanggaran, 2) }}
                                 </td>
-                                <td>{{ $nilai4 = @$data_nilai->nilai_penghargaan == null ? round(@$data_nilai[0]['nilai_penghargaan'], 2) : round(@$data_nilai->nilai_penghargaan, 2) }}
+                                <td>{{ $nilai4 = @$data_nilai->nilai_penghargaan == null ? 0 : round(@$data_nilai->nilai_penghargaan, 2) }}
                                 </td>
                                 <td>
                                     <?php

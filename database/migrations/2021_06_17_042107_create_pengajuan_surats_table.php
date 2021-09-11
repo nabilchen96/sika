@@ -30,6 +30,8 @@ class CreatePengajuanSuratsTable extends Migration
             $table->unsignedBigInteger('id_semester');
             $table->foreign('id_semester')->references('id_semester')->on('semesters')->onDelete('cascade');
 
+            $table->string('nomor_surat')->nullable();
+
             $table->timestamps();
         });
     }

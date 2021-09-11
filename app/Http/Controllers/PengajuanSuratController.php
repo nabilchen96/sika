@@ -262,8 +262,13 @@ class PengajuanSuratController extends Controller
             //memindahkan surat
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor("templatesurat/".$template->template);
 
+            $surat_terakhir = DB::table('pengajuan_surats')->where('jenis_pengajuan', 'surat izin')->latest('created_at')->value('nomor_surat');
+
+
+            $nomor = $surat_terakhir == null ? 1 : $surat_terakhir + 1;
+
             $templateProcessor->setValues([
-                'NOMOR'             => '1',
+                'NOMOR'             => $nomor,
                 'JENISSURAT'        => 'IJ',
                 'BULAN'             => date('m'),
                 'TAHUN'             => date('Y'),
@@ -293,7 +298,8 @@ class PengajuanSuratController extends Controller
             DB::table('pengajuan_surats')
             ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
             ->update([
-                'surat' => $nama_file.'.pdf'
+                'surat'         => $nama_file.'.pdf',
+                'nomor_surat'   => $nomor
             ]);
 
             // kirim data ke catatan perizinan
@@ -338,6 +344,7 @@ class PengajuanSuratController extends Controller
                 'singkatan'         => $singkatan,
                 'alamat'            => $data->alamat,
                 'tanggal'           => date('d-m-Y'),
+                'nomor_surat'       => $request->nomor_surat
             ]);
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
@@ -357,7 +364,8 @@ class PengajuanSuratController extends Controller
             DB::table('pengajuan_surats')
             ->where('id_pengajuan_surat', $request->id_pengajuan_surat)
             ->update([
-                'surat' => $nama_file.'.pdf'
+                'surat'         => $nama_file.'.pdf',
+                'nomor_surat'   => $request->nomor_surat
             ]);
 
             //kembali ke halaman pengajuan surat

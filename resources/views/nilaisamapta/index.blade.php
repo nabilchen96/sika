@@ -204,7 +204,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Jarak Lari (meter)</label>
-                        <input type="number" class="form-control" id="lari" name="lari" min="16007" max="3507" required
+                        <input type="number" class="form-control" id="lari" name="lari" min="1607" max="3507" required
                             placeholder="Min: 16007 dan Max: 35007">
                     </div>
                     <div class="form-group">
@@ -219,7 +219,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Shuttle Run (DTK)</label>
-                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="25.8" min="27"
+                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="27"
                             name="shuttlerun" required placeholder="Min: 27 dan Max: 25.8">
                     </div>
                     <div class="form-group">

@@ -157,6 +157,7 @@ class PenilaianSamaptaController extends Controller
 
         // dd(round($bmi, 2));
         
+        
         $bbi = AturanNilaibbi::where('untuk', 'Taruna')
                 ->where('bmi', '=', round($bmi, 2))
                 ->first();

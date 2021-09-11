@@ -17,15 +17,13 @@
                     Kembali</a>
             </div>
             <div class="card-body">
-                <form
-                    action="@if(auth::user()->role != 'taruna' and auth::user()->role != 'pusbangkar') 
+                <form action="@if(auth::user()->role != 'taruna' and auth::user()->role != 'pusbangkar') 
                                 {{ url('jawabpengajuan') }} 
                             @elseif(auth::user()->role == 'pusbangkar')  
                                 {{ url('terbitkansurat') }}
                             @else 
                                 {{ url('updatepengajuansurat') }} 
-                            @endif"
-                    method="POST" enctype="multipart/form-data">
+                            @endif" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_pengajuan_surat" value="{{ $data->id_pengajuan_surat }}">
                     <div class="form-group row">
@@ -59,28 +57,32 @@
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
                             <div class="col-sm-5">
-                                <input type="text" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                                <input type="text"
+                                    {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="tempat_tujuan" class="form-control" value="{{ $keterangan[0] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Keperluan</label>
                             <div class="col-sm-5">
-                                <input type="text" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                                <input type="text"
+                                    {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="keperluan" class="form-control" value="{{ $keterangan[1] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Berangkat Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                                <input type="date"
+                                    {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="berangkat_tanggal" class="form-control" value="{{ $keterangan[2] }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-sm-3 col-form-label">Kembali Tanggal</label>
                             <div class="col-sm-5">
-                                <input type="date" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                                <input type="date"
+                                    {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                     name="kembali_tanggal" class="form-control" value="{{ $keterangan[3] }}" required>
                             </div>
                         </div>
@@ -88,7 +90,8 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                            <textarea name="keterangan"
+                                {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                 cols="30" rows="5" class="form-control" required>{{ $keterangan[4] }}</textarea>
                         </div>
                     </div>
@@ -96,7 +99,8 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Keterangan</label>
                         <div class="col-sm-5">
-                            <textarea name="keterangan" {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
+                            <textarea name="keterangan"
+                                {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
                                 cols="30" rows="5" class="form-control" required>{{ $data->keterangan }}</textarea>
                         </div>
                     </div>
@@ -123,21 +127,30 @@
 
                     @if (auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin')
                     @if ($data->status_pengajuan == '1')
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
-                            <div class="col-lg-4">
-                                <canvas height="250" style="border: 1px solid #ced4da; border-radius: 8px;" id="ttd"></canvas>
-                                <input type="hidden" name="ttd" id="nilaittd">
-                            </div>
-                            <div class="col-lg-1">
-                                <div class="">
-                                    <button type="button" class="btn btn-block btn-sm btn-danger" onclick="hapusttd()"
-                                        data-action="clear"><i class="fas fa-trash"></i> Clear</button>
-                                    <button type="button" class="btn btn-block btn-sm btn-primary" onclick="undottd()"
-                                        data-action="clear"><i class="fas fa-undo"></i> Undo</button>
-                                </div>
+                    @if ($data->jenis_pengajuan != 'surat izin')
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Nomor Surat</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="nomor_surat" required>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">Tanda Tangan <br>Kepala Pusbangkar</label>
+                        <div class="col-lg-4">
+                            <canvas height="250" style="border: 1px solid #ced4da; border-radius: 8px;"
+                                id="ttd"></canvas>
+                            <input type="hidden" name="ttd" id="nilaittd">
+                        </div>
+                        <div class="col-lg-1">
+                            <div class="">
+                                <button type="button" class="btn btn-block btn-sm btn-danger" onclick="hapusttd()"
+                                    data-action="clear"><i class="fas fa-trash"></i> Clear</button>
+                                <button type="button" class="btn btn-block btn-sm btn-primary" onclick="undottd()"
+                                    data-action="clear"><i class="fas fa-undo"></i> Undo</button>
                             </div>
                         </div>
+                    </div>
                     @endif
                     @endif
 
@@ -145,11 +158,11 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-5">
-                            <button type="submit" 
-                            @if (auth::user()->role == 'pusbangkar' and $data->status_pengajuan != '1')
+                            <button type="submit" @if (auth::user()->role == 'pusbangkar' and $data->status_pengajuan !=
+                                '1')
                                 disabled
-                            @endif 
-                            class="btn btn-success">Simpan</button>
+                                @endif
+                                class="btn btn-success">Simpan</button>
                         </div>
                     </div>
                 </form>

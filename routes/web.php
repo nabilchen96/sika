@@ -186,6 +186,7 @@ Route::get('/nilaisoftskillexport/{id_mahasiswa}', 'PenilaianSoftSkillController
 Route::resource('rekapnilai', 'RekapNilaiController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('simpanrekapnilai', 'RekapNilaiController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/rapot/{id}', 'RekapNilaiController@rapot')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('/rekapnilaiexport', 'RekapNilaiController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');

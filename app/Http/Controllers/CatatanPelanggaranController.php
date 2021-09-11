@@ -158,13 +158,13 @@ class CatatanPelanggaranController extends Controller
         
         $pelanggaran_terakhir = CatatanPelanggaran::where('id_mahasiswa', $request->input('id_mahasiswa'))->latest('created_at')->first();
 
-        if($pelanggaran_terakhir != null){
-            $waktu_terakhir = date("H", strtotime(@$pelanggaran_terakhir->created_at));
+        // if($pelanggaran_terakhir != null){
+        //     $waktu_terakhir = date("H", strtotime(@$pelanggaran_terakhir->created_at));
 
-            if($waktu_terakhir == date("H") && date('d-m-Y', strtotime($pelanggaran_terakhir->created_at)) == date('d-m-Y')){
-                return back()->with(['gagal' => 'Pelanggaran Tidak Bisa Diinput, Minimal 1 Jam untuk input pealanggaran yang sama']);   
-            }
-        }
+        //     if($waktu_terakhir == date("H") && date('d-m-Y', strtotime($pelanggaran_terakhir->created_at)) == date('d-m-Y')){
+        //         return back()->with(['gagal' => 'Pelanggaran Tidak Bisa Diinput, Minimal 1 Jam untuk input pealanggaran yang sama']);   
+        //     }
+        // }
 
         if($request->file('bukti_pelanggaran')){
             $file           = $request->file('bukti_pelanggaran');
@@ -260,9 +260,7 @@ class CatatanPelanggaranController extends Controller
         $tingkat_mhs     = substr($semester->nama_semester, 2, 2) - substr($mahasiswa->nim, 4, 2) + 1;
 
 
-
-        //4. jika mahasiswa melebihi poin 50 - 70
-        if($poin_semester >= 50 ){
+        if($poin_semester >= 50 && $poin_semester < 70){
             CatatanHukuman::create([
                 'id_mahasiswa'      => $request->input('id_mahasiswa'),
                 'is_dikerjakan'     => "0",
@@ -270,10 +268,7 @@ class CatatanPelanggaranController extends Controller
                 'keterangan'        => 'SP-1 dan sanksi Latihan Kesamaptaan Terukur, Melakukan Kerja Sosial/Kerja Bakti, Membuat Karya Tulis atau Merangkum Buku',
                 'rubah_hukuman'     => 1
             ]);
-        }
-
-        //5. jika mahasiswa melebihi poin 80 - 90
-        if($poin_semester >= 80 ){
+        }elseif($poin_semester >= 80 && $poin_semester <= 100){
             CatatanHukuman::create([
                 'id_mahasiswa'      => $request->input('id_mahasiswa'),
                 'is_dikerjakan'     => "0",
@@ -285,10 +280,7 @@ class CatatanPelanggaranController extends Controller
                                         Tidak diijinkan untuk mengikuti kegiatan ekstrakurikuler`,
                 'rubah_hukuman'     => 0
             ]);
-        }
-
-        //6. jika mahasiswa melebihi poin atau sama dengan 100
-        if($poin_semester >= 100){
+        }elseif($poin_semester >= 100){
             CatatanHukuman::create([
                 'id_mahasiswa'      => $request->input('id_mahasiswa'),
                 'is_dikerjakan'     => "0",
@@ -298,7 +290,6 @@ class CatatanPelanggaranController extends Controller
                 'rubah_hukuman'     => 0
             ]);
         }
-
     }
 
     public function exportall(){
