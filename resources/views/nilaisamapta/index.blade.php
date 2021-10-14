@@ -209,7 +209,7 @@
                         <div class="mt-2 mb-4" style="font-size: 12px;">
                             <p><i class="fas fa-info-circle"></i>&nbsp; 
                                 max jarak lari taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Lari')->max('jumlah') }}, 
-                                max jarak lari taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Lari')->max('jumlah') }}
+                                max jarak lari taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Lari')->max('jumlah') }}
                                 <br>
                                 <i class="fas fa-info-circle"></i>&nbsp; 
                                 min jarak lari taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Lari')->min('jumlah') }}, 
@@ -223,7 +223,7 @@
                         <div class="mt-2 mb-4" style="font-size: 12px;">
                             <p><i class="fas fa-info-circle"></i>&nbsp; 
                                 max push up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Push-up')->max('jumlah') }}, 
-                                max push up taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Push-up')->max('jumlah') }}
+                                max push up taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Push-up')->max('jumlah') }}
                                 <br>
                                 <i class="fas fa-info-circle"></i>&nbsp; 
                                 min push up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Push-up')->min('jumlah') }}, 
@@ -237,7 +237,7 @@
                         <div class="mt-2 mb-4" style="font-size: 12px;">
                             <p><i class="fas fa-info-circle"></i>&nbsp; 
                                 max sit up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Sit-up')->max('jumlah') }}, 
-                                max sit up taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Sit-up')->max('jumlah') }}
+                                max sit up taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Sit-up')->max('jumlah') }}
                                 <br>
                                 <i class="fas fa-info-circle"></i>&nbsp; 
                                 min sit up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Sit-up')->min('jumlah') }}, 
@@ -251,7 +251,7 @@
                         <div class="mt-2 mb-4" style="font-size: 12px;">
                             <p><i class="fas fa-info-circle"></i>&nbsp; 
                                 max shuttle run taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Shuttle Run')->max('jumlah') }}, 
-                                max shuttle run taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Shuttle Run')->max('jumlah') }}
+                                max shuttle run taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Shuttle Run')->max('jumlah') }}
                                 <br>
                                 <i class="fas fa-info-circle"></i>&nbsp; 
                                 min shuttle run taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Shuttle Run')->min('jumlah') }}, 
