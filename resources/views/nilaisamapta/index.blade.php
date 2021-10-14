@@ -78,7 +78,7 @@
                                 <th style="text-align: center;">(B)</th>
                                 <th style="text-align: center;">S = ( A + B) / 2</th>
                                 <th style="text-align: center;">BBI = BB / (TB / 100) <sup>2</sup></th>
-                                <th style="text-align: center;">(S + 70 / 100) + (BBI + 30 / 100) / 2</th>
+                                <th style="text-align: center;">(S * 70 / 100) + (BBI * 30 / 100) / 2</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -202,35 +202,72 @@
                         <input readonly value="{{ Semester::where('is_semester_aktif', '1')->value('nama_semester') }}"
                             class="form-control">
                     </div>
+                    <?php $aturan = DB::table('aturan_nilai_samaptas')->get(); ?>
                     <div class="form-group">
                         <label for="">Jarak Lari (meter)</label>
-                        <input type="number" class="form-control" id="lari" name="lari" min="1607" max="3507" required
-                            placeholder="Min: 16007 dan Max: 35007">
+                        <input type="number" class="form-control" id="lari" name="lari" required placeholder="isi dengan angka tanpa koma">
+                        <div class="mt-2 mb-4" style="font-size: 12px;">
+                            <p><i class="fas fa-info-circle"></i>&nbsp; 
+                                max jarak lari taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Lari')->max('jumlah') }}, 
+                                max jarak lari taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Lari')->max('jumlah') }}
+                                <br>
+                                <i class="fas fa-info-circle"></i>&nbsp; 
+                                min jarak lari taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Lari')->min('jumlah') }}, 
+                                min jarak lari taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Lari')->min('jumlah') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Push Up (JML)</label>
-                        <input type="number" class="form-control" id="pushup" name="pushup" min="16" max="43" required
-                            placeholder="Min: 16 dan Max: 43">
+                        <input type="number" class="form-control" id="pushup" name="pushup" required placeholder="isi dengan angka tanpa koma">
+                        <div class="mt-2 mb-4" style="font-size: 12px;">
+                            <p><i class="fas fa-info-circle"></i>&nbsp; 
+                                max push up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Push-up')->max('jumlah') }}, 
+                                max push up taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Push-up')->max('jumlah') }}
+                                <br>
+                                <i class="fas fa-info-circle"></i>&nbsp; 
+                                min push up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Push-up')->min('jumlah') }}, 
+                                min push up taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Push-up')->min('jumlah') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Sit Up (JML)</label>
-                        <input type="number" class="form-control" id="situp" name="situp" max="41" min="14" required
-                            placeholder="Min: 14 dan Max: 41">
+                        <input type="number" class="form-control" id="situp" name="situp" required placeholder="isi dengan angka tanpa koma">
+                        <div class="mt-2 mb-4" style="font-size: 12px;">
+                            <p><i class="fas fa-info-circle"></i>&nbsp; 
+                                max sit up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Sit-up')->max('jumlah') }}, 
+                                max sit up taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Sit-up')->max('jumlah') }}
+                                <br>
+                                <i class="fas fa-info-circle"></i>&nbsp; 
+                                min sit up taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Sit-up')->min('jumlah') }}, 
+                                min sit up taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Sit-up')->min('jumlah') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Shuttle Run (DTK)</label>
-                        <input type="number" step="0.01" class="form-control" id="shuttlerun" max="27"
-                            name="shuttlerun" required placeholder="Min: 27 dan Max: 25.8">
+                        <input type="number" step="0.01" class="form-control" id="shuttlerun" name="shuttlerun" required placeholder="isi dengan angka, gunakan titik untuk koma">
+                        <div class="mt-2 mb-4" style="font-size: 12px;">
+                            <p><i class="fas fa-info-circle"></i>&nbsp; 
+                                max shuttle run taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Shuttle Run')->max('jumlah') }}, 
+                                max shuttle run taruna: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Shuttle Run')->max('jumlah') }}
+                                <br>
+                                <i class="fas fa-info-circle"></i>&nbsp; 
+                                min shuttle run taruna: {{ $aturan->where('untuk', 'Taruna')->where('jenis_samapta', 'Shuttle Run')->min('jumlah') }}, 
+                                min shuttle run taruni: {{ $aturan->where('untuk', 'Taruni')->where('jenis_samapta', 'Shuttle Run')->min('jumlah') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Tinggi Badan</label>
                         <input type="number" step="0.01" class="form-control" id="tinggibadan" name="tinggibadan"
-                            required>
+                            required placeholder="isi dengan angka, gunakan titik untuk koma">
                     </div>
                     <div class="form-group">
                         <label for="">Berat Badan</label>
                         <input type="number" step="0.01" class="form-control" id="beratbadan" name="beratbadan"
-                            required>
+                            required placeholder="isi dengan angka, gunakan titik untuk koma">
                     </div>
                 </div>
                 <div class="modal-footer">
