@@ -18,124 +18,88 @@ class PenilaianSoftSkillController extends Controller
      */
     public function index(Request $request)
     {
-        if(auth::user()->role == 'pengasuh'){
+
+        if(auth::user()->role == 'admin'){
+
+            $data = DB::table('tarunas')->get();
+
+        }elseif(auth::user()->role == 'taruna'){
+
+            $data = DB::table('tarunas')->where('tarunas.nim', auth::user()->nip)->get();
+
+        }else{
 
             $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                if($kordinator){
+            if($kordinator){
+                $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
-
-                    $data= DB::table('asuhans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                        ->where(function($q) use ($grup_kordinasi) {
-
-                            foreach($grup_kordinasi  as $k) {
-                                $q->orWhere('asuhans.id_pengasuh', $k->id);
-                            }
-
-                        })->get();
-
-                }else{
-
-                    $data = DB::table('asuhans')
-                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                $data = DB::table('tarunas')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
                             ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->where(function($q) use ($grup_kordinasi) {
+                                foreach($grup_kordinasi  as $k) {
+                                    $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                }
+                            })           
                             ->get();
-
-                }
-
-        }else{
-            $data = DB::table('tarunas')->get();
-        }
-
-
-        if($request->id_mahasiswa){
-            $taruna = DB::table('tarunas')
-                        ->leftjoin('penilaian_soft_skills', 'penilaian_soft_skills.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                        ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                        ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
-                        ->select(
-                            'tarunas.id_mahasiswa', 
-                            'tarunas.nim', 
-                            'tarunas.nama_mahasiswa',
-                            'penilaian_soft_skills.id_komponen_softskill',
-                            'semesters.id_semester',
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.id_nilai_softskill) as id_nilai_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.id_komponen_softskill, komponen_softskills.jenis_softskill) as id_komponen_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(komponen_softskills.jenis_softskill) as jenis_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.nilai) as nilai'
-                            ),
-                            db::raw(
-                                'sum(penilaian_soft_skills.nilai) as nilai_softskill'
-                            )
-                        )
-                        ->where('tarunas.id_mahasiswa', $request->id_mahasiswa)
-                        ->get();
-        }else{
-            if(auth::user()->role == 'taruna'){
-                $taruna = DB::table('tarunas')
-                        ->leftjoin('penilaian_soft_skills', 'penilaian_soft_skills.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                        ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                        ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
-                        ->select(
-                            'tarunas.id_mahasiswa', 
-                            'tarunas.nim', 
-                            'tarunas.nama_mahasiswa',
-                            'penilaian_soft_skills.id_komponen_softskill',
-                            'semesters.id_semester',
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.id_nilai_softskill) as id_nilai_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.id_komponen_softskill, komponen_softskills.jenis_softskill) as id_komponen_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(komponen_softskills.jenis_softskill) as jenis_softskill',
-                            ),
-                            db::raw(
-                                'group_concat(penilaian_soft_skills.nilai) as nilai'
-                            ),
-                            db::raw(
-                                'sum(penilaian_soft_skills.nilai) as nilai_softskill'
-                            )
-                        )
-                        ->where('tarunas.nim', auth::user()->nip)
-                        ->where('semesters.id_semester', $request->id_semester)
-                        ->get();
             }else{
-                $taruna = [];
+
+                $data = DB::table('tarunas')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->where('asuhans.id_pengasuh', Auth::id())
+                            ->get();
             }
+
         }
 
-        $komponen_nilai = DB::table('komponen_softskills')
-                            ->select(
-                                'jenis_softskill',
-                                db::raw(
-                                    'count(id_komponen_softskill) as nilai'
-                                )
-                            )
-                            ->groupBy('jenis_softskill')
-                            ->get();
+        $komponen_nilai = DB::table('komponen_softskills')->groupBy('jenis_softskill')->get();
+        
+        $nilai = [];
 
-        $nilai = DB::table('komponen_softskills')->get();
-                  
-        $total_soal = $nilai->count();
+        foreach ($data as $key => $value) {
 
-        return view('nilaisoftskill.index')
-                    ->with('total_soal', $total_soal)
-                    ->with('taruna', $taruna)
-                    ->with('data', $data)
-                    ->with('komponen_nilai', $komponen_nilai);
+            
+            $nilai_evaluasi = [];
+
+            foreach ($komponen_nilai as $key => $k) {
+
+                $total_soal     = 0;
+                $total_nilai    = 0;
+
+                $perevaluasi = DB::table('penilaian_soft_skills')
+                                ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
+                                ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                                ->where('semesters.id_semester', @$_GET['id_semester'])
+                                ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
+                                ->where('komponen_softskills.jenis_softskill', $k->jenis_softskill)
+                                ->get();
+                
+                $total_nilai    = $perevaluasi->sum('nilai');
+                $total_soal     = count($perevaluasi);
+
+                $nilai_evaluasi[] = array(
+                    'jenis_softskill'   => $k->jenis_softskill,
+                    'nilai'             => $total_nilai != 0 ? $total_nilai / @$total_soal : 0
+                );
+            }
+                
+            if(@$_GET['id_semester']){
+                $nilai[] = array(
+                    'nama_mahasiswa'    => $value->nama_mahasiswa,
+                    'id_mahasiswa'      => $value->id_mahasiswa,
+                    'nim'               => $value->nim,
+                    'perevaluasi'       => $nilai_evaluasi
+                );
+            }
+
+        }
+
+
+        return view('nilaisoftskill.index',[
+            'nilai' => $nilai
+        ]);
     }
 
     /**
@@ -178,11 +142,16 @@ class PenilaianSoftSkillController extends Controller
      */
     public function edit($id, $jenis_softskill)
     {
-        $soal   = DB::table('komponen_softskills')->where('jenis_softskill', $jenis_softskill)->get();
+        $soal   = DB::table('komponen_softskills')
+                    ->where('jenis_softskill', $jenis_softskill)
+                    ->get();
 
         $taruna = DB::table('tarunas')->where('tarunas.id_mahasiswa', $id)->first(); 
 
-        return view('nilaisoftskill.edit')->with('soal', $soal)->with('taruna', $taruna);
+        return view('nilaisoftskill.edit')
+            ->with('soal', $soal)
+            ->with('id_semester', @$_GET['id_semester'])
+            ->with('taruna', $taruna);
     }
 
     /**

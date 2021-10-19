@@ -29,8 +29,8 @@
       background-image: linear-gradient(to top, rgb(76 175 80 / 80%), #3f51b5), url(https://poltekbangplg.ac.id/wp-content/uploads/2020/05/gedung-trbu-new.png)
     }
 
-    @media only screen and (max-width: 600px){
-      .formsemester{
+    @media only screen and (max-width: 600px) {
+      .formsemester {
         display: none;
       }
     }
@@ -334,13 +334,13 @@
           <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <input type="text" readonly
-              <?php 
+              <input type="text" readonly <?php 
                 use App\Semester; 
               ?>
                 value="SEMESTER AKTIF: {{ strtoupper(Semester::where('is_semester_aktif', '1')->value('nama_semester')) }}"
                 class="form-control formsemester" style="width: 280px;">
-                {{-- <p class="alert alert-info">{{ db::table('semesters')->where('is_semester_aktif', '1')->value('nama_semester') }}</p> --}}
+              {{-- <p class="alert alert-info">{{ db::table('semesters')->where('is_semester_aktif', '1')->value('nama_semester') }}
+              </p> --}}
             </a>
           </li>
 
@@ -364,6 +364,9 @@
               Ubah Username & Password
               </a> --}}
               {{-- <div class="dropdown-divider"></div> --}}
+
+              <a class="dropdown-item" data-toggle="modal" data-target="#changepassword">Ubah Password</a>
+
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
@@ -375,6 +378,37 @@
           </li>
         </ul>
       </nav>
+
+      <div class="modal fade" id="changepassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ganti Password</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{{ url('changepassword') }}" method="POST">
+              @csrf
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Password Baru</label>
+                  <input type="password" id="password" class="form-control" required name="password">
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Konfirmasi Password</label>
+                  <input type="password" id="konfirmasi" class="form-control" required name="konfirmasi_password"
+                    onkeyup="cekpassword()">
+                  <p id="password_alert" style="color: red; margin-top: 10px;" class="d-none">Password tidak sama</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" id="btnchange" class="btn btn-primary" disabled="true">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <!-- End of Topbar -->
 
       <!-- Begin Page Content -->
@@ -442,6 +476,24 @@
   <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
 
   @stack('scripts')
+
+  <script>
+    const alert       = document.getElementById('password_alert')
+    const btnchange   = document.getElementById('btnchange')
+
+    function cekpassword(){
+      const password    = document.getElementById('password').value
+      const konfirmasi  = document.getElementById('konfirmasi').value
+
+      if(password != konfirmasi){
+        alert.classList.remove("d-none")
+        btnchange.disabled = true
+      }else if(password == konfirmasi){
+        alert.setAttribute("class", "d-none")
+        btnchange.disabled = false
+      }
+    }
+  </script>
 </body>
 
 </html>

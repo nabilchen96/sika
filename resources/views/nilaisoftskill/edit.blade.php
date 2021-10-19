@@ -13,7 +13,7 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="{{ url('penilaiansoftskill') }}?id_mahasiswa={{ $taruna->id_mahasiswa }}" class="btn btn-sm btn-success"><i
+                <a href="{{ url('penilaiansoftskill') }}?id_mahasiswa={{ $taruna->id_mahasiswa }}&id_semester={{ $id_semester }}" class="btn btn-sm btn-success"><i
                         class="fas fa-arrow-left"></i> Kembali</a>
             </div>
             <div class="card-body">
@@ -58,7 +58,7 @@
                                                         ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
                                                         ->where('id_komponen_softskill', $item->id_komponen_softskill)
                                                         ->where('id_mahasiswa', $taruna->id_mahasiswa)
-                                                        ->where('semesters.is_semester_aktif', '1')
+                                                        ->where('semesters.id_semester', @$_GET['id_semester'])
                                                         ->first();
                                         ?>
                                         <select name="nilai[]" class="form-control">

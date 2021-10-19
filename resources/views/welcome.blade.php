@@ -56,11 +56,11 @@
             <h1>Sistem Informasi Ketarunaan dan Alumni</h1>
             <br>
             <p>
-              SIKA adalah singkatan dari sistem informasi ketarunaan dan alumni. Sistem informasi ketarunaan ditujukan untuk membantu
-              PUSBANGKAR dalam mengelola data non-akademik taruna, seperti perizinan, catatan sakit, pelanggaran dan
-              penghargaan taruna. 
+              SIKA adalah singkatan dari sistem informasi ketarunaan dan alumni. Bagian ketarunaan ditujukan untuk membantu
+              PUSBANGKAR dalam mengelola data non-akademik taruna, seperti perizinan, catatan sakit, pelanggaran, hukuman, penghargaan taruna dan
+              penilaian non-akademik yang meliputi nilai kesamaptaan dan nilai softskill.
             </p><p>
-              Sedangkan sistem informasi alumni ditujukan untuk mengelola data para taruna
+              Sedangkan bagian alumni ditujukan untuk mengelola data para taruna
               yang sudah lulus dan memberikan informasi seperti lowongan pekerjaan kepada para alumni.
             </p>
           </div>

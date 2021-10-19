@@ -19,7 +19,7 @@ class PenilaianSamaptaController extends Controller
      */
     public function index(Request $request)
     {
-        if(auth::user()->role == 'admin'){
+        if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
 
             $taruna = DB::table('tarunas')->get();
 

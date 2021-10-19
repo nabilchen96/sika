@@ -71,15 +71,16 @@
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hukuman Belum Selesai</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $hukuman }}</div>
-          </div>
-          <div class="col-auto">
-            <i class="fas fa-tasks fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> --}}
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $hukuman }}
+</div>
+</div>
+<div class="col-auto">
+  <i class="fas fa-tasks fa-2x text-gray-300"></i>
+</div>
+</div>
+</div>
+</div>
+</div> --}}
 </div>
 
 {{-- <div class="row">
@@ -278,3 +279,11 @@
 </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+  @if($message = Session::get('sukses'))
+      toastr.success("{{ $message }}")
+  @endif
+</script>
+@endpush
