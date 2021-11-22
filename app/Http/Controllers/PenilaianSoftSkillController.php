@@ -19,7 +19,7 @@ class PenilaianSoftSkillController extends Controller
     public function index(Request $request)
     {
 
-        if(auth::user()->role == 'admin'){
+        if(auth::user()->role == 'admin' || Auth::user()->role == 'pusbangkar'){
 
             $data = DB::table('tarunas')->get();
 

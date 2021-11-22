@@ -19,34 +19,9 @@
 
         <div class="card mb-12">
             <div class="card-header">
-                <a href="{{ url('rekapnilaiexport') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                
             </div>
             <div class="card-body">
-                @if(auth::user()->role != 'taruna')
-                <form action="{{ route('rekapnilai.index') }}" method="GET">
-                    {{-- @csrf --}}
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Nama Taruna</label>
-                        <div class="col-sm-3">
-                            <select name="id_mahasiswa" class="form-control mahasiswa">
-                                <option value="">----</option>
-                                @foreach ($data as $d)
-                                <option value="{{ $d->id_mahasiswa }}">{{ $d->nama_mahasiswa }} | {{ $d->nim }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-sm btn-success">
-                                <i class="fas fa-search"></i> Tampilkan
-                            </button>
-                        </div>
-                    </div>
-                    <br>
-                </form>
-                @else
                 <form action="{{ route('rekapnilai.index') }}" method="GET">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Semester</label>
@@ -65,148 +40,214 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <button type="submit" class="btn btn-sm btn-success">
                                 <i class="fas fa-search"></i> Tampilkan
                             </button>
+                            @if(@$_GET['id_semester'])
+                                <a href="{{ url('rekapnilaiexport') }}/{{ $_GET['id_semester'] }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                            @endif
                         </div>
                     </div>
                     <br>
                 </form>
-                @endif
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <td rowspan=2 width="300">Taruna</td>
-                                <td rowspan="2" width="150">Nilai Jasmani (40%)</td>
-                                <td colspan="3" width="390" class="text-center">Nilai Softskill (60%)</td>
-                                <td rowspan="2" width="63">Nilai Akhir</td>
-                                <td rowspan="2" width="20"></td>
-                            </tr>
-                            <tr>
-                                <td width="130">Nilai Softskill Competency (50%)</td>
-                                <td width="130">Nilai Pelanggaran (25%)</td>
-                                <td width="130">Nilai Penghargaan (25%)</td>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ @$data_nilai->nama_mahasiswa == null ? @$data_nilai[0]['nama_mahasiswa'] : @$data_nilai->nama_mahasiswa }}<br>
-                                    {{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}
-                                </td>
-                                <td>{{ $nilai1 = @$data_nilai->nilai_samapta == null ? round(@$data_nilai[0]['nilai_jasmani'], 2) : round(@$data_nilai->nilai_samapta, 2) }}
-                                </td>
-
-                                <td>{{ $nilai2 = @$data_nilai->nilai_softskill == null ? round(@$data_nilai[0]['nilai_softskill'], 2) : round(@$data_nilai->nilai_softskill, 2) }}
-                                </td>
-
-                                <td>{{ $nilai3 = @$data_nilai->nilai_pelanggaran == null ? round(@$data_nilai[0]['nilai_pelanggaran'], 2) : round(@$data_nilai->nilai_pelanggaran, 2) }}
-                                </td>
-                                <td>{{ $nilai4 = @$data_nilai->nilai_penghargaan == null ? 0 : round(@$data_nilai->nilai_penghargaan, 2) }}
-                                </td>
-                                <td>
-                                    <?php
-                                        $nilai1 = $nilai1 * 40 / 100;
-                                        $nilai2 = $nilai2 * 50 / 100;
-                                        $nilai3 = $nilai3 * 25 / 100;
-                                        $nilai4 = $nilai4 * 25 / 100;
-                                    ?>
-                                    {{ 
-                                        round(@$nilai1 + (($nilai2 + $nilai3 + $nilai4) * 60 / 100), 2)
-                                    }}
-                                </td>
-                                <td>
-                                    @if (@$data_nilai->id_rekap_nilai != null)
-                                    <a href="{{ url('rapot') }}/{{ @$data_nilai->id_mahasiswa }}" class="btn btn-sm btn-success">
-                                        <i class="fas fa-print"></i>
-                                    </a>
-                                    @else
-                                    @if (auth::user()->role == 'pengasuh')
-                                    <?php $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first(); ?>
-                                        @if($kordinator)
-                                            <a href="#" data-toggle="modal"
-                                                data-target="#modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
-                                                class="btn btn-sm btn-success">
-                                                Sahkan Nilai!
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                          Nilai Sudah Disahkan
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                          Nilai Belum Disahkan
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <td rowspan="2" width="10">No</td>
+                                        <td rowspan=2 width="300">Taruna</td>
+                                        <td rowspan="2" width="150">Nilai Jasmani (40%)</td>
+                                        <td colspan="3" width="390" class="text-center">Nilai Softskill (60%)</td>
+                                        <td rowspan="2" width="63">Nilai Akhir</td>
+                                        <td rowspan="2" width="63">Status</td>
+                                        <td rowspan="2" width="20"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="130">Nilai Softskill Competency (50%)</td>
+                                        <td width="130">Nilai Pelanggaran (25%)</td>
+                                        <td width="130">Nilai Penghargaan (25%)</td>
+                                    </tr>
+    
+                                </thead>
+                                <tbody>
+                                    @foreach ($nilai_sah as $k => $n)
+                                     <tr>
+                                        <td>{{ $k+1 }}</td>
+                                        <td>{{ $n->nama_mahasiswa }} <br> {{ $n->nim }}</td>
+                                        <td>{{ $nilai1 = round(@$n->nilai_samapta, 2)}}</td>
+                                        <td>{{ $nilai2 = round(@$n->nilai_softskill, 2) }}</td>
+                                        <td>{{ $nilai3 = round(@$n->nilai_pelanggaran, 2) }}</td>
+                                        <td>{{ $nilai4 = round(@$n->nilai_penghargaan, 2) }}</td>
+                                        <td>
+                                            <?php
+                                                $nilai1 = $nilai1 * 40 / 100;
+                                                $nilai2 = $nilai2 * 50 / 100;
+                                                $nilai3 = $nilai3 * 25 / 100;
+                                                $nilai4 = $nilai4 * 25 / 100;
+                                            ?>
+                                            {{ 
+                                                $nilai_akhir = round(@$nilai1 + (($nilai2 + $nilai3 + $nilai4) * 60 / 100), 2)
+                                            }}
+                                        </td>
+                                        <td>
+                                            @if($nilai_akhir >= 75)
+                                                <span class="badge badge-success">Lulus</span>
+                                            @else
+                                                <span class="badge badge-danger">Tidak Lulus</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ url('rapot') }}/{{ @$n->id_mahasiswa }}" class="btn btn-sm btn-success">
+                                                <i class="fas fa-print"></i>
                                             </a>
-                                        @else
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered table-striped" width="100%" id="dataTable2" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <td rowspan="2" width="10">No</td>
+                                        <td rowspan=2 width="300">Taruna</td>
+                                        <td rowspan="2" width="150">Nilai Jasmani (40%)</td>
+                                        <td colspan="3" width="390" class="text-center">Nilai Softskill (60%)</td>
+                                        <td rowspan="2" width="63">Nilai Akhir</td>
+                                        <td rowspan="2" width="20"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="130">Nilai Softskill Competency (50%)</td>
+                                        <td width="130">Nilai Pelanggaran (25%)</td>
+                                        <td width="130">Nilai Penghargaan (25%)</td>
+                                    </tr>
+    
+                                </thead>
+                                <tbody>
+                                    @foreach ($data_nilai as $k => $item)
+                                     <tr>
+                                        <td>{{ $k+1 }}</td>
+                                        <td>{{ $item['nama_mahasiswa'] }} <br> {{ $item['nim'] }}</td>
+                                        <td>{{ $nilai1 = round(@$item['nilai_jasmani'], 2)}}</td>
+                                        <td>{{ $nilai2 = round(@$item['nilai_softskill'], 2) }}</td>
+                                        <td>{{ $nilai3 = round(@$item['nilai_pelanggaran'], 2) }}</td>
+                                        <td>{{ $nilai4 = round(@$item['nilai_penghargaan'], 2) }}</td>
+                                        <td>
+                                            <?php
+                                                $nilai1 = $nilai1 * 40 / 100;
+                                                $nilai2 = $nilai2 * 50 / 100;
+                                                $nilai3 = $nilai3 * 25 / 100;
+                                                $nilai4 = $nilai4 * 25 / 100;
+                                            ?>
+                                            {{ 
+                                                round(@$nilai1 + (($nilai2 + $nilai3 + $nilai4) * 60 / 100), 2)
+                                            }}
+                                        </td>
+                                        <td>
+                                            @if (auth::user()->role == 'pengasuh')
+                                            <?php $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first(); ?>
+                                                @if($kordinator)
+                                                    <a href="#" data-toggle="modal"
+                                                        data-target="#modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
+                                                        class="btn btn-sm btn-success">
+                                                        Sahkan Nilai!
+                                                    </a>
+                                                @else
+                                                    <button disabled class="btn btn-sm btn-success">
+                                                        Sahkan Nilai!
+                                                    </button>
+                                                @endif
+                                            @else
                                             <button disabled class="btn btn-sm btn-success">
                                                 Sahkan Nilai!
                                             </button>
-                                        @endif
-                                    @else
-                                    <button disabled class="btn btn-sm btn-success">
-                                        Sahkan Nilai!
-                                    </button>
-                                    @endif
-                                    <div class="modal fade"
-                                        id="modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
-                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Dialog Konfirmasi
-                                                        Nilai</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                @if (
-                                                @$data_nilai[0]['nilai_jasmani'] == 0 ||
-                                                @$data_nilai[0]['nilai_softskill'] == 0
-                                                // @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
-                                                // @$data_nilai[0]['nilai_penghargaan'] == 0
-                                                )
-                                                <div class="modal-body">
-                                                    Ada Nilai yang Belum Diisi, Harap isi Nilai Kosong Terlebih Dahulu!
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <button type="button" disabled
-                                                        class="btn btn-primary">Simpan</button>
-                                                </div>
-
-                                                @else
-                                                <form action="{{ url('simpanrekapnilai') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="id_mahasiswa"
-                                                        value="{{ @$data_nilai[0]['id_mahasiswa'] }}">
-                                                    <input type="hidden" name="id_semester"
-                                                        value="{{ @$data_nilai[0]['id_semester'] }}">
-                                                    <input type="hidden" name="nilai_samapta"
-                                                        value="{{ @$data_nilai[0]['nilai_jasmani'] }}">
-                                                    <input type="hidden" name="nilai_softskill"
-                                                        value="{{ @$data_nilai[0]['nilai_softskill'] }}">
-                                                    <input type="hidden" name="nilai_pelanggaran"
-                                                        value="{{ @$data_nilai[0]['nilai_pelanggaran'] }}">
-                                                    <input type="hidden" name="nilai_penghargaan"
-                                                        value="{{ @$data_nilai[0]['nilai_penghargaan'] }}">
-                                                    <div class="modal-body">
-                                                        Yakin Ingin Mensahkan Nilai ini?
-
+                                            @endif
+                                            <div class="modal fade"
+                                                id="modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
+                                                tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Dialog Konfirmasi
+                                                                Nilai</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        @if (
+                                                        @$data_nilai[0]['nilai_jasmani'] == 0 ||
+                                                        @$data_nilai[0]['nilai_softskill'] == 0
+                                                        // @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
+                                                        // @$data_nilai[0]['nilai_penghargaan'] == 0
+                                                        )
+                                                        <div class="modal-body">
+                                                            Ada Nilai yang Belum Diisi, Harap isi Nilai Kosong Terlebih Dahulu!
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="button" disabled
+                                                                class="btn btn-primary">Simpan</button>
+                                                        </div>
+        
+                                                        @else
+                                                        <form action="{{ url('simpanrekapnilai') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id_mahasiswa"
+                                                                value="{{ @$data_nilai[0]['id_mahasiswa'] }}">
+                                                            <input type="hidden" name="id_semester"
+                                                                value="{{ @$data_nilai[0]['id_semester'] }}">
+                                                            <input type="hidden" name="nilai_samapta"
+                                                                value="{{ @$data_nilai[0]['nilai_jasmani'] }}">
+                                                            <input type="hidden" name="nilai_softskill"
+                                                                value="{{ @$data_nilai[0]['nilai_softskill'] }}">
+                                                            <input type="hidden" name="nilai_pelanggaran"
+                                                                value="{{ @$data_nilai[0]['nilai_pelanggaran'] }}">
+                                                            <input type="hidden" name="nilai_penghargaan"
+                                                                value="{{ @$data_nilai[0]['nilai_penghargaan'] }}">
+                                                            <div class="modal-body">
+                                                                Yakin Ingin Mensahkan Nilai ini?
+        
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            </div>
+                                                        </form>
+                                                        @endif
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                                    </div>
-                                                </form>
-                                                @endif
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </div>
@@ -240,5 +281,10 @@
         theme: 'bootstrap4',
         placeholder: "Please Select"
     })
+</script>
+<script>
+    $(document).ready( function () {
+        $('#dataTable2').DataTable();
+    } );
 </script>
 @endpush

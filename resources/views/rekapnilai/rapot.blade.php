@@ -126,7 +126,7 @@
                     <tr>
                         <td class="text-center">
                             Mengetahui <br>
-                            Kepala Sub Bagian Alumni dan Ketarunaan <br>
+                            Kepala Pusat Pembangunan Karakter <br>
                             Politeknik Penerbangan Palembang
                         </td>
                     </tr>
@@ -136,8 +136,10 @@
                     <tr>
                         <td class="text-center">
                             <u>
-                                Asep Muhammad Soleh, S.Sit., S.T., M.Pd.
+                                Yacob Mandala Putra Panjaitan, S.S.T., M.Si.
                             </u>
+                            <br>
+                            NIP. 198712022009121001
                         </td>
                     </tr>
                 </table>

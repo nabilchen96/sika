@@ -12,7 +12,7 @@
         </div>
         <div class="row">
           <?php
-          $data = DB::table('beritas')->paginate(6);  
+          $data = DB::table('beritas')->orderBy('created_at', 'DESC')->paginate(6);  
           ?>
           @foreach ($data as $k => $item)
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $k+1 }}00">

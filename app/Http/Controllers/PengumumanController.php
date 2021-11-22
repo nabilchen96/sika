@@ -19,11 +19,11 @@ class PengumumanController extends Controller
                     'users.id',
                     'users.name'
                 )
+                ->orderBy('beritas.created_at', 'DESC')
                 ->get();
 
-
         $detailberita = $data->firstWhere('id_berita', $id);
-        $recentberita = $data->take(3);
+        $recentberita = $data->whereNotIn('id_berita', $id)->take(3);
         
 
         return view('detailberita')

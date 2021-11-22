@@ -22,7 +22,7 @@ class NilaiSamaptaExport implements FromView
 
     public function view(): View
     {
-        if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
+        if(auth::user()->role == 'admin' || auth::user){
 
             $data = DB::table('penilaian_samaptas')
                         ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')

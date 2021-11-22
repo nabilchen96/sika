@@ -19,7 +19,7 @@
       <div class="d-md-flex">
         <?php
           
-          $data = DB::table('beritas')->limit(3)->get();
+          $data = DB::table('beritas')->orderBy('created_at', 'DESC')->limit(3)->get();
 
         ?>
         @forelse ($data as $k => $item)

@@ -19,214 +19,182 @@ class RekapNilaiController extends Controller
      */
     public function index(Request $request)
     {
-        
-        if(auth::user()->role == 'pengasuh'){
+
+        $data = [];
+        $data_nilai = [];
+
+        if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
+
+            $data = DB::table('tarunas')
+                        ->whereNotIn(
+                            'id_mahasiswa', function($query){
+                                $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
+                            }
+                        )
+                        ->get();
+
+            $nilai_sah = DB::table('rekap_nilais')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                            ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
+                            ->get();
+
+        }elseif(auth::user()->role == 'taruna'){
+
+            $data = DB::table('tarunas')->where('tarunas.nim', auth::user()->nip)
+                        ->whereNotIn(
+                            'id_mahasiswa', function($query){
+                                $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
+                            }
+                        )
+                        ->get();
+
+            $nilai_sah = DB::table('rekap_nilais')
+                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                            ->where('tarunas.nim', auth::user()->nip)
+                            ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
+                            ->get();
+
+        }else{
 
             $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                if($kordinator){
+            if($kordinator){
+                $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+                $data = DB::table('tarunas')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->whereNotIn(
+                                    'tarunas.id_mahasiswa', function($query){
+                                        $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
+                                    }
+                                )
+                                ->where(function($q) use ($grup_kordinasi) {
+                                    foreach($grup_kordinasi  as $k) {
+                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                    }
+                                })           
+                                ->get();
 
-                    $data= DB::table('asuhans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                        ->where(function($q) use ($grup_kordinasi) {
 
-                            foreach($grup_kordinasi  as $k) {
-                                $q->orWhere('asuhans.id_pengasuh', $k->id);
-                            }
+                $nilai_sah = DB::table('rekap_nilais')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
+                                ->where(function($q) use ($grup_kordinasi) {
+                                    foreach($grup_kordinasi  as $k) {
+                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                    }
+                                })     
+                                ->get();
+            }else{
 
-                        })->get();
-
-                }else{
-
-                    $data = DB::table('asuhans')
-                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                $data = DB::table('tarunas')
+                            ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
                             ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                            ->where('asuhans.id_pengasuh', Auth::id())            
+                            ->whereNotIn(
+                                'tarunas.id_mahasiswa', function($query){
+                                    $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
+                                }
+                            )
+                            ->where('asuhans.id_pengasuh', Auth::id())
                             ->get();
 
-                }
-
-        }else{
-            $data = DB::table('tarunas')->get();
-        }
-
-        if($request->id_mahasiswa){
-
-            $data_nilai = DB::table('rekap_nilais')
-                            ->join('semesters', 'semesters.id_semester', '=', 'rekap_nilais.id_semester')
-                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
-                            ->where('semesters.is_semester_aktif', "1")
-                            ->where('rekap_nilais.id_mahasiswa', $request->id_mahasiswa)
-                            ->first();
-
-            if($data_nilai == null){
-
-                $taruna = DB::table('tarunas')->where('id_mahasiswa', $request->id_mahasiswa)->first();
-
-                //nilai jasmani
-                $nilai_jasmani = DB::table('penilaian_samaptas')
-                                ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
-                                ->where('semesters.is_semester_aktif', "1")
-                                ->where('penilaian_samaptas.id_mahasiswa', $request->id_mahasiswa)
-                                ->first();
-
-                $soal           = DB::table('komponen_softskills')
-                                    ->select(
-                                        'jenis_softskill',
-                                        db::raw(
-                                            'count(id_komponen_softskill) as nilai'
-                                        )
-                                    )
-                                    ->groupBy('jenis_softskill')
-                                    ->get();
-
-                $nilai = 0;
-                foreach ($soal as $key => $value) {
-                    
-                    $perevaluasi = DB::table('penilaian_soft_skills')
-                                    ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                                    ->where('semesters.is_semester_aktif', '1')
-                                    ->where('penilaian_soft_skills.id_mahasiswa', $request->id_mahasiswa)
-                                    ->where('komponen_softskills.jenis_softskill', $value->jenis_softskill)
-                                    ->sum('nilai');
-
-                    $nilai = $nilai + ($perevaluasi/$value->nilai);
-                }
                 
-                $nilai_softskill =  $nilai / $soal->count('nilai');
-
-                //nilai pelanggaran
-                $nilai_pelanggaran = DB::table('catatan_pelanggarans')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
-                                    ->where('catatan_pelanggarans.id_mahasiswa', $request->id_mahasiswa)
-                                    ->where('semesters.is_semester_aktif', "1")
-                                    ->sum('poin_pelanggaran');
-                
-                // dd($nilai_pelanggaran);
-                $nilai_pelanggaran = $nilai_pelanggaran != null ? 100 - $nilai_pelanggaran : 100;
-
-                //nilai penghargaan
-                $nilai_penghargaan = DB::table('catatan_penghargaans')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_penghargaans.id_semester')
-                                    ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
-                                    ->where('catatan_penghargaans.id_mahasiswa', $request->id_mahasiswa)
-                                    ->where('semesters.is_semester_aktif', "1")
-                                    ->sum('poin_penghargaan');
-                $nilai_penghargaan == 100 ? $nilai_penghargaan = 100 : $nilai_penghargaan;
-
-                $data_nilai[] = array(
-                    'nama_mahasiswa'    => @$taruna->nama_mahasiswa,
-                    'nim'               => @$taruna->nim,
-                    'id_mahasiswa'      => @$taruna->id_mahasiswa,
-                    'id_semester'       => @$nilai_jasmani->id_semester,
-                    'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta ? $nilai_jasmani->nilai_samapta : 0,
-                    'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
-                    'nilai_pelanggaran' => @$nilai_pelanggaran,
-                    'nilai_penghargaan' => @$nilai_penghargaan,
-                );
-
-                // dd($data_nilai);
-            }else{  
-                $data_nilai;
+                $nilai_sah = DB::table('rekap_nilais')
+                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
+                                ->where('asuhans.id_pengasuh', Auth::id())
+                                ->get();
             }
 
-        }else{
-
-            // dd($request->id_semester);
-            $id_mahasiswa = DB::table('tarunas')->where('nim', auth::user()->nip)->value('id_mahasiswa');
-
-            $data_nilai = DB::table('rekap_nilais')
-                            ->join('semesters', 'semesters.id_semester', '=', 'rekap_nilais.id_semester')
-                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
-                            ->where('semesters.id_semester', $request->id_semester)
-                            ->where('rekap_nilais.id_mahasiswa', $id_mahasiswa)
-                            ->first();
-                            
-            if($data_nilai == null){
-
-                $taruna = DB::table('tarunas')->where('id_mahasiswa', $id_mahasiswa)->first();
-
-                //nilai jasmani
-                $nilai_jasmani = DB::table('penilaian_samaptas')
-                                ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
-                                ->where('semesters.id_semester', $request->id_semester)
-                                ->where('penilaian_samaptas.id_mahasiswa', @$taruna->id_mahasiswa)
-                                ->first();
-
-                $soal           = DB::table('komponen_softskills')
-                                    ->select(
-                                        'jenis_softskill',
-                                        db::raw(
-                                            'count(id_komponen_softskill) as nilai'
-                                        )
-                                    )
-                                    ->groupBy('jenis_softskill')
-                                    ->get();
-
-                $nilai = 0;
-                foreach ($soal as $key => $value) {
-                    
-                    $perevaluasi = DB::table('penilaian_soft_skills')
-                                    ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
-                                    ->where('semesters.id_semester', $request->id_semester)
-                                    ->where('penilaian_soft_skills.id_mahasiswa', @$taruna->id_mahasiswa)
-                                    ->where('komponen_softskills.jenis_softskill', $value->jenis_softskill)
-                                    ->sum('nilai');
-
-                    $nilai = $nilai + ($perevaluasi/$value->nilai);
-                }
-                
-                $nilai_softskill =  $nilai / $soal->count('nilai');
-
-                //nilai pelanggaran
-                $nilai_pelanggaran = DB::table('catatan_pelanggarans')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
-                                    ->where('catatan_pelanggarans.id_mahasiswa', @$taruna->id_mahasiswa)
-                                    ->where('semesters.id_semester', $request->id_semester)
-                                    ->sum('poin_pelanggaran');
-
-                                    // dd($nilai_pelanggaran);
-                
-                // dd($nilai_pelanggaran);
-                $nilai_pelanggaran = $nilai_pelanggaran != null ? 100 - $nilai_pelanggaran : 100;
-
-                //nilai penghargaan
-                $nilai_penghargaan = DB::table('catatan_penghargaans')
-                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_penghargaans.id_semester')
-                                    ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
-                                    ->where('catatan_penghargaans.id_mahasiswa', @$taruna->id_mahasiswa)
-                                    ->where('semesters.id_semester', $request->id_semester)
-                                    ->sum('poin_penghargaan');
-                $nilai_penghargaan == 100 ? $nilai_penghargaan = 100 : $nilai_penghargaan;
-
-                $data_nilai[] = array(
-                    'nama_mahasiswa'    => @$taruna->nama_mahasiswa,
-                    'nim'               => @$taruna->nim,
-                    'id_mahasiswa'      => @$taruna->id_mahasiswa,
-                    'id_semester'       => @$nilai_jasmani->id_semester,
-                    'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta ? $nilai_jasmani->nilai_samapta : 0,
-                    'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
-                    'nilai_pelanggaran' => @$nilai_pelanggaran,
-                    'nilai_penghargaan' => @$nilai_penghargaan,
-                );
-
-                // dd($data_nilai);
-            }else{  
-                $data_nilai;
-            }
         }
 
-        // dd($data_nilai);
+        $soal   = DB::table('komponen_softskills')
+                    ->select(
+                        'jenis_softskill',
+                        db::raw(
+                            'count(id_komponen_softskill) as nilai'
+                        )
+                    )
+                    ->groupBy('jenis_softskill')
+                    ->get();
 
-        
+        foreach ($data as $key => $value) {
+
+            $nilai_jasmani = DB::table('penilaian_samaptas')
+                                ->where('id_mahasiswa', $value->id_mahasiswa)
+                                ->where('id_semester', @$_GET['id_semester'])
+                                ->first();
+
+            $nilai = 0;                    
+            foreach ($soal as $key => $s) {
+
+                $perevaluasi = DB::table('penilaian_soft_skills')
+                                ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
+                                ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
+                                ->where('semesters.id_semester', @$_GET['id_semester'])
+                                ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
+                                ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
+                                ->sum('nilai');
+
+                $nilai = $nilai + ($perevaluasi/$s->nilai);
+            }
+            
+            $nilai_softskill =  $nilai / $soal->count('nilai');
+
+            //nilai pelanggaran
+            $nilai_pelanggaran = DB::table('catatan_pelanggarans')
+                                ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
+                                ->where('catatan_pelanggarans.id_mahasiswa', $value->id_mahasiswa)
+                                ->where('semesters.id_semester', @$_GET['id_semester'])
+                                ->sum('poin_pelanggaran');
+
+            // dd($nilai_pelanggaran);
+
+            // dd($nilai_pelanggaran);
+            $nilai_pelanggaran = $nilai_pelanggaran != null ? 100 - $nilai_pelanggaran : 100;
+
+            //nilai penghargaan
+            $nilai_penghargaan = DB::table('catatan_penghargaans')
+                                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_penghargaans.id_semester')
+                                    ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                                    ->where('catatan_penghargaans.id_mahasiswa', $value->id_mahasiswa)
+                                    ->where('semesters.id_semester', @$_GET['id_semester'])
+                                    ->sum('poin_penghargaan');
+
+            // $nilai_penghargaan > 100 ? $nilai_penghargaan = 100 : $nilai_penghargaan;
+
+            if(empty($nilai_penghargaan)){
+                $nilai_penghargaan = 75;
+            }else{
+                if($nilai_penghargaan > 100){
+                    $nilai_penghargaan = 100;
+                }elseif($nilai_penghargaan < 100){
+                    $nilai_penghargaan = $nilai_penghargaan + 75;
+                }
+            }
+
+            if(@$_GET['id_semester']){
+                $data_nilai[] = array(
+                    'id_mahasiswa'      => $value->id_mahasiswa,
+                    'nama_mahasiswa'    => $value->nama_mahasiswa,
+                    'nim'               => $value->nim,
+                    'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
+                    'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
+                    'nilai_pelanggaran' => @$nilai_pelanggaran,
+                    'nilai_penghargaan' => @$nilai_penghargaan
+                );
+            }
+            
+        }
+
         return view('rekapnilai.index')
-                ->with('data_nilai', $data_nilai)
-                ->with('data', $data);
+                ->with('nilai_sah', $nilai_sah)
+                ->with('data_nilai', $data_nilai);
     }
 
     /**
@@ -362,7 +330,7 @@ $pdf = PDF::loadView('rekapnilai.rapot', $datas);
 return $pdf->download('rapot non akademik taruna.pdf'); 
     }
 
-    public function export(){
-        return Excel::download(new RekapNilaiExport, 'Rekap Nilai Taruna.xlsx');
+    public function export($id){
+        return Excel::download(new RekapNilaiExport($id), 'Rekap Nilai Taruna.xlsx');
     }
 }
