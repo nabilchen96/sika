@@ -11,7 +11,7 @@
 @endpush
 
 @section('content')
-<div class="row">
+<div class="row" style="zoom: 90%;">
     <div class="col-lg-12">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 alert alert-primary">
             <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Penilaian / Penilaian Jasmani
@@ -70,7 +70,6 @@
                                 </th>
                                 @if (auth::user()->role != 'taruna')
                                 <th style="text-align: center" rowspan="2" width="10"></th>
-                                <th style="text-align: center" rowspan="2" width="10"></th>
                                 @endif
                             </tr>
                             <tr>
@@ -123,11 +122,12 @@
                                 @if (auth::user()->role != 'taruna')
                                 <td>
                                     <a href="#" data-toggle="modal" data-target=".modalform"
-                                        data-array="{{ json_encode($data[$k]) }}" class="btn btn-sm btn-success"><i
+                                        data-array="{{ json_encode($data[$k]) }}" class="btn btn-sm btn-success btn-block"><i
                                             class="fas fa-edit"></i></a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                    <a class="btn btn-sm btn-primary btn-block mt-1" href="{{ url('nilaisamaptaexportpdf') }}/{{ $item->id_nilai_samapta }}">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </a>
+                                    <button class="btn btn-danger btn-sm btn-block mt-1" data-toggle="modal"
                                         data-target="#hapus{{ $item->id_nilai_samapta }}" data-array="hapus"><i
                                             class="fas fa-trash"></i></button>
                                     <div class="modal fade" id="hapus{{ $item->id_nilai_samapta }}" tabindex="-1"

@@ -8,6 +8,7 @@ use App\PenilaianSoftSkill;
 use auth;
 use App\Exports\NilaiSoftSkillExport;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PenilaianSoftSkillController extends Controller
 {
@@ -184,5 +185,24 @@ class PenilaianSoftSkillController extends Controller
     public function export($id_mahasiswa){
 
         return Excel::download(new NilaiSoftSkillExport($id_mahasiswa), 'Nilai Softskill Taruna.xlsx');
+    }
+
+    public function exportpdf($id_mahasiswa, $id_semester){
+
+        $data = [
+            'data' => DB::table('penilaian_soft_skills as psk')
+                    ->join('komponen_softskills as ks', 'ks.id_komponen_softskill', '=', 'psk.id_komponen_softskill')
+                    ->join('semesters as s', 's.id_semester', '=', 'psk.id_semester')
+                    ->join('tarunas as t', 't.id_mahasiswa', '=', 'psk.id_mahasiswa')
+                    ->where('psk.id_semester', $id_semester)
+                    ->where('psk.id_mahasiswa', $id_mahasiswa)
+                    ->get()
+        ];
+
+
+        // dd($data);
+
+        $pdf = PDF::loadView('nilaisoftskill.exportpdf', $data);
+        return $pdf->download('nilai softskill taruna.pdf');
     }
 }

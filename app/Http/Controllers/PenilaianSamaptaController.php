@@ -9,6 +9,7 @@ use App\PenilaianSamapta;
 use App\AturanNilaibbi;
 use App\Exports\NilaiSamaptaExport;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PenilaianSamaptaController extends Controller
 {
@@ -302,5 +303,22 @@ class PenilaianSamaptaController extends Controller
     public function export($id_semester){
     
         return Excel::download(new NilaiSamaptaExport($id_semester), 'Nilai Samapta Taruna.xlsx');
+    }
+
+    public function exportpdf($id){
+
+        $data = [
+            'data' => DB::table('penilaian_samaptas')
+                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_samaptas.id_mahasiswa')
+                ->join('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                ->where('penilaian_samaptas.id_nilai_samapta', $id)
+                ->first()
+        ];
+
+                // dd($data);
+
+
+        $pdf = PDF::loadView('nilaisamapta.exportpdf', $data);
+        return $pdf->download('nilai jasmani taruna.pdf');
     }
 }
