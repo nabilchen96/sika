@@ -74,7 +74,7 @@
                                                     <i class="fas fa-edit"></i></a>
                                                 </li>
                                                 <?php
-                                                $total_nilai = $total_nilai + round($p['nilai'], 2);
+                                                    $total_nilai = $total_nilai + round($p['nilai'], 2);
                                                 ?>
                                             @endforeach
                                         </td>
@@ -83,6 +83,9 @@
                                           <a href="{{ url('nilaisoftskillexport') }}/{{ $item['id_mahasiswa'] }}"
                                             class="btn btn-sm btn-success">
                                             <i class="fas fa-file-excel"></i>
+                                          </a>
+                                          <a href="{{ url('nilaisoftskillexportpdf') }}/{{ $item['id_mahasiswa'] }}/{{ @$_GET['id_semester'] }}" class="btn btn-block btn-sm btn-primary mt-1">
+                                            <i class="fas fa-file-pdf"></i>
                                           </a>
                                         </td>
                                     </tr>
