@@ -126,7 +126,7 @@
       </div>
     </section>
     <footer class="border-top">
-      <p class="text-center text-muted pt-4">Copyright © <?php echo date('Y'); ?> Subbag Aktar Politeknik Penerbangan Palembang. 
+      <p class="text-center text-muted pt-4">Copyright © <?php echo 2021; ?> Subbag Aktar Politeknik Penerbangan Palembang. 
           Developed by<a
           target="_blank" href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
     </footer>
