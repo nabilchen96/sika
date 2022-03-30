@@ -217,7 +217,7 @@
                                                             <input type="hidden" name="id_mahasiswa"
                                                                 value="{{ @$data_nilai[0]['id_mahasiswa'] }}">
                                                             <input type="hidden" name="id_semester"
-                                                                value="{{ @$data_nilai[0]['id_semester'] }}">
+                                                                value="{{ @$_GET['id_semester'] }}">
                                                             <input type="hidden" name="nilai_samapta"
                                                                 value="{{ @$data_nilai[0]['nilai_jasmani'] }}">
                                                             <input type="hidden" name="nilai_softskill"
