@@ -60,35 +60,45 @@ class RekapNilaiController extends Controller
             $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
             if($kordinator){
+
                 $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                $data = DB::table('tarunas')
-                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                                ->whereNotIn(
-                                    'tarunas.id_mahasiswa', function($query){
-                                        $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
-                                    }
-                                )
-                                ->where(function($q) use ($grup_kordinasi) {
-                                    foreach($grup_kordinasi  as $k) {
-                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
-                                    }
-                                })           
-                                ->get();
+                if(count($grup_kordinasi) != null){
 
+                    $data = DB::table('tarunas')
+                                    ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                                    ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                    ->whereNotIn(
+                                        'tarunas.id_mahasiswa', function($query){
+                                            $query->select('id_mahasiswa')->from('rekap_nilais')->where('id_semester', @$_GET['id_semester']);
+                                        }
+                                    )
+                                    ->where(function($q) use ($grup_kordinasi) {
+                                        foreach($grup_kordinasi  as $k) {
+                                            $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                        }
+                                    })           
+                                    ->get();
+    
+    
+                    $nilai_sah = DB::table('rekap_nilais')
+                                    ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                    ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
+                                    ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                                    ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
+                                    ->where(function($q) use ($grup_kordinasi) {
+                                        foreach($grup_kordinasi  as $k) {
+                                            $q->orWhere('asuhans.id_pengasuh', $k->id);
+                                        }
+                                    })     
+                                    ->get();
+                }else{
 
-                $nilai_sah = DB::table('rekap_nilais')
-                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
-                                ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
-                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                                ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
-                                ->where(function($q) use ($grup_kordinasi) {
-                                    foreach($grup_kordinasi  as $k) {
-                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
-                                    }
-                                })     
-                                ->get();
+                    $data = []; 
+                    $nilai_sah = [];
+
+                }
+
             }else{
 
                 $data = DB::table('tarunas')

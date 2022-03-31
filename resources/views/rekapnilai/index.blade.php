@@ -167,7 +167,7 @@
                                             <?php $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first(); ?>
                                                 @if($kordinator)
                                                     <a href="#" data-toggle="modal"
-                                                        data-target="#modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
+                                                        data-target="#modal{{ @$item['nim'] }}"
                                                         class="btn btn-sm btn-success">
                                                         Sahkan Nilai!
                                                     </a>
@@ -182,7 +182,7 @@
                                             </button>
                                             @endif
                                             <div class="modal fade"
-                                                id="modal{{ @$data_nilai->nim == null ? @$data_nilai[0]['nim'] : @$data_nilai->nim }}"
+                                                id="modal{{ @$item['nim'] }}"
                                                 tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -196,8 +196,8 @@
                                                             </button>
                                                         </div>
                                                         @if (
-                                                        @$data_nilai[0]['nilai_jasmani'] == 0 ||
-                                                        @$data_nilai[0]['nilai_softskill'] == 0
+                                                        @$item['nilai_jasmani'] == 0 ||
+                                                        @$item['nilai_softskill'] == 0
                                                         // @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
                                                         // @$data_nilai[0]['nilai_penghargaan'] == 0
                                                         )
@@ -215,17 +215,17 @@
                                                         <form action="{{ url('simpanrekapnilai') }}" method="POST">
                                                             @csrf
                                                             <input type="hidden" name="id_mahasiswa"
-                                                                value="{{ @$data_nilai[0]['id_mahasiswa'] }}">
+                                                                value="{{ @$item['id_mahasiswa'] }}">
                                                             <input type="hidden" name="id_semester"
                                                                 value="{{ @$_GET['id_semester'] }}">
                                                             <input type="hidden" name="nilai_samapta"
-                                                                value="{{ @$data_nilai[0]['nilai_jasmani'] }}">
+                                                                value="{{ @$item['nilai_jasmani'] }}">
                                                             <input type="hidden" name="nilai_softskill"
-                                                                value="{{ @$data_nilai[0]['nilai_softskill'] }}">
+                                                                value="{{ @$item['nilai_softskill'] }}">
                                                             <input type="hidden" name="nilai_pelanggaran"
-                                                                value="{{ @$data_nilai[0]['nilai_pelanggaran'] }}">
+                                                                value="{{ @$item['nilai_pelanggaran'] }}">
                                                             <input type="hidden" name="nilai_penghargaan"
-                                                                value="{{ @$data_nilai[0]['nilai_penghargaan'] }}">
+                                                                value="{{ @$item['nilai_penghargaan'] }}">
                                                             <div class="modal-body">
                                                                 Yakin Ingin Mensahkan Nilai ini?
         
