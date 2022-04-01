@@ -21,6 +21,7 @@
   <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link rel="shortcut icon" href="https://poltekbangplg.ac.id/wp-content/uploads/2020/06/favicon.ico" type="image/x-icon" />
   @stack('style')
 
 
