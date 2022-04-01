@@ -142,10 +142,10 @@
                     <tr>
                         <td class="text-center">
                             <u>
-                                Yacob Mandala Putra Panjaitan, S.S.T., M.Si.
+                                WILDAN NUGRAHA, S.E., MS.ASM.
                             </u>
                             <br>
-                            NIP. 198712022009121001
+                            NIP. 19890121 200912 1 002
                         </td>
                     </tr>
                 </table>
