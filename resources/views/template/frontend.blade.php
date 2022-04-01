@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ asset('frontend/css/style.min.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="https://poltekbangplg.ac.id/wp-content/uploads/2020/06/favicon.ico" type="image/x-icon" />
   @stack('style')
   <style>
     .contact-us .contact-us-bgimage {
