@@ -165,7 +165,7 @@
                                         <td>
                                             @if (auth::user()->role == 'pengasuh')
                                             <?php $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first(); ?>
-                                                @if($kordinator)
+                                                @if($kordinator || auth::user()->role == 'pusbangkar')
                                                     <a href="#" data-toggle="modal"
                                                         data-target="#modal{{ @$item['nim'] }}"
                                                         class="btn btn-sm btn-success">
@@ -176,6 +176,12 @@
                                                         Sahkan Nilai!
                                                     </button>
                                                 @endif
+                                            @elseif(auth::user()->role == 'pusbangkar')
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#modal{{ @$item['nim'] }}"
+                                                    class="btn btn-sm btn-success">
+                                                    Sahkan Nilai!
+                                                </a>
                                             @else
                                             <button disabled class="btn btn-sm btn-success">
                                                 Sahkan Nilai!
