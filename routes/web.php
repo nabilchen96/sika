@@ -212,7 +212,7 @@ Route::get('/hapusberita/{id}', 'BeritaController@destroy')->middleware(['checkR
 Route::get('/editberita/{id}', 'BeritaController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
-Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
 // Route::get('/rekapnilai', 'PenilaianController@rekapnilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 // Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
