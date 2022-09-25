@@ -37,15 +37,13 @@
                     style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Berita</a>
             </li>
             <li class="nav-item" style="margin-right: 5px;">
-                <a href="{{ url('mobile/taruna') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                    style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> Taruna</a>
+                <a href="{{ url('mobile/nilai') }}" class="btn btn-primary" onclick="getData(1)" id="1"
+                    style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> Nilai</a>
             </li>
         </ul>
         <div class="mb-3">
             <h3 style="margin-bottom: 0;">Kejasmanian</h3>
-            <a href="#">
-                <span style="font-size: 12px;">Lihat Penilaian <i class="bi bi-arrow-right"></i></span>
-            </a>
+            <span style="font-size: 12px;">Kategori Penilaian <i class="bi bi-arrow-right"></i></span>
         </div>
 
         <ul class="nav nav-lt-tab" style="border: 0;" role="tablist">
@@ -153,9 +151,7 @@
 
         <div class="mb-3 mt-4">
             <h3 style="margin-bottom: 0;">Catatan Lainnya</h3>
-            <a href="#">
-                <span style="font-size: 12px;">Lihat Catatan <i class="bi bi-arrow-right"></i></span>
-            </a>
+            <span style="font-size: 12px;">Kategori Catatan <i class="bi bi-arrow-right"></i></span>
         </div>
         <ul class="nav nav-lt-tab" style="border: 0;" role="tablist">
             <li class="nav-item" style="margin-right: 5px;">

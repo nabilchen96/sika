@@ -73,6 +73,22 @@ class ShuttleRunController extends Controller
                                     0 : $nilai->where('jenis_samapta', 'Shuttle Run')->where('jumlah', $request->jumlah_shuttle_run)->first());
             }
 
+            //cek samapta
+            $samapta = PenilaianSamapta::where('id_semester', $semester)
+                        ->where('id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
+
+            //hitung nilai sampata
+            $samapta_a      = $samapta->nilai_lari ?? 0;
+            $samapta_b      = (($samapta->nilai_push_up ?? 0) + ($samapta->nilai_sit_up ?? 0) + ($nilai_shuttlerun->nilai ?? $nilai_shuttlerun)) / 3;
+
+            //make 70%
+            $nilai_samapta  = ($samapta_a + $samapta_b) / 2;
+            $nilai_samapta  = $nilai_samapta / 100 * 70;
+            
+            //make 30%
+            $nilai_bbi      = @$samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
+
             //simpan atau update data
             $data = PenilaianSamapta::updateOrCreate(
                 [
@@ -83,7 +99,8 @@ class ShuttleRunController extends Controller
                     'id_mahasiswa'  => $request->id_mahasiswa, 
                     'id_semester'   => $semester,
                     'jumlah_shuttle_run'    => $request->jumlah_shuttle_run, 
-                    'nilai_shuttle_run'     => $nilai_shuttlerun->nilai ?? $nilai_shuttlerun
+                    'nilai_shuttle_run'     => $nilai_shuttlerun->nilai ?? $nilai_shuttlerun,
+                    'nilai_samapta'         => round($nilai_samapta + $nilai_bbi, 2)
                 ]
             );
 

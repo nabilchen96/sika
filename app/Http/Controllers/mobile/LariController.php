@@ -71,6 +71,23 @@ class LariController extends Controller
                                 0 : $nilai->where('jenis_samapta', 'Lari')->where('jumlah', $request->jarak_lari)->first());
             }
 
+            //cek samapta
+            $samapta = PenilaianSamapta::where('id_semester', $semester)
+                        ->where('id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
+
+            //hitung nilai sampata
+            $samapta_a      = $nilai_lari->nilai ?? $nilai_lari;
+            $samapta_b      = (($samapta->nilai_push_up ?? 0) + ($samapta->nilai_sit_up ?? 0) + ($samapta->nilai_shuttle_run ?? 0)) / 3;
+
+            //make 70%
+            $nilai_samapta  = ($samapta_a + $samapta_b) / 2;
+            $nilai_samapta  = $nilai_samapta / 100 * 70;
+            
+            //make 30%
+            $nilai_bbi      = $samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
+
+
             //simpan atau update data
             $data = PenilaianSamapta::updateOrCreate(
                 [
@@ -81,7 +98,8 @@ class LariController extends Controller
                     'id_mahasiswa'  => $request->id_mahasiswa, 
                     'id_semester'   => $semester,
                     'jarak_lari'    => $request->jarak_lari, 
-                    'nilai_lari'    => $nilai_lari->nilai ?? $nilai_lari
+                    'nilai_lari'    => $nilai_lari->nilai ?? $nilai_lari, 
+                    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
                 ]
             );
 

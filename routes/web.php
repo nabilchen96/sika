@@ -253,3 +253,13 @@ Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
 
 //BERITA
 Route::get('/mobile/berita', 'mobile\BeritaController@index');
+Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
+
+//NILAI TARUNA
+Route::get('/mobile/nilai', 'mobile\NilaiController@index');
+
+//PELANGGARAN
+Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
+
+//PENGHARGAAN
+Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');

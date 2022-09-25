@@ -115,10 +115,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('mobile/taruna') }}" class="nav-link">
+                <a href="{{ url('mobile/nilai') }}" class="nav-link">
                     <i style="font-size: 20px;" class="bi bi-journal-text"></i>
                     <br>
-                    <span style="font-size: 10px">TARUNA</span>
+                    <span style="font-size: 10px">NILAI</span>
                 </a>
             </li>
             <li class="nav-item">

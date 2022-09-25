@@ -66,9 +66,23 @@ class BBIController extends Controller
                             ->where('bmi', 'like', round($bmi, 2))
                             ->first();
 
-            // dd($bbi->nilai, round($bmi, 2));
+            //cek samapta
+            $samapta = PenilaianSamapta::where('id_semester', $semester)
+                        ->where('id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
 
-            // $nilai_bbi  = $bbi->nilai / 100 * 30;
+            //hitung nilai sampata
+            $samapta_a      = $samapta->nilai_lari ?? 0;
+            $samapta_b      = (($samapta->nilai_push_up ?? 0) + 
+                              ($samapta->nilai_sit_up ?? 0) + 
+                              ($samapta->nilai_shuttle_run ?? 0)) / 3;
+
+            //make 70%
+            $nilai_samapta  = ($samapta_a + $samapta_b) / 2;
+            $nilai_samapta  = $nilai_samapta / 100 * 70;
+            
+            //make 30%
+            $nilai_bbi      = @$bbi->nilai ? ($bbi->nilai / 100 * 30) : 0;
 
             //simpan atau update data
             $data = PenilaianSamapta::updateOrCreate(
@@ -82,7 +96,8 @@ class BBIController extends Controller
                     'tinggi_badan'  => $request->tinggi_badan, 
                     'berat_badan'   => $request->berat_badan,
                     'stakes'        => $bbi->stakes,
-                    'nilai_bbi'     => $bbi->nilai
+                    'nilai_bbi'     => $bbi->nilai, 
+                    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
                 ]
             );
 

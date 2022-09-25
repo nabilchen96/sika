@@ -72,6 +72,22 @@ class PushUpController extends Controller
 
             }
 
+            //cek samapta
+            $samapta = PenilaianSamapta::where('id_semester', $semester)
+                        ->where('id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
+
+            //hitung nilai sampata
+            $samapta_a      = $samapta->nilai_lari ?? 0;
+            $samapta_b      = (($nilai_pushup->nilai ?? $nilai_pushup) + ($samapta->nilai_sit_up ?? 0) + ($samapta->nilai_shuttle_run ?? 0)) / 3;
+
+            //make 70%
+            $nilai_samapta  = ($samapta_a + $samapta_b) / 2;
+            $nilai_samapta  = $nilai_samapta / 100 * 70;
+            
+            //make 30%
+            $nilai_bbi      = @$samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
+
             //simpan atau update data
             $data = PenilaianSamapta::updateOrCreate(
                 [
@@ -82,7 +98,8 @@ class PushUpController extends Controller
                     'id_mahasiswa'  => $request->id_mahasiswa, 
                     'id_semester'   => $semester,
                     'jumlah_push_up'=> $request->jumlah_push_up, 
-                    'nilai_push_up' => $nilai_pushup->nilai ?? $nilai_pushup
+                    'nilai_push_up' => $nilai_pushup->nilai ?? $nilai_pushup, 
+                    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
                 ]
             );
 

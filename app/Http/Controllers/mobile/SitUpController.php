@@ -74,6 +74,22 @@ class SitUpController extends Controller
 
             }
 
+            //cek samapta
+            $samapta = PenilaianSamapta::where('id_semester', $semester)
+                        ->where('id_mahasiswa', $request->id_mahasiswa)
+                        ->first();
+
+            //hitung nilai sampata
+            $samapta_a      = $samapta->nilai_lari ?? 0;
+            $samapta_b      = (($samapta->nilai_push_up ?? 0) + ($nilai_situp->nilai ?? $nilai_situp) + ($samapta->nilai_shuttle_run ?? 0)) / 3;
+
+            //make 70%
+            $nilai_samapta  = ($samapta_a + $samapta_b) / 2;
+            $nilai_samapta  = $nilai_samapta / 100 * 70;
+            
+            //make 30%
+            $nilai_bbi      = @$samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
+
             //simpan atau update data
             $data = PenilaianSamapta::updateOrCreate(
                 [
@@ -84,7 +100,8 @@ class SitUpController extends Controller
                     'id_mahasiswa'  => $request->id_mahasiswa, 
                     'id_semester'   => $semester,
                     'jumlah_sit_up'=> $request->jumlah_sit_up, 
-                    'nilai_sit_up' => $nilai_situp->nilai ?? $nilai_situp
+                    'nilai_sit_up' => $nilai_situp->nilai ?? $nilai_situp, 
+                    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
                 ]
             );
 
