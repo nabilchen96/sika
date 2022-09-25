@@ -214,5 +214,21 @@ Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:
 
 Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
-// Route::get('/rekapnilai', 'PenilaianController@rekapnilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-// Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+
+//ROUTE MOBILE
+Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
+
+Route::get('/mobile/lari', 'mobile\LariController@index');
+Route::post('/mobile/store-lari', 'mobile\LariController@store');
+
+
+Route::get('/mobile/pushup', 'mobile\PushUpController@index');
+Route::get('/mobile/situp', 'mobile\SitUpController@index');
+Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
+Route::get('/mobile/bbi', 'mobile\BBIController@index');
+
+Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
+Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
+
+Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
+Route::get('/mobile/detail-penghargaan/{id}', 'mobile\PenghargaanController@detail');
