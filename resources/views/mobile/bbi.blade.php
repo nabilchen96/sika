@@ -25,8 +25,9 @@
 
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/pelanggaran') }}" class="btn btn-primary"
-                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Tambah</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary"
+                        class="btn btn-primary" style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Add or
+                        Edit</a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/lari') }}" class="btn btn-primary"
@@ -45,12 +46,14 @@
                     <a href="{{ url('mobile/shuttlerun') }}" class="btn btn-primary" onclick="getData(1)" id="1"
                         style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> Shuttle Run</a>
                 </li>
+                <li class="nav-item" style="margin-right: 5px;">
+                    <a href="{{ url('mobile/bbi') }}" class="btn btn-primary" onclick="getData(1)" id="1"
+                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> BBI</a>
+                </li>
             </ul>
         </div>
         <div class="" style="margin-top: -20px; border-radius: 15px;">
             <div class="">
-                {{-- <button class="btn btn-primary btn-sm" style="border-radius: 15px;">Tambah</button> --}}
-
                 <div class="table-responsive">
                     <table class="table table-borderless" style="width: 100%;" id="dataTable" cellspacing="0">
                         <thead>
@@ -106,7 +109,7 @@
                                                                 <h4>{{ $item->stakes }}</h4>
                                                             </div>
                                                             <div class="col-6">
-                                                                Berat <br>
+                                                                Nilai BBI <br>
                                                                 <h4>{{ $item->nilai_bbi }}</h4>
                                                             </div>
                                                         </div>
@@ -124,9 +127,60 @@
 
         </div>
     </div>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add or Edit Push Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form">
+                    <input type="hidden" name="id" id="id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            @php
+                                $taruna = DB::table('tarunas')->get();
+                            @endphp
+                            <select class="select2 form-control" name="id_mahasiswa" id="id_mahasiswa">
+                                @foreach ($taruna as $item)
+                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} | {{ $item->nim }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tinggi Badan</label>
+                            <input type="number" class="form-control" id="tinggi_badan" name="tinggi_badan"
+                                step="0.01" placeholder="Gunakan Titik untuk Koma" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Berat Badan</label>
+                            <input type="number" class="form-control" id="berat_badan" name="berat_badan"
+                                step="0.01" placeholder="Gunakan Titik untuk Koma" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="tombol_kirim" style="border-radius: 25px;" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                theme: "bootstrap",
+                dropdownParent: $(".select2").parent()
+            });
+        });
+
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "ordering": false,
@@ -139,5 +193,46 @@
                 }
             });
         });
+
+        form.onsubmit = (e) => {
+
+            let formData = new FormData(form);
+
+            e.preventDefault();
+
+            document.getElementById("tombol_kirim").disabled = true;
+
+            axios({
+                    method: 'post',
+                    url: formData.get('id') == '' ? '/mobile/store-bbi' : '/mobile/update-bbi',
+                    data: formData,
+                })
+                .then(function(res) {
+                    //handle success         
+                    if (res.data.responCode == 1) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses',
+                            text: res.data.respon,
+                            timer: 3000,
+                            showConfirmButton: false
+                        })
+
+                        //reload
+                        window.location.replace("/mobile/bbi");
+
+                    } else {
+
+                    }
+
+                    document.getElementById("tombol_kirim").disabled = false;
+                })
+                .catch(function(res) {
+                    //handle error
+                    console.log(res);
+                    document.getElementById("tombol_kirim").disabled = false;
+                });
+        }
     </script>
 @endpush

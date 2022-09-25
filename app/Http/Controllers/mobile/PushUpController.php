@@ -36,7 +36,7 @@ class PushUpController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id_mahasiswa'  => 'required', 
-            'jarak_lari'    => 'required'
+            'jumlah_push_up'    => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -81,7 +81,7 @@ class PushUpController extends Controller
                 [
                     'id_mahasiswa'  => $request->id_mahasiswa, 
                     'id_semester'   => $semester,
-                    'jumlah_push_up'=> $request->jarak_lari, 
+                    'jumlah_push_up'=> $request->jumlah_push_up, 
                     'nilai_push_up' => $nilai_pushup->nilai ?? $nilai_pushup
                 ]
             );

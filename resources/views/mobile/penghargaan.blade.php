@@ -8,7 +8,7 @@
         <div class="ps-2" style="margin-top: -270px;">
             <h2 class="text-white">Catatan</h2>
             <h4 class="text-white">Penghargaan Taruna</h4>
-            <form action="{{ url('mobile/pelanggaran') }}">
+            <form action="{{ url('mobile/penghargaan') }}">
                 <div class="d-flex justify-content-between p-0">
                     <div class="d-flex flex-row align-items-center me-2 mt-3 border rounded bg-white"
                         style="width: 80%; border-radius: 25px !important;">
@@ -25,7 +25,7 @@
 
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="#" class="btn btn-primary"
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary"
                         style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Tambah</a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
@@ -34,7 +34,8 @@
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/penghargaan') }}" class="btn btn-primary position-relative" onclick="getData(0)"
-                        id="0" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Penghargaan</span>
+                        id="0"
+                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Penghargaan</span>
                     </a>
                 </li>
                 {{-- <li class="nav-item" style="margin-right: 5px;">
@@ -89,7 +90,8 @@
                                                         <div class="row mt-3">
                                                             <div class="col-lg-6">
                                                                 <b>Penghargaan: </b> {{ $item->penghargaan }} <br>
-                                                                <b>Poin: </b> {{ $item->poin_penghargaan }} <br> <b>Tanggal: </b> {{ $item->tgl_penghargaan }}
+                                                                <b>Poin: </b> {{ $item->poin_penghargaan }} <br>
+                                                                <b>Tanggal: </b> {{ $item->tgl_penghargaan }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -106,9 +108,82 @@
 
         </div>
     </div>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Penghargaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form">
+                    <input type="hidden" name="id" id="id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            @php
+                                $taruna = DB::table('tarunas')->get();
+                            @endphp
+                            <select class="select2 form-control" name="id_mahasiswa" required id="id_mahasiswa">
+                                @foreach ($taruna as $item)
+                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} |
+                                        {{ $item->nim }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Penghargaan</label>
+                            <input type="date" class="form-control" id="tgl_penghargaan" name="tgl_penghargaan"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jenis Penghargaan</label>
+                            @php
+                                $pelanggaran = DB::table('penghargaans')->get();
+                            @endphp
+                            <select class="select3 form-control" name="id_penghargaan" required id="id_penghargaan">
+                                @foreach ($pelanggaran as $item)
+                                    <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }} |
+                                        <b>{{ $item->poin_penghargaan }} Poin</b>
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">SK Penghargaan</label>
+                            <input name="sk_penghargaan" id="sk_penghargaan" class="form-control" cols="30"
+                                rows="3" placeholder="SK Penghargaan">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="tombol_kirim" style="border-radius: 25px;" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                theme: "bootstrap",
+                dropdownParent: $(".select2").parent()
+            });
+        });
+
+        $(document).ready(function() {
+            $('.select3').select2({
+                theme: "bootstrap",
+                dropdownParent: $(".select3").parent()
+            });
+        })
+
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "ordering": false,
@@ -121,5 +196,46 @@
                 }
             });
         });
+
+        form.onsubmit = (e) => {
+
+            let formData = new FormData(form);
+
+            e.preventDefault();
+
+            document.getElementById("tombol_kirim").disabled = true;
+
+            axios({
+                    method: 'post',
+                    url: formData.get('id') == '' ? '/mobile/store-penghargaan' : '/mobile/update-penghargaan',
+                    data: formData,
+                })
+                .then(function(res) {
+                    //handle success         
+                    if (res.data.responCode == 1) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses',
+                            text: res.data.respon,
+                            timer: 3000,
+                            showConfirmButton: false
+                        })
+
+                        //reload
+                        window.location.replace("/mobile/penghargaan");
+
+                    } else {
+
+                    }
+
+                    document.getElementById("tombol_kirim").disabled = false;
+                })
+                .catch(function(res) {
+                    //handle error
+                    console.log(res);
+                    document.getElementById("tombol_kirim").disabled = false;
+                });
+        }
     </script>
 @endpush

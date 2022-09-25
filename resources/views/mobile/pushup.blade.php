@@ -25,8 +25,9 @@
 
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/pelanggaran') }}" class="btn btn-primary"
-                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Add or Edit</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary"
+                        class="btn btn-primary" style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Add or
+                        Edit</a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/lari') }}" class="btn btn-primary"
@@ -120,9 +121,54 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add or Edit Push Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form">
+                    <input type="hidden" name="id" id="id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            @php
+                                $taruna = DB::table('tarunas')->get();
+                            @endphp
+                            <select class="select2 form-control" name="id_mahasiswa" id="id_mahasiswa">
+                                @foreach ($taruna as $item)
+                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jumlah Push Up</label>
+                            <input type="number" class="form-control" id="jumlah_push_up" name="jumlah_push_up">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="tombol_kirim" style="border-radius: 25px;" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                theme: "bootstrap",
+                dropdownParent: $(".select2").parent()
+            });
+        });
+
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "ordering": false,
@@ -135,5 +181,46 @@
                 }
             });
         });
+
+        form.onsubmit = (e) => {
+
+            let formData = new FormData(form);
+
+            e.preventDefault();
+
+            document.getElementById("tombol_kirim").disabled = true;
+
+            axios({
+                    method: 'post',
+                    url: formData.get('id') == '' ? '/mobile/store-pushup' : '/mobile/update-pushup',
+                    data: formData,
+                })
+                .then(function(res) {
+                    //handle success         
+                    if (res.data.responCode == 1) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses',
+                            text: res.data.respon,
+                            timer: 3000,
+                            showConfirmButton: false
+                        })
+
+                        //reload
+                        window.location.replace("/mobile/pushup");
+
+                    } else {
+
+                    }
+
+                    document.getElementById("tombol_kirim").disabled = false;
+                })
+                .catch(function(res) {
+                    //handle error
+                    console.log(res);
+                    document.getElementById("tombol_kirim").disabled = false;
+                });
+        }
     </script>
 @endpush

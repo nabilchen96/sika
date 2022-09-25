@@ -1,20 +1,20 @@
 @extends('layouts.mobile')
 @section('content')
     <div
-        style="height: 300px; background: linear-gradient(360deg, black, transparent), url('{{ asset('situp.jpg') }}'); background-position: center; background-size: cover;">
+        style="height: 300px; background: linear-gradient(360deg, black, transparent), url('{{ asset('law.jpg') }}'); background-position: center; background-size: cover;">
 
     </div>
     <div class="container">
         <div class="ps-2" style="margin-top: -270px;">
-            <h2 class="text-white">Test Samapta</h2>
-            <h4 class="text-white">Sit Up 1 Menit</h4>
-            <form action="{{ url('mobile/situp') }}">
+            <h2 class="text-white">Catatan</h2>
+            <h4 class="text-white">Pembinaan Taruna</h4>
+            <form action="{{ url('mobile/pembinaan') }}">
                 <div class="d-flex justify-content-between p-0">
                     <div class="d-flex flex-row align-items-center me-2 mt-3 border rounded bg-white"
                         style="width: 80%; border-radius: 25px !important;">
                         <i class="bi bi-search me-1 ms-4" style="color: #c5c9d2;"></i>
-                        <input type="text" name="cari" value="{{ request('cari') }}" class="form-control search me-3"
-                            style="border: none; height: 46px;" placeholder="Cari Taruna">
+                        <input type="text" name="cari" class="form-control search me-3"
+                            style="border: none; height: 46px;" value="{{ request('cari') }}" placeholder="Cari Taruna">
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm me-3 mt-3"
                         style="height: 46px; width: 20%; border-radius: 25px;">
@@ -25,36 +25,25 @@
 
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary"
-                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Add or Edit</a>
+                    <a href="{{ url('mobile/pelanggaran') }}" class="btn btn-primary"
+                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Pelanggaran</a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/lari') }}" class="btn btn-primary"
-                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Lari</a>
-                </li>
-                <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/pushup') }}" class="btn btn-primary position-relative" onclick="getData(0)"
-                        id="0" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Push Up</span>
+                    <a href="{{ url('mobile/penghargaan') }}" class="btn btn-primary position-relative" onclick="getData(0)"
+                        id="0"
+                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Penghargaan</span>
                     </a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/situp') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Sit Up</a>
-                </li>
-                <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/shuttlerun') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> Shuttle Run</a>
-                </li>
-                <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/bbi') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> BBI</a>
+                    <a href="{{ url('mobile/pembinaan') }}" class="btn btn-primary position-relative" onclick="getData(0)"
+                        id="0"
+                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Pembinaan</span>
+                    </a>
                 </li>
             </ul>
         </div>
-        <div class="" style="margin-top: -20px; border-radius: 15px;">
-            <div class="">
-                {{-- <button class="btn btn-primary btn-sm" style="border-radius: 15px;">Tambah</button> --}}
-
+        <div style="margin-top: -20px; border-radius: 15px;">
+            <div>
                 <div class="table-responsive">
                     <table class="table table-borderless" style="width: 100%;" id="dataTable" cellspacing="0">
                         <thead>
@@ -97,13 +86,15 @@
                                                             @endif
                                                         </span>
                                                         <div class="row mt-3">
-                                                            <div class="col-6">
-                                                                Jumlah <br>
-                                                                <h4>{{ $item->jumlah_sit_up }}</h4>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                Nilai <br>
-                                                                <h4>{{ $item->nilai_sit_up }}</h4>
+                                                            <div class="col-12">
+                                                                <b>Tanggal: </b> <br>{{ $item->created_at }} <br>
+                                                                <b>Keterangan: </b> <br>{{ $item->keterangan }} <br>
+                                                                <b>Status: </b> <br>
+                                                                @if ($item->is_dikerjakan == '1')
+                                                                    <span class="badge bg-success">Sudah Dikerjakan</span>
+                                                                @else
+                                                                    <span class="badge bg-danger">Belum Dikerjakan</span>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -125,7 +116,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px;">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add or Edit Push Up</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Pelanggaran</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="form">
@@ -138,14 +129,32 @@
                             @endphp
                             <select class="select2 form-control" name="id_mahasiswa" id="id_mahasiswa">
                                 @foreach ($taruna as $item)
-                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }}</option>
+                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} | {{ $item->nim }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Jumlah Sit Up</label>
-                            <input type="number" class="form-control" id="jumlah_sit_up" name="jumlah_sit_up">
+                            <label class="form-label">Tanggal Pelanggaran</label>
+                            <input type="date" class="form-control" id="tgl_pelanggaran" name="tgl_pelanggaran"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jenis Pelanggaran</label>
+                            @php
+                                $pelanggaran = DB::table('pelanggarans')->get();
+                            @endphp
+                            <select class="select3 form-control" name="id_pelanggaran" id="id_pelanggaran">
+                                @foreach ($pelanggaran as $item)
+                                    <option value="{{ $item->id_pelanggaran }}">{{ $item->pelanggaran }} | <b>{{ $item->poin_pelanggaran }} Poin</b></option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Hukuman</label>
+                            <textarea name="hukuman" id="hukuman" class="form-control" cols="30" rows="3" placeholder="Hukuman"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -160,6 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -167,6 +177,14 @@
                 dropdownParent: $(".select2").parent()
             });
         });
+
+        $(document).ready(function() {
+            $('.select3').select2({
+                theme: "bootstrap",
+                dropdownParent: $(".select3").parent()
+            });
+        })
+
 
         $(document).ready(function() {
             $('#dataTable').DataTable({
@@ -191,7 +209,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/mobile/store-situp' : '/mobile/update-situp',
+                    url: formData.get('id') == '' ? '/mobile/store-pelanggaran' : '/mobile/update-pelanggaran',
                     data: formData,
                 })
                 .then(function(res) {
@@ -207,7 +225,7 @@
                         })
 
                         //reload
-                        window.location.replace("/mobile/situp");
+                        window.location.replace("/mobile/pelanggaran");
 
                     } else {
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Validator;
+use App\CatatanPenghargaan;
 
 class PenghargaanController extends Controller
 {
@@ -36,5 +38,38 @@ class PenghargaanController extends Controller
         return view('mobile.penghargaan', [
             'data'  => $data
         ]);
+    }
+
+    public function store(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'id_mahasiswa'      => 'required', 
+            'tgl_penghargaan'   => 'required',
+            'id_penghargaan'    => 'required'
+        ]);
+
+        if($validator->fails()){
+
+            $data = [
+                'responCode'    => 0,
+                'respon'        => $validator->errors()
+            ];
+        }else{
+
+            CatatanPenghargaan::create([
+                'id_mahasiswa'      => $request->id_mahasiswa, 
+                'id_penghargaan'    => $request->id_penghargaan, 
+                'tgl_penghargaan'   => $request->tgl_penghargaan, 
+                'sk_penghargaan'    => $request->sk_penghargaan, 
+                'id_semester'       => DB::table('semesters')->where('is_semester_aktif', '1')->value('id_semester')
+            ]);
+
+            $data = [
+                'responCode'    => 1,
+                'respon'        => 'Data Sukses Ditambah'
+            ];
+        }
+
+        return response()->json($data);
     }
 }

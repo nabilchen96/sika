@@ -159,7 +159,7 @@
         </div>
         <ul class="nav nav-lt-tab" style="border: 0;" role="tablist">
             <li class="nav-item" style="margin-right: 5px;">
-            <a href="{{ url('mobile/pelanggaran') }}">
+                <a href="{{ url('mobile/pelanggaran') }}">
                     <div class="card"
                         style="
                     background-image: linear-gradient(360deg, black, transparent), url('{{ asset('law.jpg') }}'); 
@@ -193,6 +193,26 @@
                             <div style="position: absolute; bottom: 10px;">
                                 <h5 class="card-title">Catatan</h5>
                                 <h6 class="text-white">Penghargaan</h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-right: 5px;">
+                <a href="{{ url('mobile/pembinaan') }}">
+                    <div class="card"
+                        style="
+                    background-image: linear-gradient(360deg, black, transparent), url('{{ asset('pembinaan.jpg') }}'); 
+                    background-position: center;
+                    background-size: cover;
+                    width: 180px; 
+                    min-height: 240px;
+                    border-radius: 15px; 
+                    border: none;">
+                        <div class="card-body" style="white-space: normal;">
+                            <div style="position: absolute; bottom: 10px;">
+                                <h5 class="card-title">Catatan</h5>
+                                <h6 class="text-white">Pembinaan</h6>
                             </div>
                         </div>
                     </div>
