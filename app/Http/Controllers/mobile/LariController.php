@@ -85,7 +85,7 @@ class LariController extends Controller
             $nilai_samapta  = $nilai_samapta / 100 * 70;
             
             //make 30%
-            $nilai_bbi      = $samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
+            $nilai_bbi      = @$samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
 
 
             //simpan atau update data
