@@ -121,13 +121,13 @@
                     <span style="font-size: 10px">NILAI</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ url('mobile/profil') }}" class="nav-link">
                     <i style="font-size: 20px;" class="bi bi-person"></i>
                     <br>
                     <span style="font-size: 10px">PROFILE</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
     @yield('content')

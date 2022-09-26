@@ -28,6 +28,7 @@ class PelanggaranController extends Controller
                         'tarunas.jenis_kelamin',
                         'tarunas.nim', 
                         'tarunas.id_mahasiswa',
+                        'tarunas.foto',
                         DB::raw('sum(catatan_pelanggarans.poin_pelanggaran) as poin_semester')
                     )
                     ->where('semesters.is_semester_aktif', '1')

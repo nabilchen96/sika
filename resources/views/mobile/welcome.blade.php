@@ -2,7 +2,10 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-center mt-4">
-            <h4>SIKA MOBILE</h4>
+            <h4>Penilaian Non Akademik</h4>
+        </div>
+        <div class="d-flex justify-content-center">
+            <h6>Poltekbang Palembang</h6>
         </div>
         <form action="#">
             <div class="d-flex justify-content-between p-0">

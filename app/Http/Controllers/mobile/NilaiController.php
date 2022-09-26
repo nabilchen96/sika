@@ -48,6 +48,7 @@ class NilaiController extends Controller
                         'tarunas.nim', 
                         'tarunas.id_mahasiswa',
                         'semesters.nama_semester',
+                        'tarunas.foto',
                         DB::raw('sum(catatan_pelanggarans.poin_pelanggaran) as poin_semester')
                     )
                     ->orderBy('poin_semester', 'DESC')

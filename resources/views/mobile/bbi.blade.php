@@ -74,12 +74,21 @@
                                                             width: 100%; 
                                                             background: #6c63ff;
                                                             aspect-ratio: 1/1;">
-                                                            @if ($item->jenis_kelamin == 'L')
-                                                                <img style="object-fit: cover; width: 100%;"
-                                                                    src="{{ asset('male.svg') }}" alt="">
+                                                            @if ($item->foto != null)
+                                                                @php
+                                                                    $file = $item->foto;
+                                                                    $file_headers = @get_headers($file);
+                                                                @endphp
+                                                                @if ($file_headers[0] != 'HTTP/1.1 404 Not Found')
+                                                                    <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
+                                                                        src="{{ $item->foto }}" alt="">
+                                                                @else
+                                                                    <img style="object-fit: cover; width: 100%;"
+                                                                        src="{{ asset('male.svg') }}" alt="">
+                                                                @endif
                                                             @else
                                                                 <img style="object-fit: cover; width: 100%;"
-                                                                    src="{{ asset('female.svg') }}" alt="">
+                                                                    src="{{ asset('male.svg') }}" alt="">
                                                             @endif
                                                         </div>
                                                     </div>
@@ -144,7 +153,8 @@
                             @endphp
                             <select class="select2 form-control" name="id_mahasiswa" id="id_mahasiswa">
                                 @foreach ($taruna as $item)
-                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} | {{ $item->nim }}</option>
+                                    <option value="{{ $item->id_mahasiswa }}">{{ $item->nama_mahasiswa }} |
+                                        {{ $item->nim }}</option>
                                 @endforeach
                             </select>
                         </div>

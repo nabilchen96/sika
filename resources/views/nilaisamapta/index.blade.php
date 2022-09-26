@@ -106,10 +106,12 @@
                                     {{ round(($item->nilai_lari + (($item->nilai_push_up + $item->nilai_sit_up + $item->nilai_shuttle_run) / 3)) / 2, 2) }}
                                 </td>
                                 <td>
-                                    <li>Tinggi Badan: {{ $item->tinggi_badan }}</li>
-                                    <li>Berat Badan: {{ $item->berat_badan }}</li>
+                                    <li>Tinggi Badan: {{ @$item->tinggi_badan }}</li>
+                                    <li>Berat Badan: {{ @$item->berat_badan }}</li>
                                     <li>Nilai BMI:
-                                        {{ round($item->berat_badan / pow(($item->tinggi_badan/100), 2), 2) }}
+                                        @if (@$item->berat_badan)
+                                            {{ round(@$item->berat_badan / pow((@$item->tinggi_badan/100), 2), 2) }}
+                                        @endif
                                     </li>
                                     <li>Stakes: {{ $item->stakes }} </li>
                                 </td>

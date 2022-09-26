@@ -19,34 +19,16 @@ class TarunaController extends Controller
         $response = Http::get('https://siakad.poltekbangplg.ac.id/api/gettaruna');
         $response = json_decode($response, true);
 
-        // $data = array_map(function($item){
-        //     $data = [
-        //         'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
-        //         'jenis_kelamin'         => $item['jenis_kelamin'],
-        //         'tempat_lahir'          => $item['tempat_lahir'],
-        //         'tanggal_lahir'         => $item['tanggal_lahir'],
-        //         'nama_mahasiswa'        => $item['nama_mahasiswa'],
-        //         'nim'                   => $item['nim'],
-        //         'id_kelas'              => $item['id_kelas'],
-        //         'nama_kelas'            => $item['nama_kelas'],
-        //         'id_prodi'              => $item['id_prodi'],
-        //         'nama_program_studi'    => $item['nama_program_studi'],
-        //         'semester'              => $item['semesteraktif'],
-        //         'agama'                 => $item['nama_agama'],
-        //         'alamat'                => $item['alamat'],
-        //     ];
-
-        //     return $data; 
-        // }, $response['data'] );
-
-        // DB::table('tarunas')->insert($data);
-
         foreach($response['data'] as $item){
-            $cek_taruna     = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->count();
-            $update_taruna  = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->first();
+            // $cek_taruna     = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->count();
+            // $update_taruna  = Taruna::where('id_mahasiswa_siakad', $item['id_mahasiswa'])->first();
 
-            if($cek_taruna > 0){
-                $update_taruna->update([
+            Taruna::updateOrCreate(
+                [
+                    'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
+                    // 'nim'                   => $item['nim'],
+                ],
+                [
                     'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
                     'jenis_kelamin'         => $item['jenis_kelamin'],
                     'tempat_lahir'          => $item['tempat_lahir'],
@@ -60,26 +42,14 @@ class TarunaController extends Controller
                     'semester'              => $item['semesteraktif'],
                     'agama'                 => $item['nama_agama'],
                     'alamat'                => $item['alamat'],
-                ]);
-            }else{
-                Taruna::create([
-                    'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
-                    'jenis_kelamin'         => $item['jenis_kelamin'],
-                    'tempat_lahir'          => $item['tempat_lahir'],
-                    'tanggal_lahir'         => $item['tanggal_lahir'],
-                    'nama_mahasiswa'        => $item['nama_mahasiswa'],
-                    'nim'                   => $item['nim'],
-                    'id_kelas'              => $item['id_kelas'],
-                    'nama_kelas'            => $item['nama_kelas'],
-                    'id_prodi'              => $item['id_prodi'],
-                    'nama_program_studi'    => $item['nama_program_studi'],
-                    'semester'              => $item['semesteraktif'],
-                    'agama'                 => $item['nama_agama'],
-                    'alamat'                => $item['alamat'],
+                    'foto'                  => 'https://siakad.poltekbangplg.ac.id/upload/fototaruna/'.$item['foto']
                 ]);
 
-                //create akun
-                User::create([
+            User::updateOrCreate(
+                [
+                    'email' => $item['nim'],
+                ],
+                [
                     'name'                  => $item['nama_mahasiswa'],
                     'email'                 => $item['nim'],
                     'password'              => Hash::make($item['nim']),
@@ -90,7 +60,55 @@ class TarunaController extends Controller
                     'tempat_lahir'          => $item['tempat_lahir'],
                     'tgl_lahir'             => $item['tanggal_lahir']
                 ]);
-            }
+
+            // if($cek_taruna > 0){
+            //     $update_taruna->update([
+            //         'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
+            //         'jenis_kelamin'         => $item['jenis_kelamin'],
+            //         'tempat_lahir'          => $item['tempat_lahir'],
+            //         'tanggal_lahir'         => $item['tanggal_lahir'],
+            //         'nama_mahasiswa'        => $item['nama_mahasiswa'],
+            //         'nim'                   => $item['nim'],
+            //         'id_kelas'              => $item['id_kelas'],
+            //         'nama_kelas'            => $item['nama_kelas'],
+            //         'id_prodi'              => $item['id_prodi'],
+            //         'nama_program_studi'    => $item['nama_program_studi'],
+            //         'semester'              => $item['semesteraktif'],
+            //         'agama'                 => $item['nama_agama'],
+            //         'alamat'                => $item['alamat'],
+            //         'foto'                  => 'https://siakad.poltekbangplg.ac.id/upload/fototaruna/'.$item['foto']
+            //     ]);
+            // }else{
+            //     Taruna::create([
+            //         'id_mahasiswa_siakad'   => $item['id_mahasiswa'],
+            //         'jenis_kelamin'         => $item['jenis_kelamin'],
+            //         'tempat_lahir'          => $item['tempat_lahir'],
+            //         'tanggal_lahir'         => $item['tanggal_lahir'],
+            //         'nama_mahasiswa'        => $item['nama_mahasiswa'],
+            //         'nim'                   => $item['nim'],
+            //         'id_kelas'              => $item['id_kelas'],
+            //         'nama_kelas'            => $item['nama_kelas'],
+            //         'id_prodi'              => $item['id_prodi'],
+            //         'nama_program_studi'    => $item['nama_program_studi'],
+            //         'semester'              => $item['semesteraktif'],
+            //         'agama'                 => $item['nama_agama'],
+            //         'alamat'                => $item['alamat'],
+            //         'foto'                  => 'https://siakad.poltekbangplg.ac.id/upload/fototaruna/'.$item['foto']
+            //     ]);
+
+            //     //create akun
+            //     User::create([
+            //         'name'                  => $item['nama_mahasiswa'],
+            //         'email'                 => $item['nim'],
+            //         'password'              => Hash::make($item['nim']),
+            //         'jk'                    => $item['jenis_kelamin'] == 'L' ? '1' : '0',
+            //         'role'                  => 'taruna',
+            //         'alamat'                => $item['alamat'],
+            //         'nip'                   => $item['nim'],
+            //         'tempat_lahir'          => $item['tempat_lahir'],
+            //         'tgl_lahir'             => $item['tanggal_lahir']
+            //     ]);
+            // }
         }
 
         return redirect('taruna')->with(['sukses' => 'Data Berhasil Diupdate']);

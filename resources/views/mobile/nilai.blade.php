@@ -22,14 +22,15 @@
                         style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Nilai Jasmani</a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/nilai-pelanggaran') }}" class="btn btn-primary position-relative" onclick="getData(0)"
-                        id="0"
+                    <a href="{{ url('mobile/nilai-pelanggaran') }}" class="btn btn-primary position-relative"
+                        onclick="getData(0)" id="0"
                         style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai Pelanggaran</span>
                     </a>
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/nilai-penghargaan') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai Penghargaan</a>
+                    <a href="{{ url('mobile/nilai-penghargaan') }}" class="btn btn-primary" onclick="getData(1)"
+                        id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai
+                        Penghargaan</a>
                 </li>
                 {{-- <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/shuttlerun') }}" class="btn btn-primary" onclick="getData(1)" id="1"
@@ -63,12 +64,21 @@
                                                             width: 100%; 
                                                             background: #6c63ff;
                                                             aspect-ratio: 1/1;">
-                                                            @if ($item->jenis_kelamin == 'L')
-                                                                <img style="object-fit: cover; width: 100%;"
+                                                            @if ($item->foto != null)
+                                                                @php
+                                                                    $file = $item->foto;
+                                                                    $file_headers = @get_headers($file);
+                                                                @endphp
+                                                                @if ($file_headers[0] != 'HTTP/1.1 404 Not Found')
+                                                                    <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
+                                                                    src="{{ $item->foto }}" alt="">
+                                                                @else
+                                                                    <img style="object-fit: cover; width: 100%;"
                                                                     src="{{ asset('male.svg') }}" alt="">
+                                                                @endif
                                                             @else
                                                                 <img style="object-fit: cover; width: 100%;"
-                                                                    src="{{ asset('female.svg') }}" alt="">
+                                                                    src="{{ asset('male.svg') }}" alt="">
                                                             @endif
                                                         </div>
                                                     </div>
@@ -97,7 +107,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="collapse" style="font-size: 12px;" id="data{{ $item->id_mahasiswa }}">
+                                                    <div class="collapse" style="font-size: 12px;"
+                                                        id="data{{ $item->id_mahasiswa }}">
                                                         <div class="card" style="border-radius: 15px;">
                                                             <div class="card-body">
                                                                 <div class="row">
@@ -167,7 +178,10 @@
                         <div class="mb-3">
                             <label class="form-label">Semester</label>
                             @php
-                                $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();
+                                $semester = DB::table('semesters')
+                                    ->orderBy('id_semester', 'DESC')
+                                    ->take('10')
+                                    ->get();
                             @endphp
                             <select class="select2 form-control" name="id_semester" id="id_semester" required>
                                 @foreach ($semester as $item)
