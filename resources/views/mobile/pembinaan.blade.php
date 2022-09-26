@@ -65,17 +65,8 @@
                                                             background: #6c63ff;
                                                             aspect-ratio: 1/1;">
                                                             @if ($item->foto != null)
-                                                                @php
-                                                                    $file = $item->foto;
-                                                                    $file_headers = @get_headers($file);
-                                                                @endphp
-                                                                @if ($file_headers[0] != 'HTTP/1.1 404 Not Found')
-                                                                    <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
-                                                                        src="{{ $item->foto }}" alt="">
-                                                                @else
-                                                                    <img style="object-fit: cover; width: 100%;"
-                                                                        src="{{ asset('male.svg') }}" alt="">
-                                                                @endif
+                                                                <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
+                                                                    src="{{ $item->foto }}" alt="">
                                                             @else
                                                                 <img style="object-fit: cover; width: 100%;"
                                                                     src="{{ asset('male.svg') }}" alt="">
@@ -158,7 +149,8 @@
                             <select class="select3 form-control" name="id_pelanggaran" id="id_pelanggaran">
                                 @foreach ($pelanggaran as $item)
                                     <option value="{{ $item->id_pelanggaran }}">{{ $item->pelanggaran }} |
-                                        <b>{{ $item->poin_pelanggaran }} Poin</b></option>
+                                        <b>{{ $item->poin_pelanggaran }} Poin</b>
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
