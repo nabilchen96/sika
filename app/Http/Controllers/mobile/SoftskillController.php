@@ -122,7 +122,6 @@ class SoftskillController extends Controller
         ->leftjoin('komponen_softskills', 'komponen_softskills.id_komponen_softskill', '=', 'penilaian_soft_skills.id_komponen_softskill')
         ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
         ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'penilaian_soft_skills.id_mahasiswa')
-        ->where('semesters.is_semester_aktif', '1')
         ->select(
             'tarunas.nama_mahasiswa', 
             'tarunas.nama_program_studi', 
@@ -132,6 +131,7 @@ class SoftskillController extends Controller
             'tarunas.id_mahasiswa',
             'komponen_softskills.jenis_softskill',
             'semesters.nama_semester',
+            'semesters.id_semester',
             DB::raw('count(keterangan_softskill) as jumlah_keterangan'),
             DB::raw('sum(penilaian_soft_skills.nilai) as total_nilai')
         )

@@ -1,12 +1,12 @@
 @extends('layouts.mobile')
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-center mt-4">
+    <div class="container mt-4">
+        {{-- <div class="d-flex justify-content-center mt-4">
             <h4>Penilaian Non Akademik</h4>
         </div>
         <div class="d-flex justify-content-center">
             <h6>Poltekbang Palembang</h6>
-        </div>
+        </div> --}}
         <form action="#">
             <div class="d-flex justify-content-between p-0">
                 <div class="d-flex flex-row align-items-center mt-3 me-2 border rounded bg-white"

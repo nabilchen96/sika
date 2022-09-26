@@ -87,7 +87,7 @@
                                                                 $komponen = $data->where('id_mahasiswa', $item->id_mahasiswa)->sortDesc();
                                                             @endphp
                                                             <div class="row mt-2">
-                                                                <div class="col-12">
+                                                                <div class="col-9">
                                                                     <b>Nilai Softskill</b><br>
                                                                     <h4> {{ round($komponen->sum('total_nilai') / $komponen->sum('jumlah_keterangan'), 2) }} <a style="font-size: 14px;" role="button"
                                                                             aria-expanded="false"
@@ -95,6 +95,13 @@
                                                                             data-bs-toggle="collapse"
                                                                             href="#data{{ $item->id_mahasiswa }}">Detail</a>
                                                                     </h4>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <a href="{{ url('/nilaisoftskillexportpdf') }}/{{ $item->id_mahasiswa }}/{{ $item->id_semester }}">
+                                                                        <h4>
+                                                                            <i class="bi bi-file-pdf-fill text-danger"></i>
+                                                                        </h4>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -145,7 +152,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Cari Taruna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ url('mobile/nilai-pelanggaran') }}">
+                <form action="{{ url('mobile/nilai-softskill') }}">
                     <input type="hidden" name="id" id="id">
                     <div class="modal-body">
                         <div class="mb-3">
