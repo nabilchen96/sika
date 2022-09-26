@@ -26,7 +26,8 @@ class PenghargaanController extends Controller
                         'catatan_penghargaans.tgl_penghargaan',
                         'penghargaans.penghargaan', 
                         'penghargaans.poin_penghargaan', 
-                        'penghargaans.bidang_penghargaan'
+                        'penghargaans.bidang_penghargaan', 
+                        'tarunas.foto'
                     );
 
         if(request('cari')){

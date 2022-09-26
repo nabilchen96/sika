@@ -23,7 +23,8 @@ class PembinaanController extends Controller
                     'catatan_hukumen.id_catatan_hukuman',
                     'catatan_hukumen.created_at',
                     'catatan_hukumen.keterangan',
-                    'catatan_hukumen.is_dikerjakan'
+                    'catatan_hukumen.is_dikerjakan', 
+                    'tarunas.foto',
                 )
                 ->orderBy('catatan_hukumen.is_dikerjakan', 'ASC');
 
