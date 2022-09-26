@@ -264,3 +264,11 @@ Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran
 
 //PENGHARGAAN
 Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
+
+//SOFTSKILL
+Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
+Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
+Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
+
+//NILAI SOFTSKILL
+Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');

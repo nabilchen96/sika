@@ -26,10 +26,6 @@
                 <a href="{{ url('mobile/pelanggaran') }}" class="btn btn-primary mb-3"
                     style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Pelanggaran</a>
             </li>
-            {{-- <li class="nav-item" style="margin-right: 5px;">
-                <a href="{{ url('mobile/hukuman') }}" class="btn btn-primary mb-3"
-                    style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Hukuman</a>
-            </li> --}}
             <li class="nav-item" style="margin-right: 5px;">
                 <a href="{{ url('mobile/penghargaan') }}" class="btn btn-primary position-relative" onclick="getData(0)"
                     id="0" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Penghargaan</span>
@@ -218,5 +214,42 @@
                 </a>
             </li>
         </ul>
+
+        <div class="mb-3 mt-4">
+            <h3 style="margin-bottom: 0;">Softskill</h3>
+            <span style="font-size: 12px;">Kategori Penilaian <i class="bi bi-arrow-right"></i></span>
+        </div>
+
+        @php
+            $softskill = DB::table('komponen_softskills')->groupBy('jenis_softskill')->get();
+        @endphp
+        @foreach ($softskill as $item)
+        <a href="{{ url('/mobile/softskill') }}/{{ $item->jenis_softskill }}">
+            <div class="card shadow mb-3" style="border-radius: 15px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="mt-auto">
+                                <b>Kategori Evaluasi</b> <br>
+                                {{ $item->jenis_softskill }}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="div"
+                                style="border-radius: 15px; 
+                            width: 100%; 
+                            background: #6c63ff;
+                            background: url('{{ asset('followers.svg') }}');
+                            /* background-position: center; */
+                            /* background-size: cover; */
+                            aspect-ratio: 1/1;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        @endforeach
     </div>
 @endsection

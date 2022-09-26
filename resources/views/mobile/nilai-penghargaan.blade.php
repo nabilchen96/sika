@@ -6,7 +6,7 @@
     </div>
     <div class="container">
         <div class="ps-2" style="margin-top: -270px;">
-            <h2 class="text-white">Nilai Pelanggaran</h2>
+            <h2 class="text-white">Nilai Penghargaan</h2>
             <h4 class="text-white">{{ @$data[0]->nama_semester }}</h4>
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
@@ -27,6 +27,10 @@
                     <a href="{{ url('mobile/nilai-penghargaan') }}" class="btn btn-primary" onclick="getData(1)"
                         id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai
                         Penghargaan</a>
+                </li>
+                <li class="nav-item" style="margin-right: 5px;">
+                    <a href="{{ url('mobile/nilai-softskill') }}" class="btn btn-primary" onclick="getData(1)"
+                        id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai Softskill</a>
                 </li>
             </ul>
         </div>

@@ -13,10 +13,6 @@
                     <a href="#" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary"
                         style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Cari</a>
                 </li>
-                {{-- <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/lari') }}" class="btn btn-primary"
-                        style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Nilai Total</a>
-                </li> --}}
                 <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/nilai') }}" class="btn btn-primary"
                         style="border-radius: 20px; padding-left: 25px; padding-right: 25px;">Nilai Jasmani</a>
@@ -32,14 +28,10 @@
                         id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai
                         Penghargaan</a>
                 </li>
-                {{-- <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/shuttlerun') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> Shuttle Run</a>
-                </li>
                 <li class="nav-item" style="margin-right: 5px;">
-                    <a href="{{ url('mobile/bbi') }}" class="btn btn-primary" onclick="getData(1)" id="1"
-                        style="border-radius: 25px; padding-left: 25px; padding-right: 25px;"> BBI</a>
-                </li> --}}
+                    <a href="{{ url('mobile/nilai-softskill') }}" class="btn btn-primary" onclick="getData(1)"
+                        id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai Softskill</a>
+                </li>
             </ul>
         </div>
         <div style="margin-top: -20px; border-radius: 15px;">
