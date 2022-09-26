@@ -6,7 +6,7 @@
     </div>
     <div class="container">
         <div class="ps-2" style="margin-top: -270px;">
-            <h2 class="text-white">Nilai Pelanggaran</h2>
+            <h2 class="text-white">Nilai Softskill</h2>
             <h4 class="text-white">{{ @$data[0]->nama_semester }}</h4>
             <ul class="nav nav-lt-tab mt-3" style="border: 0;" role="tablist">
                 <li class="nav-item" style="margin-right: 5px;">
@@ -30,7 +30,8 @@
                 </li>
                 <li class="nav-item" style="margin-right: 5px;">
                     <a href="{{ url('mobile/nilai-softskill') }}" class="btn btn-primary" onclick="getData(1)"
-                        id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai Softskill</a>
+                        id="1" style="border-radius: 25px; padding-left: 25px; padding-right: 25px;">Nilai
+                        Softskill</a>
                 </li>
             </ul>
         </div>
@@ -44,56 +45,97 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $taruna = '';
+                                $softskill = '';
+                            @endphp
                             @foreach ($data as $k => $item)
-                                <tr>
-                                    <td>
-                                        <div class="card shadow" style="border-radius: 15px;">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-4">
-                                                        <div class="div"
-                                                            style="border-radius: 15px; 
+                                @if ($item->id_mahasiswa != $taruna)
+                                    <tr>
+                                        <td>
+                                            <div class="card shadow" style="border-radius: 15px;">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="div"
+                                                                style="border-radius: 15px; 
                                                             width: 100%; 
                                                             background: #6c63ff;
                                                             aspect-ratio: 1/1;">
-                                                            @if ($item->foto != null)
-                                                                <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
-                                                                    src="{{ $item->foto }}" alt="">
-                                                            @else
-                                                                <img style="object-fit: cover; width: 100%;"
-                                                                    src="{{ asset('male.svg') }}" alt="">
-                                                            @endif
+                                                                @if ($item->foto != null)
+                                                                    <img style="border-radius: 15px; height: 100%; object-fit: cover; width: 100%;"
+                                                                        src="{{ $item->foto }}" alt="">
+                                                                @else
+                                                                    <img style="border-radius: 15px; object-fit: cover; width: 100%;"
+                                                                        src="{{ asset('male.svg') }}" alt="">
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            {{ $item->nama_mahasiswa }}<br>
+                                                            <span class="badge bg-primary">{{ $item->nim }}</span>
+                                                            <span class="badge bg-primary">
+                                                                @if ($item->nama_program_studi == 'Teknologi Rekayasa Bandar Udara')
+                                                                    TRBU
+                                                                @elseif($item->nama_program_studi == 'Manajemen Bandar Udara')
+                                                                    MBU
+                                                                @elseif($item->nama_program_studi == 'Penyelamatan dan Pemadam Kebakaran Penerbangan')
+                                                                    PPKP
+                                                                @endif
+                                                            </span>
+                                                            @php
+                                                                $komponen = $data->where('id_mahasiswa', $item->id_mahasiswa)->sortDesc();
+                                                            @endphp
+                                                            <div class="row mt-2">
+                                                                <div class="col-9">
+                                                                    <b>Nilai Softskill</b><br>
+                                                                    <h4> {{ round($komponen->sum('total_nilai') / $komponen->sum('jumlah_keterangan'), 2) }} <a style="font-size: 14px;" role="button"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapseExample"
+                                                                            data-bs-toggle="collapse"
+                                                                            href="#data{{ $item->id_mahasiswa }}">Detail</a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <a href="{{ url('/nilaisoftskillexportpdf') }}/{{ $item->id_mahasiswa }}/{{ $item->id_semester }}">
+                                                                        <h4>
+                                                                            <i class="bi bi-file-pdf-fill text-danger"></i>
+                                                                        </h4>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-8">
-                                                        {{ $item->nama_mahasiswa }}<br>
-                                                        <span class="badge bg-primary">{{ $item->nim }}</span>
-                                                        <span class="badge bg-primary">
-                                                            @if ($item->nama_program_studi == 'Teknologi Rekayasa Bandar Udara')
-                                                                TRBU
-                                                            @elseif($item->nama_program_studi == 'Manajemen Bandar Udara')
-                                                                MBU
-                                                            @elseif($item->nama_program_studi == 'Penyelamatan dan Pemadam Kebakaran Penerbangan')
-                                                                PPKP
-                                                            @endif
-                                                        </span>
-                                                        <div class="row mt-2">
-                                                            <div class="col-6">
-                                                                <b>Total Poin</b> <br>
-                                                                <h4>{{ $item->poin_semester }}</h4>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <b>Nilai</b> <br>
-                                                                <h4>{{ $item->poin_semester ? 100 - $item->poin_semester : 100 }}
-                                                                </h4>
+                                                    <div class="collapse" style="font-size: 12px;"
+                                                        id="data{{ $item->id_mahasiswa }}">
+                                                        <div class="card" style="border-radius: 15px;">
+                                                            <div class="card-body">
+                                                                <table class="table table-borderless">
+                                                                    @foreach ($komponen as $item)
+                                                                        <tr>
+                                                                            <td class="p-0" style="height: 25px;">
+                                                                                <a href="{{ url('/mobile/detail-softskill') }}/{{ $item->id_mahasiswa }}/{{ $item->jenis_softskill }}">
+                                                                                    <b>{{ $item->jenis_softskill }}</b>
+                                                                                </a>    
+                                                                            </td>
+                                                                            <td class="p-0">
+                                                                                {{ round($item->total_nilai / $item->jumlah_keterangan, 2) }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @php
+                                    $taruna = $item->id_mahasiswa;
+                                    $softskill = $item->jenis_softskill;
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -110,7 +152,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Cari Taruna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ url('mobile/nilai-pelanggaran') }}">
+                <form action="{{ url('mobile/nilai-softskill') }}">
                     <input type="hidden" name="id" id="id">
                     <div class="modal-body">
                         <div class="mb-3">

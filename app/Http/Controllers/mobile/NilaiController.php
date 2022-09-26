@@ -92,6 +92,7 @@ class NilaiController extends Controller
                         'penghargaans.poin_penghargaan', 
                         'penghargaans.bidang_penghargaan', 
                         'tarunas.foto',
+                        'semesters.nama_semester',
                         DB::raw('sum(penghargaans.poin_penghargaan) as poin_semester')
                     )->orderBy('poin_semester', 'DESC')
                     ->groupBy('tarunas.id_mahasiswa');

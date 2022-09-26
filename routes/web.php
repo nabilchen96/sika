@@ -184,7 +184,8 @@ Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController')->middlewar
 Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/nilaisoftskillexport/{id_mahasiswa}', 'PenilaianSoftSkillController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-Route::get('/nilaisoftskillexportpdf/{id_mahasiswa}/{id_semester}', 'PenilaianSoftSkillController@exportpdf')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+Route::get('/nilaisoftskillexportpdf/{id_mahasiswa}/{id_semester}', 'PenilaianSoftSkillController@exportpdf');
+// ->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::resource('rekapnilai', 'RekapNilaiController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('simpanrekapnilai', 'RekapNilaiController@store')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
@@ -264,3 +265,11 @@ Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran
 
 //PENGHARGAAN
 Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
+
+//SOFTSKILL
+Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
+Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
+Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
+
+//NILAI SOFTSKILL
+Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');
