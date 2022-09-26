@@ -125,6 +125,12 @@
                                                                         BBI <br>
                                                                         <h4>{{ $item->nilai_bbi ?? 0 }}</h4>
                                                                     </div>
+                                                                    <div class="col-4">
+                                                                        <br>
+                                                                        <a href="{{ url('nilaisamaptaexportpdf') }}/{{ $item->id_nilai_samapta }}">
+                                                                            <h4><i class="text-danger bi bi-file-pdf-fill"></i></h4>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
