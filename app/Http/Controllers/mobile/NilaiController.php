@@ -77,8 +77,23 @@ class NilaiController extends Controller
     public function nilaiPenghargaan(){
 
         $data   = DB::table('tarunas')
-                    ->leftjoin('penilaian_samaptas', 'penilaian_samaptas.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                    ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
+                    ->join('catatan_penghargaans', 'catatan_penghargaans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                    ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                    ->join('semesters', 'semesters.id_semester', '=', 'catatan_penghargaans.id_semester')
+                    ->where('semesters.is_semester_aktif', '1')
+                    ->select(
+                        'tarunas.nama_mahasiswa', 
+                        'tarunas.nama_program_studi', 
+                        'tarunas.jenis_kelamin',
+                        'tarunas.nim', 
+                        'tarunas.id_mahasiswa',
+                        'catatan_penghargaans.tgl_penghargaan',
+                        'penghargaans.penghargaan', 
+                        'penghargaans.poin_penghargaan', 
+                        'penghargaans.bidang_penghargaan', 
+                        'tarunas.foto',
+                        DB::raw('sum(penghargaans.poin_penghargaan) as poin_semester')
+                    )->orderBy('poin_semester', 'DESC')
                     ->groupBy('tarunas.id_mahasiswa');
 
         //JIKA ID MAHASISWA DAN ID SEMESTER KOSONG
