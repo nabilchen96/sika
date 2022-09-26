@@ -155,15 +155,10 @@ class PenilaianSamaptaController extends Controller
         $nilai_samapta  = $nilai_samapta / 100 * 70;
 
         $bmi = $request->beratbadan / pow(($request->tinggibadan/100), 2);
-
-        // dd(round($bmi, 2));
-        
         
         $bbi = AturanNilaibbi::where('untuk', 'Taruna')
                 ->where('bmi', '=', round($bmi, 2))
                 ->first();
-
-                // dd($bbi->nilai);
 
         $nilai_bbi = $bbi->nilai / 100 * 30;
 

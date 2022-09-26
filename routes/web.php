@@ -214,5 +214,52 @@ Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:
 
 Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 
-// Route::get('/rekapnilai', 'PenilaianController@rekapnilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
-// Route::get('/laporannilaitaruna', 'PenilaianController@laporannilai')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
+
+//ROUTE MOBILE
+Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
+
+//LARI
+Route::get('/mobile/lari', 'mobile\LariController@index');
+Route::post('/mobile/store-lari', 'mobile\LariController@store');
+
+//PUSH UP
+Route::get('/mobile/pushup', 'mobile\PushUpController@index');
+Route::post('/mobile/store-pushup', 'mobile\PushUpController@store');
+
+//SIT UP
+Route::get('/mobile/situp', 'mobile\SitUpController@index');
+Route::post('/mobile/store-situp', 'mobile\SitUpController@store');
+
+//SHUTTLE RUN
+Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
+Route::post('/mobile/store-shuttlerun', 'mobile\ShuttleRunController@store');
+
+//BBI
+Route::get('/mobile/bbi', 'mobile\BBIController@index');
+Route::post('/mobile/store-bbi', 'mobile\BBIController@store');
+
+//PELANGGARAN
+Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
+Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
+Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
+
+//PENGHARGAAN
+Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
+Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
+
+
+//PEMBINAAN
+Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
+
+//BERITA
+Route::get('/mobile/berita', 'mobile\BeritaController@index');
+Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
+
+//NILAI TARUNA
+Route::get('/mobile/nilai', 'mobile\NilaiController@index');
+
+//PELANGGARAN
+Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
+
+//PENGHARGAAN
+Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');

@@ -158,14 +158,6 @@ class CatatanPelanggaranController extends Controller
         
         $pelanggaran_terakhir = CatatanPelanggaran::where('id_mahasiswa', $request->input('id_mahasiswa'))->latest('created_at')->first();
 
-        // if($pelanggaran_terakhir != null){
-        //     $waktu_terakhir = date("H", strtotime(@$pelanggaran_terakhir->created_at));
-
-        //     if($waktu_terakhir == date("H") && date('d-m-Y', strtotime($pelanggaran_terakhir->created_at)) == date('d-m-Y')){
-        //         return back()->with(['gagal' => 'Pelanggaran Tidak Bisa Diinput, Minimal 1 Jam untuk input pealanggaran yang sama']);   
-        //     }
-        // }
-
         if($request->file('bukti_pelanggaran')){
             $file           = $request->file('bukti_pelanggaran');
             $nama_file      = $file->getClientOriginalName();
