@@ -114,9 +114,7 @@
                                                                     @foreach ($komponen as $item)
                                                                         <tr>
                                                                             <td class="p-0" style="height: 25px;">
-                                                                                <a href="{{ url('/mobile/detail-softskill') }}/{{ $item->id_mahasiswa }}/{{ $item->jenis_softskill }}">
-                                                                                    <b>{{ $item->jenis_softskill }}</b>
-                                                                                </a>    
+                                                                                <b>{{ $item->jenis_softskill }}</b>  
                                                                             </td>
                                                                             <td class="p-0">
                                                                                 {{ round($item->total_nilai / $item->jumlah_keterangan, 2) }}
