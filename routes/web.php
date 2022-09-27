@@ -249,7 +249,6 @@ Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
 Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
 Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
 
-
 //PEMBINAAN
 Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
 
