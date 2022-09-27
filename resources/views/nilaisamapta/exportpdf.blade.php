@@ -106,7 +106,7 @@
             </tr>
         </table>
 
-        <h6 class="mt-4">a. BBI</h6>
+        <h6 class="mt-4">b. BBI</h6>
         <table class="table table-bordered">
             <tr>
                 <td style="font-size: 10px;">Tinggi Badan</td>
