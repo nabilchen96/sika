@@ -65,13 +65,82 @@ class SamaptaController extends Controller
                                     0 : $nilai->where('jenis_samapta', 'Shuttle Run')->where('jumlah', $request->jumlah_shuttle_run)->first());
              }
     
+             //simpan atau update data
+
+             if($request->jarak_lari){
+                $data = PenilaianSamapta::updateOrCreate(
+                    [
+                        'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                        'id_semester'   => $semester 
+                    ], 
+                    [
+                       'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                       'id_semester'   => $semester,
+                       'jarak_lari'    => $request->jarak_lari, 
+                       'nilai_lari'    => $nilai_lari->nilai ?? $nilai_lari,
+                    //    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
+                    ]
+                );
+             }
+
+             if($request->jumlah_push_up){
+                $data = PenilaianSamapta::updateOrCreate(
+                    [
+                        'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                        'id_semester'   => $semester 
+                    ], 
+                    [
+                       'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                       'id_semester'   => $semester,
+                       'jumlah_push_up'=> $request->jumlah_push_up, 
+                       'nilai_push_up' => $nilai_pushup->nilai ?? $nilai_pushup,
+                    //    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
+                    ]
+                );
+             }
+
+             if($request->jumlah_sit_up){
+                $data = PenilaianSamapta::updateOrCreate(
+                    [
+                        'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                        'id_semester'   => $semester 
+                    ], 
+                    [
+                       'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                       'id_semester'   => $semester,
+                       'jumlah_sit_up'=> $request->jumlah_sit_up, 
+                       'nilai_sit_up' => $nilai_situp->nilai ?? $nilai_situp, 
+                    //    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
+                    ]
+                );
+             }
+
+             if($request->jumlah_shuttle_run){
+                $data = PenilaianSamapta::updateOrCreate(
+                    [
+                        'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                        'id_semester'   => $semester 
+                    ], 
+                    [
+                       'id_mahasiswa'  => $taruna->id_mahasiswa, 
+                       'id_semester'   => $semester,
+                       'jumlah_sit_up'=> $request->jumlah_sit_up, 
+                       'jumlah_shuttle_run'   => $request->jumlah_shuttle_run, 
+                       'nilai_shuttle_run'    => $nilai_shuttlerun->nilai ?? $nilai_shuttlerun,
+                    //    'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
+                    ]
+                );
+             }
+
              //cek samapta
              $samapta = PenilaianSamapta::where('id_semester', $semester)
-                         ->where('id_mahasiswa', $request->id_mahasiswa)
+                         ->where('id_mahasiswa', $taruna->id_mahasiswa)
                          ->first();
+
+                        
     
              //hitung nilai sampata
-             $samapta_a      = $nilai_lari->nilai ?? $nilai_lari;
+             $samapta_a      = $samapta->nilai_lari ?? 0;
              $samapta_b      = (($samapta->nilai_push_up ?? 0) + ($samapta->nilai_sit_up ?? 0) + ($samapta->nilai_shuttle_run ?? 0)) / 3;
     
              //make 70%
@@ -80,8 +149,8 @@ class SamaptaController extends Controller
     
              //make 30%
              $nilai_bbi      = @$samapta->nilai_bbi ? ($samapta->nilai_bbi / 100 * 30) : 0;
-    
-             //simpan atau update data
+
+
              $data = PenilaianSamapta::updateOrCreate(
                  [
                      'id_mahasiswa'  => $taruna->id_mahasiswa, 
@@ -90,18 +159,6 @@ class SamaptaController extends Controller
                  [
                     'id_mahasiswa'  => $taruna->id_mahasiswa, 
                     'id_semester'   => $semester,
-                    'jarak_lari'    => $request->jarak_lari, 
-                    'nilai_lari'    => $nilai_lari->nilai ?? $nilai_lari, 
-    
-                    'jumlah_push_up'=> $request->jumlah_push_up, 
-                    'nilai_push_up' => $nilai_pushup->nilai ?? $nilai_pushup,
-    
-                    'jumlah_sit_up'=> $request->jumlah_sit_up, 
-                    'nilai_sit_up' => $nilai_situp->nilai ?? $nilai_situp, 
-    
-                    'jumlah_shuttle_run'   => $request->jumlah_shuttle_run, 
-                    'nilai_shuttle_run'    => $nilai_shuttlerun->nilai ?? $nilai_shuttlerun,
-    
                     'nilai_samapta' => round($nilai_samapta + $nilai_bbi, 2)
                  ]
              );
@@ -109,7 +166,8 @@ class SamaptaController extends Controller
              //JIKA SEMUA PENILAIAN PENUH
              $data = [
                  'responCode'    => 1,
-                 'respon'        => 'Data Sukses Ditambah'
+                 'respon'        => 'Data Sukses Ditambah',
+                 'samapta'      => $samapta
              ];
          }
 
