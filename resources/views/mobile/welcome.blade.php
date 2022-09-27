@@ -7,13 +7,14 @@
         <div class="d-flex justify-content-center">
             <h6>Poltekbang Palembang</h6>
         </div> --}}
-        <form action="#">
+        <form action="{{ url('mobile/nilai') }}">
             <div class="d-flex justify-content-between p-0">
                 <div class="d-flex flex-row align-items-center mt-3 me-2 border rounded bg-white"
                     style="width: 80%; border-radius: 25px !important;">
                     <i class="bi bi-search me-1 ms-4" style="color: #c5c9d2;"></i>
                     <input type="text" name="cari" class="form-control search me-3" style="border: none; height: 46px;"
-                        placeholder="Cari Taruna">
+                        placeholder="cari nama taruna, mencari nilai semester ini">
+                    <input type="hidden" name="carinama" value="carinama">
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm mt-3"
                     style="height: 46px; width: 20%; border-radius: 25px;">

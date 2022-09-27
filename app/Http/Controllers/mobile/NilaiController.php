@@ -16,20 +16,30 @@ class NilaiController extends Controller
                     ->leftjoin('semesters', 'semesters.id_semester', '=', 'penilaian_samaptas.id_semester')
                     ->groupBy('tarunas.id_mahasiswa');
 
-        //JIKA ID MAHASISWA DAN ID SEMESTER KOSONG
-        if(!request('id_mahasiswa') && !request('id_semester') ){
-            $data = $data->where('semesters.is_semester_aktif', '1')->get();
 
-        //JIKA ID MAHASISWA SEMUANYA
-        }elseif(request('id_mahasiswa') == 'all'){
-            $data = $data->where('semesters.id_semester', request('id_semester'))->get();
-
-        //JIKA LAINNYA
+        if(request('carinama')){
+            $data = $data->where('semesters.is_semester_aktif', '1')
+                    ->where('tarunas.nama_mahasiswa', 'like', '%'.request('cari').'%')
+                    ->get();
         }else{
-            
-            $data = $data->where('semesters.id_semester', request('id_semester'))
-                    ->where('tarunas.id_mahasiswa', request('id_mahasiswa'))->get();
+
+            //JIKA ID MAHASISWA DAN ID SEMESTER KOSONG
+            if(!request('id_mahasiswa') && !request('id_semester') ){
+                $data = $data->where('semesters.is_semester_aktif', '1')->get();
+    
+            //JIKA ID MAHASISWA SEMUANYA
+            }elseif(request('id_mahasiswa') == 'all'){
+                $data = $data->where('semesters.id_semester', request('id_semester'))->get();     
+    
+            //JIKA LAINNYA
+            }else{
+                
+                $data = $data->where('semesters.id_semester', request('id_semester'))
+                        ->where('tarunas.id_mahasiswa', request('id_mahasiswa'))->get();
+            }
         }
+
+
 
         return view('mobile.nilai', [
             'data'  => $data
