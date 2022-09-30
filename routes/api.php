@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //API SAMAPTA
-Route::post('/store-samapta', 'Api\SamaptaController@store');
+// Route::post('/store-samapta', 'Api\SamaptaController@store');

@@ -218,57 +218,57 @@ Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->m
 
 
 //ROUTE MOBILE
-Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
+// Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
 
 //LARI
-Route::get('/mobile/lari', 'mobile\LariController@index');
-Route::post('/mobile/store-lari', 'mobile\LariController@store');
+// Route::get('/mobile/lari', 'mobile\LariController@index');
+// Route::post('/mobile/store-lari', 'mobile\LariController@store');
 
 //PUSH UP
-Route::get('/mobile/pushup', 'mobile\PushUpController@index');
-Route::post('/mobile/store-pushup', 'mobile\PushUpController@store');
+// Route::get('/mobile/pushup', 'mobile\PushUpController@index');
+// Route::post('/mobile/store-pushup', 'mobile\PushUpController@store');
 
 //SIT UP
-Route::get('/mobile/situp', 'mobile\SitUpController@index');
-Route::post('/mobile/store-situp', 'mobile\SitUpController@store');
+// Route::get('/mobile/situp', 'mobile\SitUpController@index');
+// Route::post('/mobile/store-situp', 'mobile\SitUpController@store');
 
 //SHUTTLE RUN
-Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
-Route::post('/mobile/store-shuttlerun', 'mobile\ShuttleRunController@store');
+// Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
+// Route::post('/mobile/store-shuttlerun', 'mobile\ShuttleRunController@store');
 
 //BBI
-Route::get('/mobile/bbi', 'mobile\BBIController@index');
-Route::post('/mobile/store-bbi', 'mobile\BBIController@store');
+// Route::get('/mobile/bbi', 'mobile\BBIController@index');
+// Route::post('/mobile/store-bbi', 'mobile\BBIController@store');
 
 //PELANGGARAN
-Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
-Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
-Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
+// Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
+// Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
+// Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
 
 //PENGHARGAAN
-Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
-Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
+// Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
+// Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
 
 //PEMBINAAN
-Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
+// Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
 
 //BERITA
-Route::get('/mobile/berita', 'mobile\BeritaController@index');
-Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
+// Route::get('/mobile/berita', 'mobile\BeritaController@index');
+// Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
 
 //NILAI TARUNA
-Route::get('/mobile/nilai', 'mobile\NilaiController@index');
+// Route::get('/mobile/nilai', 'mobile\NilaiController@index');
 
 //PELANGGARAN
-Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
+// Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
 
 //PENGHARGAAN
-Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
+// Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
 
 //SOFTSKILL
-Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
-Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
-Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
+// Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
+// Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
+// Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
 
 //NILAI SOFTSKILL
-Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');
+// Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');
