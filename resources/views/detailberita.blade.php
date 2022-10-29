@@ -135,7 +135,7 @@
         <footer class="border-top">
             <p class="text-center text-muted pt-4">Copyright © <?php echo date('Y'); ?> Subbag Aktar Politeknik
                 Penerbangan Palembang.
-                Developed by<a href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
+                Developed by<a href="https://sahretech.com" target="_blank" class="px-1">Mustechs</a>All rights reserved.</p>
         </footer>
     </div>
 </div>

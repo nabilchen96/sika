@@ -427,7 +427,7 @@
     <footer class="sticky-footer bg-white">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Developed By Mustechs {{  date('Y') }}</span>
+          <span>Copyright &copy; Developed By <a href="https://sahretech.com" target="_blank">Sahretech</a> {{  date('Y') }}</span>
         </div>
       </div>
     </footer>
