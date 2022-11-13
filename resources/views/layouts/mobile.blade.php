@@ -121,6 +121,13 @@
                     <span style="font-size: 10px">NILAI</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url('mobile/logout') }}" class="nav-link">
+                    <i style="font-size: 20px;" class="bi bi-arrow-right-circle"></i>
+                    <br>
+                    <span style="font-size: 10px">LOGOUT</span>
+                </a>
+            </li>
             {{-- <li class="nav-item">
                 <a href="{{ url('mobile/profil') }}" class="nav-link">
                     <i style="font-size: 20px;" class="bi bi-person"></i>

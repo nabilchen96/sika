@@ -37,6 +37,23 @@
         </div>
       </section>
 
+      <section class="features-overview" id="features-section">
+        <div class="content-header">
+            <h2>Berita</h2>
+            <h6 class="section-subtitle text-muted mb-4">
+                Berita dan Informasi Lainnya dari Website Resmi
+                <br>Politeknik Penerbangan Palembang
+            </h6>
+        </div>
+        <div class="d-md-flex">
+          <div id="post" class="row">
+
+          </div>
+          <div style="margin-top: 20px; border-radius: 15px;">
+          </div>
+        </div>
+    </section>
+
       <br><br><br>
       <section class="contact-details" id="contact-details-section">
         <div class="row text-center text-md-left">
@@ -104,3 +121,43 @@
     </div>
 </div>
 @endsection
+@push('script')
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script>
+        axios.get('https://poltekbangplg.ac.id/wp-json/wp/v2/posts?categories=107').then(function(res) {
+
+            console.log(res.data);
+
+            let postData = ''
+
+            res.data.forEach(e => {
+
+                if (e.categories[0] != 216) {
+
+                    postData += 
+
+                          `
+                          <div class="col-lg-4">
+                            <a href="${e.link}" target="_blank">
+                            <div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <img src="${e.jetpack_featured_media_url}" width="100%"
+                                            alt="" class="img-fluid mb-3 img-proporsional"
+                                            style="border-radius: 15px;">
+                                        <h5 class="card-title">${e.title.rendered}</h5>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                          </a>
+                        </div>
+                        `
+                }
+            });
+
+
+            document.querySelector('#post').innerHTML = postData
+        })
+    </script>
+@endpush

@@ -12,7 +12,7 @@ class BeritaController extends Controller
 {
     public function index(){
 
-        if(Auth::user()->role == 'admin'){
+        if(Auth::user()->role == 'admin' || Auth::user()->role == 'pusbangkar'){
             $data = DB::table('beritas')
                     ->join('users', 'users.id', '=', 'beritas.id')
                     ->get();
@@ -79,10 +79,10 @@ class BeritaController extends Controller
             $file           = $request->file('gambar_utama');
             $nama_file      = $file->getClientOriginalName();
 
-            if($data->gambar_utama){
-                @$path = public_path()."/gambar_berita/".$data->gambar_utama;
-                unlink(@$path);
-            }
+            // if($data->gambar_utama){
+            //     @$path = public_path()."/gambar_berita/".$data->gambar_utama;
+            //     unlink(@$path);
+            // }
 
             $file->move('gambar_berita', $nama_file);
         }

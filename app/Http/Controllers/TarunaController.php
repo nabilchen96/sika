@@ -129,8 +129,10 @@ class TarunaController extends Controller
     }
 
     public function updatetaruna(Request $request){
+
+        // dd($request->all());
+
         $request->validate([
-            'foto'              => 'required|max:512|mimes:jpg,png',
             'wali_dihubungi'    => 'required',
             'no_wali_dihubungi' => 'required',
             'hubungan_wali'     => 'required'
@@ -139,19 +141,8 @@ class TarunaController extends Controller
 
         $taruna = Taruna::find($request->input('id_mahasiswa'));
 
-        if(empty($request->file('foto'))){
-            $foto       = $taruna->foto;
-        }else{
-            $foto       = $request->file('foto');
-            $nama_foto  = $foto->getClientOriginalName();
-            $foto->move('file_upload', $foto->getClientOriginalName());
-
-            // $path       = public_path() . "/file_upload/" . $taruna->foto;
-            // unlink($path);
-        }
-
         $taruna->update([
-            'foto'              => $nama_foto,
+
             'wali_dihubungi'    => $request->input('wali_dihubungi'),
             'no_wali_dihubungi' => $request->input('no_wali_dihubungi'),
             'hubungan_wali'     => $request->input('hubungan_wali')

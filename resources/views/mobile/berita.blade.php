@@ -34,7 +34,7 @@
             });
         });
 
-        axios.get('https://poltekbangplg.ac.id/wp-json/wp/v2/posts').then(function(res) {
+        axios.get('https://poltekbangplg.ac.id/wp-json/wp/v2/posts?categories=107').then(function(res) {
             
             console.log(res.data);
             

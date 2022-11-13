@@ -115,6 +115,7 @@
             <a class="collapse-item @stack('templatesurat')" href="{{ url('temasurat') }}">Template Surat</a>
             <a class="collapse-item @stack('komponensoftskill')" href="{{ url('komponensoftskill') }}">Komponen
               Softskill</a>
+              <a class="collapse-item @stack('dewankehormatan')" href="{{ url('dewankehormatan') }}">Dewan Kehormatan</a>
           </div>
         </div>
       </li>
@@ -259,6 +260,29 @@
         <a class="collapse-item @stack('penilaiansoftskill')" href="{{ route('penilaiansoftskill.index') }}">Penilaian
           Softskill</a>
         <a class="collapse-item @stack('rekapnilai')" href="{{ route('rekapnilai.index') }}">Nilai Akhir Taruna</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#laporan" aria-expanded="true"
+      aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-file"></i>
+      <span>Laporan & Statistik</span>
+    </a>
+    <div id="laporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{{ url('laporan-pelanggaran') }}">
+          Laporan Pelanggaran
+        </a>
+        <a class="collapse-item" href="{{ url('laporan-penghargaan') }}">
+          Laporan Penghargaan
+        </a>
+        <a class="collapse-item" href="{{ url('laporan-penilaian') }}">
+          Laporan Penilaian
+        </a>
+        <a class="collapse-item" href="{{ url('laporan-bbi') }}">
+          Laporan BBI
+        </a>
       </div>
     </div>
   </li>

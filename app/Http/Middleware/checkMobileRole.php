@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use DB;
 
-class checkRole
+class checkMobileRole
 {
     /**
      * Handle an incoming request.
@@ -18,6 +19,8 @@ class checkRole
     {
         $roles = array_slice(func_get_args(), 2);
 
+        // dd(Auth::check());
+
         if(Auth::check()){
 
             foreach($roles as $role){
@@ -27,7 +30,7 @@ class checkRole
                 }
             }
         }else{
-            return redirect('login');
+            return redirect('mobile/login');
         }
 
         return back()->with(['gagal' => 'Tidak dapat mengakses halaman ini!']);

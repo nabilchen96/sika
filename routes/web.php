@@ -20,12 +20,28 @@ Route::get('/', function () {
 Route::get('pengumuman', 'PengumumanController@index');
 Route::get('peraturan', 'PeraturanController@index');
 Route::get('detailberita/{id}', 'PengumumanController@detail');
+Route::get('statistik-front', function(){
+    return view('statistik');
+});
 
 route::get('coba', 'BeritaController@coba');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/total-taruna', 'HomeController@totalTaruna');
+Route::get('/pelanggaran-penghargaan-terbanyak', 'HomeController@PelanggaranPenghargaanTerbanyak');
+
+//MOBILE LOGIN
+Route::get('/mobile/login', 'mobile\AuthController@login')->name('mobile/login');
+Route::post('/mobile/loginProses', 'mobile\AuthController@loginProses')->name('mobile/loginProses');
+
+Route::get('/mobile/logout', function () {
+
+  Auth::logout();
+  return redirect('mobile/login');
+
+})->name('mobile/logout');
 
 //route for admin dan pusbangkar
 Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () { 
@@ -102,6 +118,11 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::post('/editkomponensoftskill', 'KomponenSoftskillController@update');
     Route::get('/hapuskomponensoftskill/{id}', 'KomponenSoftskillController@destroy');
 
+    Route::get('/dewankehormatan', 'DewanKehormatanController@index');
+    Route::post('/tambahdewan', 'DewanKehormatanController@store');
+    Route::post('/editdewan', 'DewanKehormatanController@update');
+    Route::get('/hapusdewan/{id}', 'DewanKehormatanController@destroy');
+
     Route::post('/simpangrupkordinasipengasuh', 'GrupKordinasiPengasuhController@store');
     Route::get('/hapusgrupkordinasipengasuh/{id}', 'GrupKordinasiPengasuhController@destroy');
 
@@ -129,6 +150,80 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::get('/hapus-soal-kuesioner/{id}', 'DetailKuesionerController@destroy');
     Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
 });
+
+Route::group(['middleware' => ['checkMobileRole:admin,pusbangkar']], function(){
+    
+    //ROUTE MOBILE
+    Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
+    
+    //LARI
+    Route::get('/mobile/lari', 'mobile\LariController@index');
+    Route::post('/mobile/store-lari', 'mobile\LariController@store');
+    
+    //PUSH UP
+    Route::get('/mobile/pushup', 'mobile\PushUpController@index');
+    Route::post('/mobile/store-pushup', 'mobile\PushUpController@store');
+    
+    //SIT UP
+    Route::get('/mobile/situp', 'mobile\SitUpController@index');
+    Route::post('/mobile/store-situp', 'mobile\SitUpController@store');
+    
+    //SHUTTLE RUN
+    Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
+    Route::post('/mobile/store-shuttlerun', 'mobile\ShuttleRunController@store');
+    
+    //BBI
+    Route::get('/mobile/bbi', 'mobile\BBIController@index');
+    Route::post('/mobile/store-bbi', 'mobile\BBIController@store');
+    
+    //PELANGGARAN
+    Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
+    Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
+    Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
+    
+    //PENGHARGAAN
+    Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
+    Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
+    
+    //PEMBINAAN
+    Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
+    
+    //BERITA
+    Route::get('/mobile/berita', 'mobile\BeritaController@index');
+    Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
+    
+    //NILAI TARUNA
+    Route::get('/mobile/nilai', 'mobile\NilaiController@index');
+    
+    //PELANGGARAN
+    Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
+    
+    //PENGHARGAAN
+    Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
+    
+    //SOFTSKILL
+    Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
+    Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
+    Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
+    
+    //NILAI SOFTSKILL
+    Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');
+});
+
+
+Route::get('laporan-pelanggaran', 'LaporanPelanggaranController@index');
+Route::get('data-laporan-pelanggaran', 'LaporanPelanggaranController@data');
+
+Route::get('laporan-penghargaan', 'LaporanPenghargaanController@index');
+Route::get('data-laporan-penghargaan', 'LaporanPenghargaanController@data');
+
+Route::get('laporan-penilaian', 'LaporanPenilaianController@index');
+Route::get('data-laporan-penilaian', 'LaporanPenilaianController@data');
+Route::get('data-laporan-jasmani', 'LaporanPenilaianController@dataJasmani');
+
+Route::get('laporan-bbi', 'LaporanBBIController@index');
+Route::get('data-laporan-bbi', 'LaporanBBIController@data');
+Route::get('data-laporan-bbi2', 'LaporanBBIController@data2');
 
 Route::get('/tarunakamar', 'TarunaKamarController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/tarunakamar-json', 'TarunaKamarController@kamarjson')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
@@ -215,60 +310,3 @@ Route::get('/editberita/{id}', 'BeritaController@edit')->middleware(['checkRole:
 Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
-
-
-//ROUTE MOBILE
-// Route::get('/mobile/welcome', 'mobile\WelcomeController@index');
-
-//LARI
-// Route::get('/mobile/lari', 'mobile\LariController@index');
-// Route::post('/mobile/store-lari', 'mobile\LariController@store');
-
-//PUSH UP
-// Route::get('/mobile/pushup', 'mobile\PushUpController@index');
-// Route::post('/mobile/store-pushup', 'mobile\PushUpController@store');
-
-//SIT UP
-// Route::get('/mobile/situp', 'mobile\SitUpController@index');
-// Route::post('/mobile/store-situp', 'mobile\SitUpController@store');
-
-//SHUTTLE RUN
-// Route::get('/mobile/shuttlerun', 'mobile\ShuttleRunController@index');
-// Route::post('/mobile/store-shuttlerun', 'mobile\ShuttleRunController@store');
-
-//BBI
-// Route::get('/mobile/bbi', 'mobile\BBIController@index');
-// Route::post('/mobile/store-bbi', 'mobile\BBIController@store');
-
-//PELANGGARAN
-// Route::get('/mobile/pelanggaran', 'mobile\PelanggaranController@index');
-// Route::get('/mobile/detail-pelanggaran/{id}', 'mobile\PelanggaranController@detail');
-// Route::post('/mobile/store-pelanggaran', 'mobile\PelanggaranController@store');
-
-//PENGHARGAAN
-// Route::get('/mobile/penghargaan', 'mobile\PenghargaanController@index');
-// Route::post('/mobile/store-penghargaan', 'mobile\PenghargaanController@store');
-
-//PEMBINAAN
-// Route::get('/mobile/pembinaan', 'mobile\PembinaanController@index');
-
-//BERITA
-// Route::get('/mobile/berita', 'mobile\BeritaController@index');
-// Route::get('/mobile/detail-berita', function(){ return view('mobile.detail-berita'); });
-
-//NILAI TARUNA
-// Route::get('/mobile/nilai', 'mobile\NilaiController@index');
-
-//PELANGGARAN
-// Route::get('/mobile/nilai-pelanggaran', 'mobile\NilaiController@nilaiPelanggaran');
-
-//PENGHARGAAN
-// Route::get('/mobile/nilai-penghargaan', 'mobile\NilaiController@nilaiPenghargaan');
-
-//SOFTSKILL
-// Route::get('/mobile/softskill/{id}', 'mobile\SoftskillController@detail');
-// Route::post('/mobile/store-softskill', 'mobile\SoftskillController@store');
-// Route::get('/mobile/detail-softskill/{id_mahasiswa}/{jenis_softskill}', 'mobile\SoftskillController@detailSoftskillTaruna');
-
-//NILAI SOFTSKILL
-// Route::get('/mobile/nilai-softskill', 'mobile\SoftskillController@nilai');
