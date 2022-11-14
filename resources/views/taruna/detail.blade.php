@@ -82,20 +82,11 @@
                 <form action="{{ url('updatetaruna') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_mahasiswa" value="{{$taruna->id_mahasiswa}}">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Foto <sup class="text-danger">*</sup> </label>
-                        <div class="col-sm-5">
-                            <input type="file" class="form-control @error('foto') is-invalid @enderror" name="foto">
-                            <p>Format: png atau jpg</p>
-                            @error('foto')
-                                <p style="margin-top: 5px;" class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-5">
-                            <img width="100" src="{{ asset('file_upload') }}/{{ $taruna->foto }}" class="img-fluid img-thumbnail">
+                            <img width="100" src="{{ $taruna->foto }}" class="img-fluid img-thumbnail">
                         </div>
                     </div>
                     <div class="form-group row">

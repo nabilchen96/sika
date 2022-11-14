@@ -87,28 +87,16 @@
                                   <th scope="col">Jabatan Dalam Kepanitiaan</th>
                               </tr>
                           </thead>
-                          <?php
-                            $dewan = [
-                              ['nama' => 'I.G.A AYU MAS OKA, SE, S.SiT, MT', 'jabatan' => 'Direktur Poltekbang Palembang', 'kepanitiaan' => 'Pengarah'],
-                              ['nama' => 'CATRA INDRA CAHYADI, S.SiT, M.Pd', 'jabatan' => 'Wakil Direktur III', 'kepanitiaan' => 'Ketua'],
-                              ['nama' => 'YANTI DARYANTI, S.IP, M.Si', 'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan', 'kepanitiaan' => 'Wakil Ketua'],
-                              ['nama' => 'ASEP M SOLEH, ST, S.SiT, M.Pd', 'jabatan' => 'Kepala Sub Bagian Administrasi Ketarunaan dan Alumni', 'kepanitiaan' => 'Sekretaris'],
-                              ['nama' => 'HERLINA FEBYANTI, SE, MM', 'jabatan' => 'Sekretaris Prodi MBUi', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'DIRESTU AMALIA, ST, MS.ASM', 'jabatan' => 'Sekretaris Prodi TRBU', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'WILDAN NUGRAHA, SE, MS.ASM', 'jabatan' => 'Sekretaris prodi PPKP', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'YACOB MANDALA P PANJAITAN, S.ST, M.Si', 'jabatan' => 'Kepala Pusat Pembangunan Karakter', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'M. ERAWAN DESTYANA, SE', 'jabatan' => 'Penyusun Bahan Sikap Mental, Jiwa Korsa dan Keagamaan ', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'TARUNA', 'jabatan' => 'Komandan Resimen', 'kepanitiaan' => 'Anggota '],
-                              ['nama' => 'TARUNA', 'jabatan' => 'Ka Demustar', 'kepanitiaan' => 'Anggota '],
-                            ];
-                          ?>
+                          @php
+                            $dewan = DB::table('dewan_kehormatans')->get();
+                          @endphp
                           <tbody style="font-size: 14px;">
                               @foreach ($dewan as $k => $item)
                                 <tr>
                                   <td style="width: 20px;">{{ $k+1 }}</td>
-                                  <td>{{ $item['nama'] }}</td>
-                                  <td>{{ $item['jabatan'] }}</td>
-                                  <td>{{ $item['kepanitiaan'] }}</td>
+                                  <td>{{ $item->nama_pejabat }}</td>
+                                  <td>{{ $item->jabatan }}</td>
+                                  <td>{{ $item->jabatan_kepanitiaan }}</td>
                                 </tr>
                               @endforeach
                           </tbody>
@@ -180,7 +168,7 @@
       <footer class="border-top">
         <p class="text-center text-muted pt-4">Copyright © <?php echo date('Y'); ?> Subbag Aktar Politeknik Penerbangan Palembang. 
             Developed by<a
-            target="_blank" href="https://www.mustechs.com/" class="px-1">Mustechs</a>All rights reserved.</p>
+            target="_blank" href="https://sahretech.com" class="px-1">Mustechs</a>All rights reserved.</p>
       </footer>
     </div>
 </div>

@@ -133,9 +133,9 @@
             <li class="nav-item">
               <a class="nav-link @if(Request::is('peraturan')) active @endif"" href="{{ url('peraturan') }}">PT3</a>
             </li>
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="pelanggaran.html">Prestasi</a>
-            </li> --}}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('statistik-front') }}">Statistik</a>
+            </li>
             <li class="nav-item" style="width: 130px;">
               <a class="nav-link @if(Request::is('isikuesioner')) active @endif"" href="{{ url('isikuesioner') }}">Tracer Study</a>
             </li>
@@ -175,6 +175,7 @@
       $('#example2').DataTable();
     });
   </script>
+  @stack('script')
 </body>
 
 </html>

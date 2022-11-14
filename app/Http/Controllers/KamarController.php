@@ -9,65 +9,65 @@ use DB;
 
 class KamarController extends Controller
 {
-    public function index(){
-        $kamar  = DB::table('kamars')->get();
-        return view('kamar.index')->with('kamar', $kamar);
-    }
-
-    public function store(Request $request){
-
-        $validator = Validator::make($request->all(), [
-            'nama_kamar'    => 'required',
-            'nama_asrama'   => 'required',
-            'batas_kamar'   => 'required',
-            'submit'        => 'required',
-        ]);
-
-        if($validator->fails()){
-            return back()
-                ->with(['submit' => $request->input('submit')])
-                ->withErrors($validator, 'data');
+        public function index(){
+            $kamar  = DB::table('kamars')->get();
+            return view('kamar.index')->with('kamar', $kamar);
         }
 
-        Kamar::create([
-            'nama_kamar'    => $request->input('nama_kamar'),
-            'nama_asrama'   => $request->input('nama_asrama'),
-            'batas_kamar'   => $request->input('batas_kamar')
-        ]);
+        public function store(Request $request){
 
-        return back()->with(['sukses' => 'Data Berhasil Ditambahkan']);
-    }
+            $validator = Validator::make($request->all(), [
+                'nama_kamar'    => 'required',
+                'nama_asrama'   => 'required',
+                'batas_kamar'   => 'required',
+                'submit'        => 'required',
+            ]);
 
-    public function update(Request $request){
+            if($validator->fails()){
+                return back()
+                    ->with(['submit' => $request->input('submit')])
+                    ->withErrors($validator, 'data');
+            }
 
-        $validator = Validator::make($request->all(), [
-            'nama_kamar'    => 'required',
-            'nama_asrama'   => 'required',
-            'submit'        => 'required',
-            'id_kamar'      => 'required',
-            'batas_kamar'   => 'required'
-        ]);
+            Kamar::create([
+                'nama_kamar'    => $request->input('nama_kamar'),
+                'nama_asrama'   => $request->input('nama_asrama'),
+                'batas_kamar'   => $request->input('batas_kamar')
+            ]);
 
-        if($validator->fails()){
-            return back()
-                ->with(['submit' => $request->input('submit')])
-                ->withErrors($validator, 'data');
+            return back()->with(['sukses' => 'Data Berhasil Ditambahkan']);
         }
 
-        $kamar = Kamar::find($request->input('id_kamar'));
-        $kamar->update([
-            'nama_kamar'    => $request->input('nama_kamar'),
-            'nama_asrama'   => $request->input('nama_asrama'),
-            'batas_kamar'   => $request->input('batas_kamar')
-        ]);
+        public function update(Request $request){
 
-        return back()->with(['sukses' => 'Data Berhasil Diupdate']);
-    }
+            $validator = Validator::make($request->all(), [
+                'nama_kamar'    => 'required',
+                'nama_asrama'   => 'required',
+                'submit'        => 'required',
+                'id_kamar'      => 'required',
+                'batas_kamar'   => 'required'
+            ]);
 
-    public function destroy($id){
-        $kamar = Kamar::find($id);
-        $kamar->delete();
+            if($validator->fails()){
+                return back()
+                    ->with(['submit' => $request->input('submit')])
+                    ->withErrors($validator, 'data');
+            }
 
-        return back()->with(['sukses' => 'Data Berhasil Dihapus']);
-    }
+            $kamar = Kamar::find($request->input('id_kamar'));
+            $kamar->update([
+                'nama_kamar'    => $request->input('nama_kamar'),
+                'nama_asrama'   => $request->input('nama_asrama'),
+                'batas_kamar'   => $request->input('batas_kamar')
+            ]);
+
+            return back()->with(['sukses' => 'Data Berhasil Diupdate']);
+        }
+
+        public function destroy($id){
+            $kamar = Kamar::find($id);
+            $kamar->delete();
+
+            return back()->with(['sukses' => 'Data Berhasil Dihapus']);
+        }
 }
