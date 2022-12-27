@@ -101,7 +101,7 @@
     <nav class="navbar navbar-expand-lg pl-3 pl-sm-0" id="navbar">
       <div class="container" data-aos="fade-down">
         <div class="navbar-brand-wrapper d-flex w-100">
-          <img class="icon-image" src="{{ asset('frontend/images/logo.png') }}" style="width: 23%;" alt="">
+          <img class="icon-image" src="{{ asset('frontend/images/logo.png') }}" style="width: 19%;" alt="">
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -139,10 +139,10 @@
             <li class="nav-item" style="width: 130px;">
               <a class="nav-link @if(Request::is('isikuesioner')) active @endif"" href="{{ url('isikuesioner') }}">Tracer Study</a>
             </li>
-            <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
+            {{-- <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
               <a href="{{ url('login') }}" class="btn btn-info">
                 <span class="mdi mdi-lock"></span> Login</a>
-            </li>
+            </li> --}}
           </ul>
         </div>
       </div>

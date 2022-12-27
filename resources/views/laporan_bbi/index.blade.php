@@ -177,110 +177,110 @@
         }
     </script>
 
-<script>
-    axios.get('/data-laporan-bbi2?id_semester={{ request('id_semester') }}').then(function(res) {
+    <script>
+        axios.get('/data-laporan-bbi2?id_semester={{ request('id_semester') }}').then(function(res) {
 
-        let stakes_label = res.data.stakes.map(function(e) {
-            if(e.stakes != null){
-                return e.stakes
-            }
-        }).filter(Boolean);
+            let stakes_label = res.data.stakes.map(function(e) {
+                if(e.stakes != null){
+                    return e.stakes
+                }
+            }).filter(Boolean);
 
-        let stakes_nilai = res.data.stakes.map(function(e) {
-            if(e.stakes != 0){
-            
-                return e.total_stakes
-            }
-        }).filter(Boolean);
+            let stakes_nilai = res.data.stakes.map(function(e) {
+                if(e.stakes != 0){
+                
+                    return e.total_stakes
+                }
+            }).filter(Boolean);
 
-        console.log(stakes_nilai);
-        console.log(stakes_label);
+            console.log(stakes_nilai);
+            console.log(stakes_label);
 
-        fungsi_stakes(stakes_label, stakes_nilai)
-    })
+            fungsi_stakes(stakes_label, stakes_nilai)
+        })
 
-    function fungsi_stakes(stakes_label, stakes_nilai) {
-        Highcharts.chart("container3", {
-            chart: {
-                type: "column",
-            },
-            title: {
-                text: "Perbandingan Stakes Taruna/Taruni",
-            },
-            xAxis: {
-                categories: stakes_label
-                // crosshair: true,
-            },
-            yAxis: {
-                min: 0,
+        function fungsi_stakes(stakes_label, stakes_nilai) {
+            Highcharts.chart("container3", {
+                chart: {
+                    type: "column",
+                },
                 title: {
-                    text: "",
+                    text: "Perbandingan Stakes Taruna/Taruni",
                 },
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"> <b>{point.y:.1f}</b></td></tr>',
-                footerFormat: "</table>",
-                shared: true,
-                useHTML: true,
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0,
+                xAxis: {
+                    categories: stakes_label
+                    // crosshair: true,
                 },
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: "Stakes",
-                data: stakes_nilai
-            },],
-        });
-    }
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: "",
+                    },
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"> <b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: true,
+                    useHTML: true,
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0,
+                    },
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: "Stakes",
+                    data: stakes_nilai
+                },],
+            });
+        }
 
-    function fungsi_berat(jk_label, jk_berat_0, jk_berat_1) {
-        Highcharts.chart("container2", {
-            chart: {
-                type: "column",
-            },
-            title: {
-                text: "Perbandingan Rata-rata Berat Taruna/Taruni",
-            },
-            xAxis: {
-                categories: jk_label
-                // crosshair: true,
-            },
-            yAxis: {
-                min: 0,
+        function fungsi_berat(jk_label, jk_berat_0, jk_berat_1) {
+            Highcharts.chart("container2", {
+                chart: {
+                    type: "column",
+                },
                 title: {
-                    text: "",
+                    text: "Perbandingan Rata-rata Berat Taruna/Taruni",
                 },
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"> <b>{point.y:.1f}</b></td></tr>',
-                footerFormat: "</table>",
-                shared: true,
-                useHTML: true,
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0,
+                xAxis: {
+                    categories: jk_label
+                    // crosshair: true,
                 },
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: "Berat Badan",
-                data: [jk_berat_0.berat_badan, jk_berat_1.berat_badan]
-            },],
-        });
-    }
-</script>
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: "",
+                    },
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"> <b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: true,
+                    useHTML: true,
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0,
+                    },
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: "Berat Badan",
+                    data: [jk_berat_0.berat_badan, jk_berat_1.berat_badan]
+                },],
+            });
+        }
+    </script>
 @endpush
