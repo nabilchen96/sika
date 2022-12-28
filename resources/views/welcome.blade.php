@@ -2,10 +2,30 @@
 @section('content')
     <div class="banner">
         <div class="container">
-            <h1 class="font-weight-semibold" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi <br> Ketarunaan & Alumni
+            {{-- <h1 class="font-weight-semibold" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi <br> Ketarunaan & Alumni
             </h1>
             <img src="{{ asset('frontend/images/undrawx.png') }}" alt="" class="img-fluid" data-aos="zoom-in"
                 data-aos-delay="200">
+            <br><br> --}}
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="font-weight-semibold m-4 text-left" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi
+                        <br> Ketarunaan &
+                        Alumni
+                    </h2>
+                    <p class="text-left m-4">Sistem Pengelolaan data non akademik taruna, seperti perizinan, catatan sakit,
+                        hukuman, pelanggaran, dan penilaian non akademik meliputi nilai samapta dan softskill</p>
+                    <div class="d-flex justify-content-start m-4">
+                        <a href="{{ url('login') }}" class="btn btn-info">
+                            <span class="mdi mdi-lock"></span> Login</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img id="img-fluid" class="h-auto mw-100"
+                        src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header2/Header-2-1.png"
+                        alt="" />
+                </div>
+            </div>
             <br><br>
         </div>
     </div>
@@ -62,48 +82,30 @@
                     </h6>
                 </div>
                 <div class="d-md-flex">
-                  <div id="post" class="row">
+                    <div id="post" class="row">
 
-                  </div>
-                  <div style="margin-top: 20px; border-radius: 15px;">
-                  </div>
+                    </div>
+                    <div style="margin-top: 20px; border-radius: 15px;">
+                    </div>
                 </div>
             </section>
             <section class="contact-us" id="contact-section" data-aos="fade-up" data-aos-delay="100">
                 <div style="border-radius: 15px;" class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong><span class="mdi mdi-information"></span> Baru!</strong> coba beralih ke tampilan mobile sekarang. <a href="{{ url('mobile/welcome') }}">Klik!</a>
-                    
-                  </div>
-                <div class="contact-us-bgimage grid-margin">
-                    <div class="row">
-                        <div class="col-lg-6 sika-map">
-                            <iframe class="embed-responsive"
-                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15938.708954153537!2d104.6991992!3d-2.9089414!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5e411b86b9a1b4e9!2sPoliteknik%20Penerbangan%20Palembang!5e0!3m2!1sid!2sid!4v1613966893900!5m2!1sid!2sid"
-                                height="420" title="poltekbangplg" style="border:0" allowfullscreen></iframe>
-                        </div>
-                        <div class="col-lg-6 sika-description" style="text-align: left;">
-                            <h1>Sistem Informasi Ketarunaan dan Alumni</h1>
-                            <br>
-                            <p>
-                                SIKA adalah singkatan dari sistem informasi ketarunaan dan alumni. Bagian ketarunaan
-                                ditujukan untuk membantu
-                                PUSBANGKAR dalam mengelola data non-akademik taruna, seperti perizinan, catatan sakit,
-                                pelanggaran, hukuman, penghargaan taruna dan
-                                penilaian non-akademik yang meliputi nilai kesamaptaan dan nilai softskill.
-                            </p>
-                            <p>
-                                Sedangkan bagian alumni ditujukan untuk mengelola data para taruna
-                                yang sudah lulus dan memberikan informasi seperti lowongan pekerjaan kepada para alumni.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                    <strong><span class="mdi mdi-information"></span> Baru!</strong> coba beralih ke tampilan mobile
+                    sekarang. <a href="{{ url('mobile/welcome') }}">Klik!</a>
 
+                </div>
             </section>
 
+        </div>
 
+        <iframe class="embed-responsive"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15938.708954153537!2d104.6991992!3d-2.9089414!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5e411b86b9a1b4e9!2sPoliteknik%20Penerbangan%20Palembang!5e0!3m2!1sid!2sid!4v1613966893900!5m2!1sid!2sid"
+            height="420" title="poltekbangplg" style="border:0" allowfullscreen></iframe>
+
+        <div class="container">
             <section class="contact-details" id="contact-details-section">
-                <div class="row text-center text-md-left">
+                <div class="row text-center text-md-left mt-5">
                     <div class="col-12 col-md-6 col-lg-3 grid-margin">
                         <img src="{{ asset('frontend/images/logo.png') }}" width="30%" alt="" class="pb-2">
                         <div class="pt-2">
@@ -186,9 +188,9 @@
 
                 if (e.categories[0] != 216) {
 
-                    postData += 
+                    postData +=
 
-                          `
+                        `
                           <div class="col-lg-4">
                             <a href="${e.link}" target="_blank">
                             <div>

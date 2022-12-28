@@ -21,13 +21,12 @@ class AuthController extends Controller
     public function login(){
 
         //jika membawa data yang dibutuhkan maka lakukan login
-        if(@$_GET['data']){
-    
+        if(request('data')){
             //cek apakah token ada
             //jika ada lanjutkan dan hapus token
             //jika tidak ada kembalikan ke halaman dashboard sso
             
-            $data = json_decode(@$_GET['data']);
+            $data = json_decode(request('data'));
 
             if(@$data->email && @$data->token_sso){
 
@@ -37,7 +36,8 @@ class AuthController extends Controller
                 ]);
     
                 $pesan = json_decode($pesan, true);
-    
+
+                //jika token ada
                 if($pesan == "token ada"){
     
                     //cari user
@@ -45,12 +45,12 @@ class AuthController extends Controller
     
                     if(@Auth::loginUsingId($user->id)){
                         
-                        //hapus token dan kirim log
-                        $data = Http::get($this->sso_url.'/send-token-back', [
-                            'token_sso' => $data->token_sso,
-                            'email'     => $data->email, 
-                            'app'       => $this->app,
-                        ]);
+                        //untuk mengirim log aktivitas
+                        // $data = Http::get($this->sso_url.'/send-token-back', [
+                        //     'token_sso' => $data->token_sso,
+                        //     'email'     => $data->email, 
+                        //     'app'       => $this->app,
+                        // ]);
     
                         return redirect($this->home);
             
@@ -59,6 +59,7 @@ class AuthController extends Controller
                         return redirect()->away($this->sso_url.'/home?pesan=Anda belum terdaftar di aplikasi tujuan!');
                     }
                 
+                //jika token tidak ada
                 }else{
     
                     return redirect()->away($this->sso_url.'/home');
@@ -83,9 +84,5 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect('/');
-    }
-
-    public function registerUserSSO(){
-
     }
 }

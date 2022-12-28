@@ -26,9 +26,18 @@ Route::get('statistik-front', function(){
 
 route::get('coba', 'BeritaController@coba');
 
+Route::get('/login-sso', 'AuthController@login')->name('login');
+
+Route::get('/logout', function () {
+
+    Auth::logout();
+
+    return redirect('/');
+});
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware(['auth']);
 Route::get('/total-taruna', 'HomeController@totalTaruna');
 Route::get('/pelanggaran-penghargaan-terbanyak', 'HomeController@PelanggaranPenghargaanTerbanyak');
 
