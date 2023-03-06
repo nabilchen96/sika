@@ -128,35 +128,35 @@ class CatatanPenghargaanController extends Controller
         if ($request->has('q')) {
     		$cari = $request->q;
             if($cari != ''){
-                if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
-                    $data = DB::table('tarunas')
-                    ->select('id_mahasiswa', 'nama_mahasiswa')->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')
-                    ->get();
-                }else{
-                    $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
-                    if($kordinator) {
-                        //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
-                        $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+                $data = DB::table('tarunas')
+                ->select('id_mahasiswa', 'nama_mahasiswa')->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')
+                ->get();
+                // if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
+                // }else{
+                //     $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+                //     if($kordinator) {
+                //         //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
+                //         $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                        $data = DB::table('asuhans')
-                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                                ->where(function($q) use ($grup_kordinasi) {
-                                    foreach($grup_kordinasi  as $k) {
-                                        $q->orWhere('asuhans.id_pengasuh', $k->id);
-                                    }
-                                })
-                                ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
-                                ->get();
-                    }else{
-                        $data = DB::table('asuhans')
-                                ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                                ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                                ->where('asuhans.id_pengasuh', Auth::id())
-                                ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
-                                ->get();
-                    }
-                }
+                //         $data = DB::table('asuhans')
+                //                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                //                 ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                //                 ->where(function($q) use ($grup_kordinasi) {
+                //                     foreach($grup_kordinasi  as $k) {
+                //                         $q->orWhere('asuhans.id_pengasuh', $k->id);
+                //                     }
+                //                 })
+                //                 ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
+                //                 ->get();
+                //     }else{
+                //         $data = DB::table('asuhans')
+                //                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                //                 ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                //                 ->where('asuhans.id_pengasuh', Auth::id())
+                //                 ->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')            
+                //                 ->get();
+                //     }
+                // }
                 return response()->json($data);
             }
         }
