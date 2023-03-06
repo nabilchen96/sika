@@ -117,8 +117,8 @@ class CatatanPenghargaanController extends Controller
             // }
 
             $data = DB::table('catatan_penghargaans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
-                        ->join('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
+                        ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
+                        ->leftjoin('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
                         ->select(
                             'tarunas.nama_mahasiswa',
                             'tarunas.nim',
