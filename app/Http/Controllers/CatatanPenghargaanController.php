@@ -128,7 +128,7 @@ class CatatanPenghargaanController extends Controller
         if ($request->has('q')) {
     		$cari = $request->q;
             if($cari != ''){
-                if(auth::user()->role == 'admin'){
+                if(auth::user()->role == 'admin' || auth::user()->role == 'pusbangkar'){
                     $data = DB::table('tarunas')
                     ->select('id_mahasiswa', 'nama_mahasiswa')->where('nama_mahasiswa', 'LIKE', '%'.$cari.'%')
                     ->get();
