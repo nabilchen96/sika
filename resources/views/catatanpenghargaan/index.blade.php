@@ -72,6 +72,31 @@
                 </div>
             </div>
             <div class="card-body">
+                <form action="{{ url('catatanpenghargaan') }}" method="GET">
+                    {{-- @csrf --}}
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Semester</label>
+                        <div class="col-sm-3">
+                            <?php $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get(); ?>
+                            <select name="id_semester" class="form-control">
+                                <option value="">Pilih Semester</option>
+                                @foreach ($semester as $item)
+                                <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
+                                    value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="fas fa-search"></i> Tampilkan
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
                         <thead>

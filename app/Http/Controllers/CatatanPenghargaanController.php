@@ -132,6 +132,7 @@ class CatatanPenghargaanController extends Controller
                             'catatan_penghargaans.sk_penghargaan',
                             'penghargaans.id_penghargaan'
                         )
+                        ->where('catatan_penghargaans.id_semester', $request->id_semester)
                         ->get();
 
                 $taruna = null;
