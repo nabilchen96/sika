@@ -201,7 +201,7 @@ class CatatanPenghargaanController extends Controller
             'id_semester'       => $semester->id_semester
         ]);
 
-        return redirect('catatanpenghargaan')->with(['sukses' => 'Data Berhasil Disimpan!']);
+        return back()->with(['sukses' => 'Data Berhasil Disimpan!']);
     }
 
     public function update(Request $request){
