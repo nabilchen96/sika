@@ -75,4 +75,5 @@ class PenghargaanController extends Controller
 
         return Excel::download(new PenghargaanExport, 'Komponen Penghargaan.xlsx');
     }
+    
 }

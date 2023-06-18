@@ -47,6 +47,8 @@ class CatatanSakitController extends Controller
                 'catatan_sakits.surat_sakit'
             )
             ->get();
+
+            // dd('tes');
         }
 
         return view('catatansakit.index')

@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 alert alert-primary">
-            <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Master Data / Data Template Surat</h2>
+            <h2 class="h5 mb-0 text-gray-800"><i class="fas fa-fw fa-cog"></i> Master Data / Data Template</h2>
         </div>
         <div class="card mb-12">
             <div class="card-header">
@@ -49,7 +49,7 @@
                                 @elseif($item->kategori == 2)
                                 Surat Keterangan
                                 @elseif ($item->kategori == 3)
-                                Template Penilaian
+                                Template Penghargaan
                                 @endif
                             </td>
                             <td><a href="#" data-target=".modalform" data-toggle="modal" data-array="{{ $data[$k] }}"
@@ -117,6 +117,7 @@
                             <option value="">--Pilih Kategori--</option>
                             <option value="1">Surat Izin</option>
                             <option value="2">Surat Keterangan Kuliah</option>
+                            <option value="3">Template Penghargaan</option>
                         </select>
                     </div>
                     <div class="form-group">
