@@ -15,6 +15,10 @@ class BeritaController extends Controller
         if(Auth::user()->role == 'admin' || Auth::user()->role == 'pusbangkar'){
             $data = DB::table('beritas')
                     ->join('users', 'users.id', '=', 'beritas.id')
+                    ->select(
+                        'beritas.*', 
+                        'users.name',
+                    )
                     ->get();
         }else{
             $data = DB::table('beritas')
@@ -23,6 +27,7 @@ class BeritaController extends Controller
                     ->get();
         }
 
+        // dd($data);
         return view('berita.index')
                 ->with('data', $data);
     }
@@ -49,7 +54,8 @@ class BeritaController extends Controller
             'judul_berita'  => $request->judul_berita,
             'isi_berita'    => $request->isi_berita,
             'gambar_utama'  => $nama_file,
-            'kategori'      => $request->kategori
+            'kategori'      => $request->kategori,
+            'input_lamaran' => $request->input_lamaran
         ]);
 
         return redirect('berita')->with(['sukses' => 'Data berhasil disimpan!']);
@@ -92,7 +98,8 @@ class BeritaController extends Controller
             'judul_berita'  => $request->judul_berita,
             'isi_berita'    => $request->isi_berita,
             'gambar_utama'  => $nama_file,
-            'kategori'      => $request->kategori
+            'kategori'      => $request->kategori,
+            'input_lamaran' => $request->input_lamaran
         ]);
 
         return redirect('berita')->with(['sukses' => 'Update Data Berhasil!']);

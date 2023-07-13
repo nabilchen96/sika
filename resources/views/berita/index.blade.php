@@ -25,6 +25,7 @@
                                 <th>Gambar</th>
                                 <th>Judul Berita</th>
                                 <th>Kategori</th>
+                                <th>Penulis</th>
                                 <th>Tgl Publish</th>
                                 <th></th>
                                 <th></th>
@@ -47,6 +48,7 @@
                                             Lainnya
                                         @endif
                                     </td>
+                                    <td>{{ $item->name }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <a href="{{ url('editberita') }}/{{ $item->id_berita }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>

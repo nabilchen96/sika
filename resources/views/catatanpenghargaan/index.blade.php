@@ -61,6 +61,24 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="col-form-label">Keterangan</label>
+                                        <textarea name="keterangan" class="form-control" id="keterangan" cols="30" rows="5"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Template Penghargaan</label>
+                                        <select class="form-control" id="form-control" name="template_penghargaan">
+                                            <?php
+                                                
+                                                $template = DB::table('templates')->where('kategori', '3')->get();
+
+                                            ?>
+                                            <option value="">--Pilih Template Penghargaan--</option>
+                                            @foreach ($template as $item)
+                                                <option value="{{ $item->id_template }}">{{ $item->judul_template }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -110,6 +128,7 @@
                                 @if (auth::user()->role != 'taruna')
                                 <th width="10"></th>
                                 <th width="10"></th>
+                                <th width="10"></th>
                                 @endif
                             </tr>
                         </thead>
@@ -122,6 +141,11 @@
                             <td>{{ $item->bidang_penghargaan }}</td>
                             <td>{{ $item->poin_penghargaan }}</td>
                             @if (auth::user()->role != 'taruna')
+                            <td>
+                                <a href="{{ url('sertifikat-penghargaan') }}/{{ $item->id_catatan_penghargaan }}" class="btn btn-sm btn-info">
+                                    <i class="fas fa-file-pdf text-white"></i>
+                                </a>
+                            </td>
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#edit" data-array="{{ $data }}"
                                     data-i="{{ $key }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
@@ -196,8 +220,26 @@
                                             <select class="form-control" name="id_penghargaan" id="id_penghargaan"
                                                 required>
                                                 @foreach ($penghargaan as $item)
-                                                <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}
+                                                    <option value="{{ $item->id_penghargaan }}">{{ $item->penghargaan }}
                                                 </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Keterangan</label>
+                                            <textarea name="keterangan" class="form-control" id="keterangan" cols="30" rows="5"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Template Penghargaan</label>
+                                            <select class="form-control" id="template_penghargaan" name="template_penghargaan">
+                                                <?php
+                                                    
+                                                    $template = DB::table('templates')->where('kategori', '3')->get();
+    
+                                                ?>
+                                                <option value="">--Pilih Template Penghargaan--</option>
+                                                @foreach ($template as $item)
+                                                    <option value="{{ $item->id_template }}">{{ $item->judul_template }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -274,7 +316,9 @@
         modal.find('#tgl_penghargaan').val(array[i].tgl_penghargaan)
         modal.find('#sk_penghargaan').val(array[i].sk_penghargaan)
         modal.find('#id_penghargaan').val(array[i].id_penghargaan).trigger('change')
+        modal.find('#template_penghargaan').val(array[i].template_penghargaan).trigger('change')
         modal.find('#id_catatan_penghargaan').val(array[i].id_catatan_penghargaan).trigger('change')
+        modal.find('#keterangan').val(array[i].keterangan).trigger('change')
     })
 </script>
 

@@ -18,7 +18,7 @@
         "laravel/ui": "2.4",
         "maatwebsite/excel": "^3.1",
         "ncjoes/office-converter": "^1.0",
-        "phpoffice/phpword": "dev-master",
+        "phpoffice/phpword": "^1.1",
         "symfony/process": "^5.3",
         "yajra/laravel-datatables-oracle": "^9.15"
     },

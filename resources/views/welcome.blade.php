@@ -1,5 +1,36 @@
 @extends('template.frontend')
 @section('content')
+    <style>
+        .nav-lt-tab .nav-item .nav-link.active {
+            border-top: 2.5px solid #624bff;
+        }
+
+        .nav {
+            display: inline-block;
+            overflow: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+            /* margin: 0 0 1em; */
+            white-space: nowrap;
+        }
+
+        .nav li {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .nav-item {
+            margin-bottom: 0 !important;
+        }
+
+        .nav:hover> ::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.5rem;
+        }
+    </style>
     <div class="banner">
         <div class="container">
             {{-- <h1 class="font-weight-semibold" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi <br> Ketarunaan & Alumni
@@ -33,19 +64,50 @@
         <div class="container">
             <section class="features-overview" id="features-section">
                 <div class="content-header">
-                    <h2>Pengumuman</h2>
+                    <h2 id="pengumuman">Pengumuman</h2>
                     <h6 class="section-subtitle text-muted mb-4">
                         Pengumuman dan informasi untuk taruna dan alumni
                         <br>Politeknik Penerbangan Palembang
                     </h6>
+                    <ul class="nav nav-lt-tab mb-4" style="border: 0;" role="tablist">
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}" style="border-radius: 25px;"
+                                class="btn btn-sm btn-{{ Request('filter') == '' ? 'info' : 'primary' }}">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}?filter=1" style="border-radius: 25px;"
+                                class="btn btn-sm btn-{{ Request('filter') == '1' ? 'info' : 'primary' }}">Pendidikan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}?filter=2" style="border-radius: 25px;"
+                                class="btn btn-sm btn-{{ Request('filter') == '2' ? 'info' : 'primary' }}">Lowongan
+                                Kerja</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}?filter=3" style="border-radius: 25px;"
+                                class="btn btn-sm btn-{{ Request('filter') == '3' ? 'info' : 'primary' }}">Layanan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}?filter=4" style="border-radius: 25px;"
+                                class="btn btn-sm btn-{{ Request('filter') == '4' ? 'info' : 'primary' }}">Lainnya</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="d-md-flex">
                     <?php
                     
-                    $data = DB::table('beritas')
-                        ->orderBy('created_at', 'DESC')
-                        ->limit(3)
-                        ->get();
+                    if (Request('filter')) {
+                        $data = DB::table('beritas')
+                            ->orderBy('created_at', 'DESC')
+                            ->where('kategori', Request('filter'))
+                            ->limit(3)
+                            ->get();
+                    } else {
+                        $data = DB::table('beritas')
+                            ->orderBy('created_at', 'DESC')
+                            ->limit(3)
+                            ->get();
+                    }
                     
                     ?>
                     @forelse ($data as $k => $item)
@@ -68,7 +130,7 @@
                         </div>
                     @empty
                         <div class="col-12 mt-4 mb-4">
-                            <h4 class="text-center">Belum Ada Pengumuman yang diupdate</h4>
+                            <h4 class="text-center">Belum Ada Berita Untuk Kategori Ini</h4>
                         </div>
                     @endforelse
                 </div>

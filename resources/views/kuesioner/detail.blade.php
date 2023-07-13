@@ -17,9 +17,9 @@
     <div class="card mb-12">
       <div class="card-header">
         <a href="{{ url('kuesioner') }}" class="btn btn-sm btn-success"><i class="fas fa-arrow-left"></i> Kembali</a>
-        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".modal" data-array=""><i
+        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalform" data-array=""><i
             class="fas fa-plus"></i> Tambah</a>
-        <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+        {{-- <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a> --}}
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -62,7 +62,7 @@
                 <td class="text-center"><a href="{{ url('statistikdetailkuesioner') }}/{{ $item->id_detail_kuesioner }}" class="btn btn-sm btn-primary"><i class="fas fa-chart-bar"></i></a></td>
                 <td>
                   <a href="#" class="btn btn-sm btn-success" data-array="{{ $soal[$k] }}" data-toggle="modal"
-                    data-target=".modal"><i class="fas fa-edit"></i></a>
+                    data-target="#modalform"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
                   <a href="{{ url('hapus-soal-kuesioner') }}/{{ $item->id_detail_kuesioner }}"
@@ -78,7 +78,7 @@
   </div>
 </div>
 
-<div class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalform" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

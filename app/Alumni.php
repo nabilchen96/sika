@@ -8,6 +8,6 @@ class Alumni extends Model
 {
     protected $primaryKey   = 'id_alumni';
     protected $fillable     = [
-        'id_mahasiswa',''
+        'id_mahasiswa', 'tgl_lulus'
     ];
 }

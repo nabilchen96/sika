@@ -59,10 +59,22 @@ class DetailKuesionerController extends Controller
     }
 
     public function destroy($id){
-        $data = DetailKuesioner::find($id);
-        $data->delete();
+        
 
-        return back()->with(['sukses' => 'Data berhasil dihapus!']);
+        try {
+            $data = DetailKuesioner::find($id);
+            $data->delete();
+    
+            return back()->with(['sukses' => 'Data Berhasil Dihapus!']);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return back()->with(['gagal' => 'Data tidak ditemukan!']);
+
+        } catch (\Exception $e) {
+
+            return back()->with(['gagal' => 'Gagal menghapus data: karena data ini memiliki data yang terikat dengan data lain']);
+        }
     }
 
     public function statistik($id){
@@ -73,10 +85,16 @@ class DetailKuesionerController extends Controller
                 ->join('alumnis', 'alumnis.id_alumni', '=', 'jawaban_kuesioners.id_alumni')
                 ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'alumnis.id_mahasiswa')
                 ->where('detail_kuesioners.id_detail_kuesioner', $id)
-                ->select('tarunas.nama_mahasiswa', 'jawaban_kuesioners.*', 'detail_kuesioners.soal')
+                ->select(
+                    'tarunas.nama_mahasiswa', 
+                    'jawaban_kuesioners.*', 
+                    'detail_kuesioners.soal',
+                    'detail_kuesioners.jenis_soal',
+                    'kuesioners.id_kuesioner'
+                )
                 ->get();
 
-        // dd($data);
+        
 
         
         $soal = DB::table('detail_kuesioners')
@@ -126,6 +144,8 @@ class DetailKuesionerController extends Controller
             }
         }
 
+
+        // dd($data);
 
 
         return view('kuesioner.statistik')

@@ -45,7 +45,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Kategori</label>
                         <div class="col-sm-10">
-                            <select name="kategori" class="form-control" required>
+                            <select onchange="applyorno()" id="kategori" name="kategori" class="form-control" required>
+                                <option value="">--Pilih Kategori--</option>
                                 <option value="1">Pendidikan</option>
                                 <option value="2">Lowongan Kerja</option>
                                 <option value="3">Layanan</option>
@@ -56,6 +57,7 @@
                             @enderror
                         </div>
                     </div>
+                    <div id="inputlamaran"></div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-5">
@@ -84,5 +86,34 @@
     // Replace the <textarea id="editor1"> with a CKEditor 4
     // instance, using default configuration.
     CKEDITOR.replace( 'editor' );
+
+    function applyorno(){
+
+        var kategori = document.getElementById('kategori').value
+        var html = ''
+
+        if (kategori == '2') {
+            
+            html = `
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Upload Lamaran</label>
+                <div class="col-sm-10">
+                    <select id="input_lamaran" name="input_lamaran" class="form-control" required>
+                        <option value="">--Pilih Apakah Upload Lamaran?--</option>
+                        <option>Ya</option>
+                        <option>Tidak</option>
+                    </select>
+                </div>
+            </div>
+            `
+
+        }else{
+
+            html = ``
+        }
+
+        document.getElementById('inputlamaran').innerHTML = html
+    }
+
 </script>
 @endpush
