@@ -96,12 +96,18 @@
                         <label class="col-sm-2 col-form-label">Semester</label>
                         <div class="col-sm-3">
                             <?php $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get(); ?>
-                            <select name="id_semester" class="form-control">
+                            <select name="id_semester" class="form-control" required>
                                 <option value="">Pilih Semester</option>
                                 @foreach ($semester as $item)
                                 <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
                                     value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
                                 @endforeach
+                            </select>
+                            <select name="id_prodi" id="id_prodi" class="mt-2 form-control" required>
+                                <option value="">Pilih Prodi</option>
+                                <option {{ @$_GET['id_prodi'] == 'c0d0034a-70ec-436d-b88f-b85182ba6fe1' ? 'selected' : '' }} value="c0d0034a-70ec-436d-b88f-b85182ba6fe1">TRBU</option>
+                                <option {{ @$_GET['id_prodi'] == 'c40d9f90-2a98-4b08-9947-a02e660ef7ff' ? 'selected' : '' }} value="c40d9f90-2a98-4b08-9947-a02e660ef7ff">MBU</option>
+                                <option {{ @$_GET['id_prodi'] == 'ed1f301a-f97d-4186-a8ea-647122b1f68e' ? 'selected' : '' }} value="ed1f301a-f97d-4186-a8ea-647122b1f68e">PPKP</option>
                             </select>
                         </div>
                     </div>

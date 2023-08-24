@@ -18,6 +18,8 @@ class CatatanPenghargaanController extends Controller
 {
     public function index(Request $request){
 
+        // dd($request->id_prodi);
+
             $data = DB::table('catatan_penghargaans')
                         ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'catatan_penghargaans.id_mahasiswa')
                         ->leftjoin('penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan')
@@ -37,6 +39,7 @@ class CatatanPenghargaanController extends Controller
                             'catatan_penghargaans.keterangan'
                         )
                         ->where('catatan_penghargaans.id_semester', $request->id_semester)
+                        ->where('tarunas.id_prod', $request->id_prodi)
                         ->get();
 
                 $taruna = null;
