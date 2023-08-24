@@ -39,7 +39,7 @@ class CatatanPenghargaanController extends Controller
                             'catatan_penghargaans.keterangan'
                         )
                         ->where('catatan_penghargaans.id_semester', $request->id_semester)
-                        ->where('tarunas.id_prod', $request->id_prodi)
+                        ->where('tarunas.id_prodi', $request->id_prodi)
                         ->get();
 
                 $taruna = null;
