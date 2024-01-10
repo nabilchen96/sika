@@ -21,6 +21,10 @@ class CreatePengajuanSuratsTable extends Migration
 
             $table->enum('jenis_pengajuan', ['surat izin', 'surat keterangan']);
 
+            // $table->string('lampiran')->nullable();
+
+            // $table->string('waktu_izin')->nullable();
+
             $table->text('keterangan');
 
             $table->enum('status_pengajuan', [0,1,2]);
