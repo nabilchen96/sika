@@ -28,7 +28,16 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Semester</label>
                             <div class="col-sm-3">
-                                <?php $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get(); ?>
+                                <?php
+                                    if (Auth::user()->role == 'taruna'){
+                                        $semester = DB::table('semesters')
+                                            ->orderBy('id_semester', 'DESC')
+                                            ->where('is_semester_aktif', 1)
+                                            ->take('10')->get();
+                                    }else{
+                                        $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();
+                                    }
+                                ?>
                                 <select name="id_semester" class="form-control">
                                     <option value="">Pilih Semester</option>
                                     @foreach ($semester as $item)

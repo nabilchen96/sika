@@ -47,9 +47,15 @@
                                       <?php $jawaban = unserialize($item->keterangan); ?>
                                       Tujuan: {{ $jawaban[0] }} <br>
                                       Keperluan: {{ $jawaban[1] }}<br>
-                                      Tanggal Keluar: {{ $jawaban[2] }}<br>
-                                      Tanggal Kembali: {{ $jawaban[3] }}<br>
-                                      Keterangan: {{ $jawaban[4] }}
+                                      Tanggal Keluar: {{ str_replace('T', ' ', @$jawaban[2]) }}<br>
+                                      Tanggal Kembali: {{ str_replace('T', ' ', @$jawaban[3]) }}<br>
+                                      Waktu Izin: {{ @$jawaban[5] }} <br>
+                                      Keterangan: {{ @$jawaban[4] }}
+
+                                      <br><br>
+                                      <a href="{{ asset('lampiran') }}/{{ @$jawaban[6] }}" target="_blank">
+                                        Lampiran
+                                      </a>
                                     @else
                                       {{ $item->keterangan }}
                                     @endif

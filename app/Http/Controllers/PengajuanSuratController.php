@@ -109,15 +109,23 @@ class PengajuanSuratController extends Controller
                 'keterangan'        => 'required',
             ]);
 
-            // dd($request->id);
+            $nama_lampiran = '';
 
-
+            //JIKA ADA LAMPIRAN
+            if ($request->lampiran) {
+                $lampiran = $request->lampiran;
+                $nama_lampiran = '1' . date('YmdHis.') . $lampiran->extension();
+                $lampiran->move('lampiran', $nama_lampiran);
+            }
+            
             $data_keterangan = array(
                 $request->tempat_tujuan,
                 $request->keperluan,
                 $request->berangkat_tanggal,
                 $request->kembali_tanggal,
-                $request->keterangan
+                $request->keterangan,
+                $request->waktu_izin, 
+                $nama_lampiran,
             );
 
 
@@ -280,6 +288,8 @@ class PengajuanSuratController extends Controller
                 'KEMBALITANGGAL'    => date('d-m-Y', strtotime($detail_keterangan[3])),
                 'CATATAN'           => $detail_keterangan[4],
                 'TANGGALSURAT'      => date('d-m-Y'),
+                'PRODI'             => $data->nama_program_studi,
+                'KELAS'             => $data->nama_kelas
             ]);
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));

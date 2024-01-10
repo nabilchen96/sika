@@ -19,6 +19,9 @@ class SemesterController extends Controller
         $response = Http::get('https://siakad.poltekbangplg.ac.id/api/getsemester');
         $response = json_decode($response, true);
 
+        Semester::query()->update([
+            'is_semester_aktif' => 0
+        ]);
 
         // dd($response);
         foreach($response['data'] as $item){
