@@ -45,7 +45,7 @@
                                     onchange="pilihform()" required>
                                     <option value="">--Pilih Jenis Pengajuan--</option>
                                     <option value="surat izin">Surat Izin</option>
-                                    <option value="surat keterangan">Surat Keterangan Kuliah</option>
+                                    {{-- <option value="surat keterangan">Surat Keterangan Kuliah</option> --}}
                                 </select>
                             </div>
                         </div>

@@ -48,8 +48,8 @@ class AsuhanController extends Controller
                     $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
                     $data= DB::table('asuhans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                        ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
                         ->where(function($q) use ($grup_kordinasi) {
 
                             foreach($grup_kordinasi  as $k) {
@@ -61,8 +61,8 @@ class AsuhanController extends Controller
                 }else{
                     //jika dia bukan kordinator pengasuh maka tampilkan hanya taruna yang diasuhnya saja
                     $data = DB::table('asuhans')
-                            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                            ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                            ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
                             ->where('asuhans.id_pengasuh', Auth::id())            
                             ->get();
                 }
@@ -70,15 +70,15 @@ class AsuhanController extends Controller
             }elseif(Auth::user()->role == 'admin' or auth::user()->role == 'pusbangkar'){
 
                 $data = DB::table('asuhans')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')         
+                        ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                        ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')         
                         ->get();
             }
 
         }else{
             $data = DB::table('asuhans')
-            ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-            ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')  
+            ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+            ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')  
             ->where('id_pengasuh', $request->input('cari'))
             ->get();
         }
@@ -87,7 +87,7 @@ class AsuhanController extends Controller
 
     public function create(){
         $data = DB::table('users')
-                ->leftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
+                ->leftleftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
                 ->where('role', 'pengasuh')
                 ->whereNotIn('users.id', function($query){
                     $query->select('id')->from('kordinator_pengasuhs');
