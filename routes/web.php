@@ -321,6 +321,8 @@ Route::get('/hapuspengajuansurat/{id}', 'PengajuanSuratController@destroy')->mid
 Route::post('/jawabpengajuan', 'PengajuanSuratController@jawabpengajuan')->middleware(['checkRole:pengasuh,admin,taruna,pusbangkar']);
 Route::post('/terbitkansurat', 'PengajuanSuratController@terbitkansurat')->middleware(['checkRole:pusbangkar']);
 
+Route::get('teswa', 'PengajuanSuratController@tesWa');
+
 Route::get('/grupkordinasipengasuh', 'GrupKordinasiPengasuhController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::get('/berita', 'BeritaController@index')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
