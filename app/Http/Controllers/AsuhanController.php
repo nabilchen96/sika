@@ -87,7 +87,7 @@ class AsuhanController extends Controller
 
     public function create(){
         $data = DB::table('users')
-                ->leftleftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
+                ->leftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
                 ->where('role', 'pengasuh')
                 ->whereNotIn('users.id', function($query){
                     $query->select('id')->from('kordinator_pengasuhs');
