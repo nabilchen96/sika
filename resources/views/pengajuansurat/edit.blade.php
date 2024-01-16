@@ -96,7 +96,7 @@
                                 <div class="form-group row">
                                     <label for="" class="col-sm-3 col-form-label">Waktu Izin</label>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="waktu_izin" id="waktu_izin" readonly required value="{{ $keterangan[5] }}">
+                                        <input type="text" class="form-control" name="waktu_izin" id="waktu_izin" readonly required value="{{ @$keterangan[5] }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
