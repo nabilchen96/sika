@@ -63,7 +63,7 @@
                                     <div class="col-sm-5">
                                         <input type="text"
                                             {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }}
-                                            name="tempat_tujuan" class="form-control" value="{{ $keterangan[0] }}"
+                                            name="tempat_tujuan" class="form-control" value="{{ @$keterangan[0] }}"
                                             required>
                                     </div>
                                 </div>
@@ -102,14 +102,14 @@
                                 <div class="form-group row">
                                     <label for="" class="col-sm-3 col-form-label">Lampiran</label>
                                     <div class="col-sm-5">
-                                        <a target="_blank" href="{{ asset('lampiran') }}/{{ $keterangan[6] }}">Download File</a>
+                                        <a target="_blank" href="{{ asset('lampiran') }}/{{ @$keterangan[6] }}">Download File</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Moda Transportasi</label>
                                 <div class="col-sm-5">
-                                    <input type="text" readonly value="{{ $keterangan[7] }}" name="transportasi" id="transportasi" required class="form-control" placeholder="Moda Transportasi">
+                                    <input type="text" readonly value="{{ @$keterangan[7] }}" name="transportasi" id="transportasi" required class="form-control" placeholder="Moda Transportasi">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -117,7 +117,7 @@
                                 <div class="col-sm-5">
                                     <textarea name="keterangan"
                                         {{ auth::user()->role == 'pengasuh' || auth::user()->role == 'pusbangkar' ? 'readonly' : '' }} cols="30"
-                                        rows="5" class="form-control" required>{{ $keterangan[4] }}</textarea>
+                                        rows="5" class="form-control" required>{{ @$keterangan[4] }}</textarea>
                                 </div>
                             </div>
                         @else
