@@ -56,6 +56,12 @@
 
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Moda Transportasi</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="transportasi" id="transportasi" required class="form-control" placeholder="Moda Transportasi">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Keterangan</label>
                             <div class="col-sm-5">
                                 <textarea placeholder="Keterangan" name="keterangan" cols="30" rows="5" class="form-control" required></textarea>

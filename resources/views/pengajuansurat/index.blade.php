@@ -47,8 +47,9 @@
                                       <?php $jawaban = unserialize($item->keterangan); ?>
                                       Tujuan: {{ $jawaban[0] }} <br>
                                       Keperluan: {{ $jawaban[1] }}<br>
-                                      Tanggal Keluar: {{ str_replace('T', ' ', @$jawaban[2]) }}<br>
-                                      Tanggal Kembali: {{ str_replace('T', ' ', @$jawaban[3]) }}<br>
+                                      Tanggal Keluar: {{ date('d-m-Y H:i',  strtotime($jawaban[2])) }}<br>
+                                      Tanggal Kembali: {{ date('d-m-Y H:i', strtotime($jawaban[3])) }}<br>
+                                      Moda Transportasi: {{ @$jawaban[7] }} <br>
                                       Waktu Izin: {{ @$jawaban[5] }} <br>
                                       Keterangan: {{ @$jawaban[4] }}
 

@@ -130,6 +130,7 @@ class PengajuanSuratController extends Controller
                 $request->keterangan,
                 $request->waktu_izin,
                 $nama_lampiran,
+                $request->transportasi
             );
 
 
@@ -158,6 +159,7 @@ Tempat Tujuan: '.@$request->tempat_tujuan.'
 Keperluan: '.@$request->keperluan.'
 Berangkat: '.date('d-m-Y H:i', strtotime(@$request->berangkat_tanggal)).'
 Kembali: '.date('d-m-Y H:i', strtotime(@$request->kembali_tanggal)).'
+Moda Transportasi: '.@$request->transportasi.'
 Waktu Izin: '.@$request->waktu_izin.'
 keterangan: '.@$request->keterangan.'
 
@@ -336,10 +338,11 @@ https://sikap.poltekbangplg.ac.id
                 'TAHUN' => date('Y'),
                 'NAMA' => $data->nama_mahasiswa,
                 'NIT' => $data->nim,
+                'TRANSPORTASI' => @$detail_keterangan[7],
                 'TEMPATTUJUAN' => $detail_keterangan[0],
                 'KEPERLUAN' => $detail_keterangan[1],
-                'BERANGKATTANGGAL' => date('d-m-Y H:i', strtotime($detail_keterangan[2])),
-                'KEMBALITANGGAL' => date('d-m-Y H:i', strtotime($detail_keterangan[3])),
+                'BERANGKATTANGGAL' => date('d-m-Y H:i', strtotime(@$detail_keterangan[2])),
+                'KEMBALITANGGAL' => date('d-m-Y H:i', strtotime(@$detail_keterangan[3])),
                 'CATATAN' => $detail_keterangan[4],
                 'TANGGALSURAT' => date('d-m-Y'),
                 'PRODI' => $data->nama_program_studi,

@@ -107,6 +107,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Moda Transportasi</label>
+                                <div class="col-sm-5">
+                                    <input type="text" readonly value="{{ $keterangan[7] }}" name="transportasi" id="transportasi" required class="form-control" placeholder="Moda Transportasi">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Keterangan</label>
                                 <div class="col-sm-5">
                                     <textarea name="keterangan"
