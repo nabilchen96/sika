@@ -20,9 +20,9 @@
                     <form
                         action="@if (auth::user()->role == 'pengasuh') 
                                 {{ url('jawabpengajuan') }} 
-                            @elseif(auth::user()->role == 'pusbangkar' && $data->status_pengajuan == 0)
+                            @elseif(auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin' && $data->status_pengajuan == 0)
                                 {{ url('jawabpengajuan') }} 
-                            @elseif(auth::user()->role == 'pusbangkar' && $data->status_pengajuan == 1)  
+                            @elseif(auth::user()->role == 'pusbangkar' || auth::user()->role == 'admin' && $data->status_pengajuan == 1)  
                                 {{ url('terbitkansurat') }}
                             @else 
                                 {{ url('updatepengajuansurat') }}
