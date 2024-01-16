@@ -82,6 +82,7 @@
                         }
                     },
                     {
+                        name: 'nim',
                         render: function(data, type, row, meta) {
 
                             return `<a href="${row.foto}" target="_blank" title="Buka gambar di tab baru">
@@ -95,6 +96,7 @@
                         }
                     },
                     {
+                        name: 'nama_mahasiswa',
                         render: function(data, type, row, meta) {
                           return `${row.nim} <br> ${row.nama_mahasiswa}`
                         }
