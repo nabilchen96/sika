@@ -32,32 +32,45 @@ class PengajuanSuratController extends Controller
         } else {
             if (auth::user()->role == 'pengasuh') {
 
-                $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
+                // $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                if ($kordinator) {
-                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+                // if ($kordinator) {
+                //     $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                    $data = DB::table('pengajuan_surats')
-                        ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
-                        ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
-                        ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                        ->where(function ($q) use ($grup_kordinasi) {
+                //     $data = DB::table('pengajuan_surats')
+                //         ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                //         ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                //         ->join('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                //         ->where(function ($q) use ($grup_kordinasi) {
 
-                            foreach ($grup_kordinasi as $k) {
-                                $q->orWhere('asuhans.id_pengasuh', $k->id);
-                            }
+                //             foreach ($grup_kordinasi as $k) {
+                //                 $q->orWhere('asuhans.id_pengasuh', $k->id);
+                //             }
 
-                        })
-                        ->select(
-                            'pengajuan_surats.*',
-                            'tarunas.nama_mahasiswa',
-                            'tarunas.id_mahasiswa'
-                        )
-                        ->orderBy('pengajuan_surats.created_at', 'DESC')
-                        ->get();
+                //         })
+                //         ->select(
+                //             'pengajuan_surats.*',
+                //             'tarunas.nama_mahasiswa',
+                //             'tarunas.id_mahasiswa'
+                //         )
+                //         ->orderBy('pengajuan_surats.created_at', 'DESC')
+                //         ->get();
 
-                } else {
-                    $data = DB::table('pengajuan_surats')
+                // } else {
+                //     $data = DB::table('pengajuan_surats')
+                //         ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
+                //         ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
+                //         ->where('asuhans.id_pengasuh', auth::user()->id)
+                //         ->select(
+                //             'pengajuan_surats.*',
+                //             'tarunas.nama_mahasiswa',
+                //             'tarunas.id_mahasiswa'
+                //         )
+                //         ->orderBy('pengajuan_surats.created_at', 'DESC')
+                //         ->get();
+                // }
+
+                $data = DB::table('pengajuan_surats')
                         ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'pengajuan_surats.id_mahasiswa')
                         ->join('asuhans', 'asuhans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
                         ->where('asuhans.id_pengasuh', auth::user()->id)
@@ -68,7 +81,6 @@ class PengajuanSuratController extends Controller
                         )
                         ->orderBy('pengajuan_surats.created_at', 'DESC')
                         ->get();
-                }
 
             } else {
                 $data = DB::table('pengajuan_surats')
@@ -167,26 +179,13 @@ Kepada Pengasuh yang bersangkutan untuk dapat menindak lanjuti izin dari taruna 
 https://sikap.poltekbangplg.ac.id
             ';
     
-            $response = Http::withHeaders([
-                'Authorization' => '-t8BRBytMIWY1ucemoVb', // change TOKEN to your actual token
-            ])->post('https://api.fonnte.com/send', [
-                'target' => $asuhan->no_telp,
-                'message' => $pesan,
-                'countryCode' => '62', // optional
-            ]);
-
-            // $status = $response->status();
-
-            // // Mendapatkan body dari respons
-            // $body = $response->body();
-
-            // // Menangani error jika ada
-            // if ($status !== 200) {
-            //     $error_msg = "HTTP request failed with status code: $status\nResponse body: $body";
-            //     echo $error_msg;
-            // }
-
-            // echo date('d-m-Y H:i', strtotime(@$request->berangkat_tanggal));
+            // $response = Http::withHeaders([
+            //     'Authorization' => '-t8BRBytMIWY1ucemoVb', // change TOKEN to your actual token
+            // ])->post('https://api.fonnte.com/send', [
+            //     'target' => $asuhan->no_telp,
+            //     'message' => $pesan,
+            //     'countryCode' => '62', // optional
+            // ]);
 
             return redirect('pengajuansurat')->with(['sukses' => 'Data berhasil disimpan!']);
 

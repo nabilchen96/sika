@@ -43,29 +43,35 @@ class AsuhanController extends Controller
             if(Auth::user()->role == 'pengasuh'){
                 $kordinator = DB::table('kordinator_pengasuhs')->where('id', auth::user()->id)->first();
 
-                if($kordinator){
-                    //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
-                    $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
+                // if($kordinator){
+                //     //jika dia adalah kordinator pengasuh maka tampilkan semua taruna yang diasuh oleh semua pengasuh di bawahnya
+                //     $grup_kordinasi = DB::table('grup_kordinasi_pengasuhs')->where('id_kordinator_pengasuh', $kordinator->id_kordinator_pengasuh)->get();
 
-                    $data= DB::table('asuhans')
-                        ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
-                        ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
-                        ->where(function($q) use ($grup_kordinasi) {
+                //     $data= DB::table('asuhans')
+                //         ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                //         ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                //         ->where(function($q) use ($grup_kordinasi) {
 
-                            foreach($grup_kordinasi  as $k) {
-                                $q->orWhere('asuhans.id_pengasuh', $k->id);
-                            }
+                //             foreach($grup_kordinasi  as $k) {
+                //                 $q->orWhere('asuhans.id_pengasuh', $k->id);
+                //             }
 
-                        })->get();
+                //         })->get();
 
-                }else{
-                    //jika dia bukan kordinator pengasuh maka tampilkan hanya taruna yang diasuhnya saja
-                    $data = DB::table('asuhans')
+                // }else{
+                //     //jika dia bukan kordinator pengasuh maka tampilkan hanya taruna yang diasuhnya saja
+                //     $data = DB::table('asuhans')
+                //             ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
+                //             ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
+                //             ->where('asuhans.id_pengasuh', Auth::id())            
+                //             ->get();
+                // }
+
+                $data = DB::table('asuhans')
                             ->leftjoin('tarunas', 'tarunas.id_mahasiswa', '=', 'asuhans.id_mahasiswa')
                             ->leftjoin('users', 'users.id', '=', 'asuhans.id_pengasuh')
                             ->where('asuhans.id_pengasuh', Auth::id())            
                             ->get();
-                }
 
             }elseif(Auth::user()->role == 'admin' or auth::user()->role == 'pusbangkar'){
 
@@ -89,9 +95,9 @@ class AsuhanController extends Controller
         $data = DB::table('users')
                 ->leftjoin('kordinator_pengasuhs', 'kordinator_pengasuhs.id', '=', 'users.id')
                 ->where('role', 'pengasuh')
-                ->whereNotIn('users.id', function($query){
-                    $query->select('id')->from('kordinator_pengasuhs');
-                })
+                // ->whereNotIn('users.id', function($query){
+                //     $query->select('id')->from('kordinator_pengasuhs');
+                // })
                 ->select(
                     'users.*'
                 )
