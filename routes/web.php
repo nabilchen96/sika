@@ -58,6 +58,8 @@ Route::get('/mobile/logout', function () {
 //route for admin dan pusbangkar
 Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () { 
 
+    Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
     Route::get('/user', 'UserController@index');
     Route::post('/tambahuser', 'UserController@store');
     Route::post('/edituser', 'UserController@update');

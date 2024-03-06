@@ -14,6 +14,8 @@ class PenilaianController extends Controller
 
         $data = [];
 
+        // dd('cok');
+
         if($request->id_semester != null){
             $data = DB::table('tarunas')
                     ->leftjoin('catatan_pelanggarans', 'catatan_pelanggarans.id_mahasiswa', '=', 'tarunas.id_mahasiswa')
