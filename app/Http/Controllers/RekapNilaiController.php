@@ -21,6 +21,8 @@ class RekapNilaiController extends Controller
     public function index(Request $request)
     {
 
+        // dd('cok');
+
         $data = [];
         $data_nilai = [];
 
@@ -38,6 +40,8 @@ class RekapNilaiController extends Controller
                             ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'rekap_nilais.id_mahasiswa')
                             ->where('rekap_nilais.id_semester', @$_GET['id_semester'])
                             ->get();
+            
+            // dd($nilai_sah);
 
         }elseif(auth::user()->role == 'taruna'){
 
@@ -177,17 +181,17 @@ class RekapNilaiController extends Controller
                                     ->where('semesters.id_semester', @$_GET['id_semester'])
                                     ->sum('poin_penghargaan');
 
-            // $nilai_penghargaan > 100 ? $nilai_penghargaan = 100 : $nilai_penghargaan;
+            $nilai_penghargaan > 100 ? $nilai_penghargaan = 100 : $nilai_penghargaan;
 
-            if(empty($nilai_penghargaan)){
-                $nilai_penghargaan = 75;
-            }else{
-                if($nilai_penghargaan > 100){
-                    $nilai_penghargaan = 100;
-                }elseif($nilai_penghargaan < 100){
-                    $nilai_penghargaan = $nilai_penghargaan + 75;
-                }
-            }
+            // if(empty($nilai_penghargaan)){
+            //     $nilai_penghargaan = 75;
+            // }else{
+            //     if($nilai_penghargaan > 100){
+            //         $nilai_penghargaan = 100;
+            //     }elseif($nilai_penghargaan < 100){
+            //         $nilai_penghargaan = $nilai_penghargaan + 75;
+            //     }
+            // }
 
             if(@$_GET['id_semester']){
                 $data_nilai[] = array(
@@ -202,6 +206,8 @@ class RekapNilaiController extends Controller
             }
             
         }
+
+        // dd($data_nilai);
 
         return view('rekapnilai.index')
                 ->with('nilai_sah', $nilai_sah)
