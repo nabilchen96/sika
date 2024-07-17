@@ -325,7 +325,11 @@ https://sikap.poltekbangplg.ac.id
             //memindahkan surat
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor("templatesurat/" . $template->template);
 
-            $surat_terakhir = DB::table('pengajuan_surats')->where('jenis_pengajuan', 'surat izin')->latest('created_at')->value('nomor_surat');
+            $surat_terakhir = DB::table('pengajuan_surats')
+                                ->where('jenis_pengajuan', 'surat izin')
+                                ->whereNotNull('nomor_surat')
+                                ->latest('created_at')
+                                ->value('nomor_surat');
 
             // dd($surat_terakhir);
 
