@@ -327,6 +327,7 @@ https://sikap.poltekbangplg.ac.id
 
             $surat_terakhir = DB::table('pengajuan_surats')->where('jenis_pengajuan', 'surat izin')->latest('created_at')->value('nomor_surat');
 
+            // dd($surat_terakhir);
 
             $nomor = $surat_terakhir == null ? 1 : $surat_terakhir + 1;
 
@@ -345,7 +346,8 @@ https://sikap.poltekbangplg.ac.id
                 'CATATAN' => $detail_keterangan[4],
                 'TANGGALSURAT' => date('d-m-Y'),
                 'PRODI' => $data->nama_program_studi,
-                'KELAS' => $data->nama_kelas
+                'KELAS' => $data->nama_kelas,
+                'TANGGAL_HARI_INI' => date('d-m-Y')
             ]);
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
@@ -410,7 +412,7 @@ https://sikap.poltekbangplg.ac.id
                 'singkatan' => $singkatan,
                 'alamat' => $data->alamat,
                 'tanggal' => date('d-m-Y'),
-                'nomor_surat' => $request->nomor_surat
+                'nomor_surat' => $request->nomor_surat,
             ]);
 
             $templateProcessor->setImageValue('TTD', array('path' => 'signature.png', 'width' => 100, 'height' => 100, 'ratio' => false));
