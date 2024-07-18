@@ -58,13 +58,20 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Moda Transportasi</label>
                             <div class="col-sm-5">
-                                <input type="text" name="transportasi" id="transportasi" required class="form-control" placeholder="Moda Transportasi">
+                                <input type="text" pattern="^[A-Za-z0-9\s]+$" name="transportasi" id="transportasi"
+                                    required class="form-control" placeholder="Moda Transportasi">
+                                <span class="text-danger" style="font-size: 12px;">
+                                    <i>*Jangan gunakan karakter seperti &, #, @, dll. Hanya angka dan huruf</i>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Keterangan</label>
                             <div class="col-sm-5">
                                 <textarea placeholder="Keterangan" name="keterangan" cols="30" rows="5" class="form-control" required></textarea>
+                                <span class="text-danger" style="font-size: 12px;">
+                                    <i>*Jangan gunakan karakter seperti &, #, @, dll. Hanya angka dan huruf</i>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -97,12 +104,18 @@
                     <label for="" class="col-sm-3 col-form-label">Tempat Tujuan</label>
                     <div class="col-sm-5">
                         <input type="text" name="tempat_tujuan" placeholder="Tempat Tujuan" class="form-control" required>
+                        <span class="text-danger" style="font-size: 12px;">
+                            <i>*Jangan gunakan karakter seperti &, #, @, dll. Hanya angka atau huruf</i>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-3 col-form-label">Keperluan</label>
                     <div class="col-sm-5">
                         <input type="text" name="keperluan" placeholder="keperluan" class="form-control" required>
+                        <span class="text-danger" style="font-size: 12px;">
+                            <i>*Jangan gunakan karakter seperti &, #, @, dll. Hanya angka dan huruf</i>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group row">
