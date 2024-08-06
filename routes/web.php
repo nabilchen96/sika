@@ -299,7 +299,7 @@ Route::get('/nilaisamaptaexportpdf/{id}', 'PenilaianSamaptaController@exportpdf'
 // ->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::resource('penilaiansoftskill', 'PenilaianSoftSkillController')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
-Route::get('editpenilaiansoftskill/{id}/{jenis_softskill}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+Route::get('editpenilaiansoftskill/{id}', 'PenilaianSoftSkillController@edit')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
 Route::post('updatepenilaiansoftskill', 'PenilaianSoftSkillController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/nilaisoftskillexport/{id_mahasiswa}', 'PenilaianSoftSkillController@export')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 Route::get('/nilaisoftskillexportpdf/{id_mahasiswa}/{id_semester}', 'PenilaianSoftSkillController@exportpdf');

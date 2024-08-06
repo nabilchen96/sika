@@ -1,8 +1,14 @@
 @extends('template.index')
 
-@push('nilai') active @endpush
-@push('sub-nilai') show @endpush
-@push('penilaiansoftskill') active @endpush
+@push('nilai')
+    active
+@endpush
+@push('sub-nilai')
+    show
+@endpush
+@push('penilaiansoftskill')
+    active
+@endpush
 
 @push('style')
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -29,20 +35,17 @@
                             <label class="col-sm-2 col-form-label">Semester</label>
                             <div class="col-sm-3">
                                 <?php
-                                    if (Auth::user()->role == 'taruna'){
-                                        $semester = DB::table('semesters')
-                                            ->orderBy('id_semester', 'DESC')
-                                            ->where('is_semester_aktif', 1)
-                                            ->take('10')->get();
-                                    }else{
-                                        $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();
-                                    }
+                                if (Auth::user()->role == 'taruna') {
+                                    $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->where('is_semester_aktif', 1)->take('10')->get();
+                                } else {
+                                    $semester = DB::table('semesters')->orderBy('id_semester', 'DESC')->take('10')->get();
+                                }
                                 ?>
                                 <select name="id_semester" class="form-control">
                                     <option value="">Pilih Semester</option>
                                     @foreach ($semester as $item)
-                                    <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
-                                        value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                                        <option {{ @$_GET['id_semester'] == $item->id_semester ? 'selected' : '' }}
+                                            value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -78,24 +81,30 @@
                                         <td>
                                             @foreach ($item['perevaluasi'] as $p)
                                                 <li>
-                                                  {{ substr($p['jenis_softskill'], 0, 50) }}... : {{ round($p['nilai'], 2) }}
-                                                  <a href="{{ url('editpenilaiansoftskill') }}/{{ $item['id_mahasiswa'] }}/{{ $p['jenis_softskill'] }}?id_semester={{ @$_GET['id_semester'] }}">
-                                                    <i class="fas fa-edit"></i></a>
+                                                    {{ substr($p['jenis_softskill'], 0, 50) }}... :
+                                                    {{ round($p['nilai'], 2) }}
+                                                    {{-- <a href="{{ url('editpenilaiansoftskill') }}/{{ $item['id_mahasiswa'] }}/{{ $p['jenis_softskill'] }}?id_semester={{ @$_GET['id_semester'] }}">
+                                                    <i class="fas fa-edit"></i></a> --}}
                                                 </li>
                                                 <?php
-                                                    $total_nilai = $total_nilai + round($p['nilai'], 2);
+                                                $total_nilai = $total_nilai + round($p['nilai'], 2);
                                                 ?>
                                             @endforeach
                                         </td>
                                         <td>{{ round($total_nilai / count($item['perevaluasi']), 2) }}</td>
                                         <td>
-                                          <a href="{{ url('nilaisoftskillexport') }}/{{ $item['id_mahasiswa'] }}"
-                                            class="btn btn-sm btn-success">
-                                            <i class="fas fa-file-excel"></i>
-                                          </a>
-                                          <a href="{{ url('nilaisoftskillexportpdf') }}/{{ $item['id_mahasiswa'] }}/{{ @$_GET['id_semester'] }}" class="btn btn-block btn-sm btn-primary mt-1">
-                                            <i class="fas fa-file-pdf"></i>
-                                          </a>
+                                            <a href="{{ url('editpenilaiansoftskill') }}/{{ $item['id_mahasiswa'] }}?id_semester={{ Request('id_semester') }}"
+                                                class="btn btn-block btn-sm btn-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ url('nilaisoftskillexport') }}/{{ $item['id_mahasiswa'] }}"
+                                                class="btn btn-block btn-sm btn-success mt-1">
+                                                <i class="fas fa-file-excel"></i>
+                                            </a>
+                                            <a href="{{ url('nilaisoftskillexportpdf') }}/{{ $item['id_mahasiswa'] }}/{{ @$_GET['id_semester'] }}"
+                                                class="btn btn-block btn-sm btn-primary mt-1">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -119,7 +128,7 @@
     <script>
         @if ($message = Session::get('sukses'))
             toastr.success("{{ $message }}")
-        @elseif($message = Session::get('gagal'))
+        @elseif ($message = Session::get('gagal'))
             toastr.error("{{ $message }}")
         @endif
     </script>

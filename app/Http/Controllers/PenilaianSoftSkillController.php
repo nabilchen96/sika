@@ -55,7 +55,7 @@ class PenilaianSoftSkillController extends Controller
 
         }
 
-        $komponen_nilai = DB::table('komponen_softskills')->groupBy('jenis_softskill')->get();
+        $komponen_nilai = DB::table('komponen_softskills')->groupBy('jenis_softskill')->orderBy('jenis_softskill', 'DESC')->get();
         
         $nilai = [];
 
@@ -141,17 +141,22 @@ class PenilaianSoftSkillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $jenis_softskill)
+    public function edit($id)
     {
         $soal   = DB::table('komponen_softskills')
-                    ->where('jenis_softskill', $jenis_softskill)
+                    // ->where('jenis_softskill', $jenis_softskill)
+                    ->orderBy('jenis_softskill', 'DESC')
                     ->get();
+
+        // $id_semester = Request('id_semester');
+
+        // dd($id_semester);
 
         $taruna = DB::table('tarunas')->where('tarunas.id_mahasiswa', $id)->first(); 
 
         return view('nilaisoftskill.edit')
             ->with('soal', $soal)
-            ->with('id_semester', @$_GET['id_semester'])
+            // ->with('id_semester', $id_semester)
             ->with('taruna', $taruna);
     }
 
@@ -166,18 +171,25 @@ class PenilaianSoftSkillController extends Controller
     {
         // dd($_GET['id_mahasiswa']);
 
+        // dd($request->all());
+
+        $semester = DB::table('semesters')->where('is_semester_aktif', 1)->value('id_semester');
+        // dd($semester);
+
         for ($i=0; $i < count($request->nilai); $i++) { 
             PenilaianSoftskill::updateOrCreate(
                 [
                     'id_mahasiswa'          => $request->id_mahasiswa,
                     'id_komponen_softskill' => $request->id_komponen_softskill[$i],
-                    'id_semester'           => DB::table('semesters')->where('is_semester_aktif', 1)->value('id_semester'),
+                    'id_semester'           => $semester,
                 ],
                 [
                     'nilai' => $request->nilai[$i]
                 ]
             );   
         }
+
+        // die;
 
         return back()->with(['sukses' => 'Data berhasil disimpan']);
     }   
