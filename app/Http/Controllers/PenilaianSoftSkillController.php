@@ -57,7 +57,7 @@ class PenilaianSoftSkillController extends Controller
 
         $komponen_nilai = DB::table('komponen_softskills')
                             ->groupBy('jenis_softskill')
-                            ->orderBy('jenis_softskill', 'DESC')
+                            ->orderBy('jenis_softskill', 'ASC')
                             ->where('status', 'AKTIF')
                             ->get();
         
@@ -149,7 +149,7 @@ class PenilaianSoftSkillController extends Controller
     {
         $soal   = DB::table('komponen_softskills')
                     // ->where('jenis_softskill', $jenis_softskill)
-                    ->orderBy('jenis_softskill', 'DESC')
+                    ->orderBy('jenis_softskill', 'ASC')
                     ->where('status', 'AKTIF')
                     ->get();
 

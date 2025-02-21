@@ -52,9 +52,10 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img id="img-fluid" class="h-auto mw-100"
-                        src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header2/Header-2-1.png"
-                        alt="" />
+                    <iframe width="100%" height="350" src="https://www.youtube.com/embed/ILT7Pm54f7U"
+                        title="VIDEO PROFIL POLITEKNIK PENERBANGAN PALEMBANG" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             </div>
             <br><br>
