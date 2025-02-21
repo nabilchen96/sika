@@ -91,7 +91,7 @@
                                                 ?>
                                             @endforeach
                                         </td>
-                                        <td>{{ round($total_nilai / count($item['perevaluasi']), 2) }}</td>
+                                        <td>{{ count($item['perevaluasi']) > 0 ? round($total_nilai / count($item['perevaluasi']), 2) : 0 }}</td>
                                         <td>
                                             <a href="{{ url('editpenilaiansoftskill') }}/{{ $item['id_mahasiswa'] }}?id_semester={{ Request('id_semester') }}"
                                                 class="btn btn-block btn-sm btn-primary">

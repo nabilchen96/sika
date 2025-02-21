@@ -55,7 +55,11 @@ class PenilaianSoftSkillController extends Controller
 
         }
 
-        $komponen_nilai = DB::table('komponen_softskills')->groupBy('jenis_softskill')->orderBy('jenis_softskill', 'DESC')->get();
+        $komponen_nilai = DB::table('komponen_softskills')
+                            ->groupBy('jenis_softskill')
+                            ->orderBy('jenis_softskill', 'DESC')
+                            ->where('status', 'AKTIF')
+                            ->get();
         
         $nilai = [];
 
@@ -146,6 +150,7 @@ class PenilaianSoftSkillController extends Controller
         $soal   = DB::table('komponen_softskills')
                     // ->where('jenis_softskill', $jenis_softskill)
                     ->orderBy('jenis_softskill', 'DESC')
+                    ->where('status', 'AKTIF')
                     ->get();
 
         // $id_semester = Request('id_semester');
