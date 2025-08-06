@@ -49,8 +49,8 @@
         <form method="POST" action="{{ route('login')}}" class="needs-validation mt-4" novalidate="">
           @csrf
           <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+            <label for="email">Email/NIT</label>
+            <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email"
               value="{{ old('email') }}" required autocomplete="email" autofocus>
 
             @error('email')
