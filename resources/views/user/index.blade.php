@@ -114,7 +114,7 @@
                         </div>
                         <div class="form-group">
                             <label for="col-form-label">Email <sup class="text-danger">*</sup></label>
-                            <input type="email" placeholder="Email Address" name="email" class="form-control" required
+                            <input type="text" placeholder="Email Address" name="email" class="form-control" required
                                 id="email">
                         </div>
                         <div class="form-group">
