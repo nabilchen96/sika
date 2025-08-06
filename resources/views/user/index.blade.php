@@ -110,6 +110,7 @@
                                 <option>pusbangkar</option>
                                 <option>pengasuh</option>
                                 <option>poliklinik</option>
+                                <option>taruna</option>
                             </select>
                         </div>
                         <div class="form-group">
