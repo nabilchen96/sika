@@ -7,7 +7,7 @@ use DB;
 use App\PenilaianSoftSkill;
 use auth;
 use App\Exports\NilaiSoftSkillExport;
-use App\Exports\NilaiSoftSkillSemesterExport;
+use App\Exports\NilaiSoftskillSemesterExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -210,8 +210,8 @@ class PenilaianSoftSkillController extends Controller
         $id_semester = Request('id_semester');
 
         if($id_semester){
-
-            return Excel::download(new NilaiSoftSkillSemesterExport($id_semester), 'Rekap Nilai Softskill.xlsx');
+            // NilaiSoftSkillSemesterExport
+            return Excel::download(new NilaiSoftskillSemesterExport($id_semester), 'Rekap Nilai Softskill.xlsx');
         }else{
 
             return back();
