@@ -25,7 +25,9 @@
 
             <div class="card mb-12">
                 <div class="card-header">
-                    <a href="{{ url('nilaisoftskillsemesterexport') }}?id_semester={{ Request('id_semester') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                    @if(Auth::user()->role == 'admin' || Auth::user()->role == 'pusbangkar')
+                        <a href="{{ url('nilaisoftskillsemesterexport') }}?id_semester={{ Request('id_semester') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                    @endif
                 </div>
                 <div class="card-body">
                     <form action="{{ url('penilaiansoftskill') }}" method="GET">
