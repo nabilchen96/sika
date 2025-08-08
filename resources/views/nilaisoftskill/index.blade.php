@@ -25,7 +25,7 @@
 
             <div class="card mb-12">
                 <div class="card-header">
-                    <a href="#" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                    <a href="{{ url('nilaisoftskillsemesterexport') }}?id_semester={{ Request('id_semester') }}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Export</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ url('penilaiansoftskill') }}" method="GET">

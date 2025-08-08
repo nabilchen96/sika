@@ -5,7 +5,7 @@
             <th style="width: 17px;">Taruna</th>
             <th style="width: 80px;">Nilai Per-evaluasi</th>
             <th style="width: 13px">Nilai SoftSkill</th>
-          </tr>
+        </tr>
     </thead>
     <tbody>
         <?php $nilai = 0 ;?>

@@ -1,0 +1,41 @@
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20px">No</th>
+            <th>Taruna</th>
+            <th width="50%">Nilai Per-evaluasi</th>
+            <th width="100">Nilai SoftSkill</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($nilai as $k => $item)
+            @php
+                $total_nilai = 0;
+                $jumlah = isset($item['perevaluasi']) && is_array($item['perevaluasi']) ? count($item['perevaluasi']) : 0;
+            @endphp
+            <tr>
+                <td>{{ $k + 1 }}</td>
+                <td>{{ $item['nama_mahasiswa'] }} <br> {{ $item['nim'] }}</td>
+                <td>
+                    @if ($jumlah > 0)
+                        <ul>
+                            @foreach ($item['perevaluasi'] as $p)
+                                @php $nilai_p = isset($p['nilai']) ? round($p['nilai'], 2) : 0; @endphp
+                                <li>
+                                    {{ substr($p['jenis_softskill'] ?? '-', 0, 50) }}... :
+                                    {{ $nilai_p }}
+                                </li>
+                                @php $total_nilai += $nilai_p; @endphp
+                            @endforeach
+                        </ul>
+                    @else
+                        <em>Tidak ada data</em>
+                    @endif
+                </td>
+                <td>
+                    {{ $jumlah > 0 ? round($total_nilai / $jumlah, 2) : 0 }}
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>

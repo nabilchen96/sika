@@ -7,6 +7,7 @@ use DB;
 use App\PenilaianSoftSkill;
 use auth;
 use App\Exports\NilaiSoftSkillExport;
+use App\Exports\NilaiSoftSkillSemesterExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -202,6 +203,21 @@ class PenilaianSoftSkillController extends Controller
     public function export($id_mahasiswa){
 
         return Excel::download(new NilaiSoftSkillExport($id_mahasiswa), 'Nilai Softskill Taruna.xlsx');
+    }
+
+    public function semesterExport(){
+
+        $id_semester = Request('id_semester');
+
+        if($id_semester){
+
+            return Excel::download(new NilaiSoftSkillSemesterExport($id_semester), 'Rekap Nilai Softskill.xlsx');
+        }else{
+
+            return back();
+        }
+
+
     }
 
     public function exportpdf($id_mahasiswa, $id_semester){
