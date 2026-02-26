@@ -141,7 +141,7 @@ class RekapNilaiController extends Controller
                                 ->where('id_semester', @$_GET['id_semester'])
                                 ->first();
 
-            $nilai = 0;                    
+            // $nilai = 0;                    
             foreach ($soal as $key => $s) {
 
                 $total_nilai     = 0;
@@ -165,7 +165,7 @@ class RekapNilaiController extends Controller
                 );
             }
 
-            dd($nilai_evaluasi);
+            // dd($nilai_evaluasi);
             
             // $nilai_softskill = $grand_total_soal != 0 
             //         ? $grand_total_nilai / $grand_total_soal 
@@ -210,7 +210,7 @@ class RekapNilaiController extends Controller
                     'nim'               => $value->nim,
                     'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
                     // 'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
-                    'perevaluasi'       => $nilai_evaluasi,
+                    // 'perevaluasi'       => $nilai_evaluasi,
                     'nilai_pelanggaran' => @$nilai_pelanggaran,
                     'nilai_penghargaan' => @$nilai_penghargaan
                 );
