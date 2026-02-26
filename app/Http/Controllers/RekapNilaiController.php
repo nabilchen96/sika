@@ -151,7 +151,7 @@ class RekapNilaiController extends Controller
                                 ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
                                 ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
                                 ->where('semesters.id_semester', @$_GET['id_semester'])
-                                ->where('penilaian_soft_skills.id_mahasiswa', 613)
+                                ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
                                 ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
                                 // ->sum('nilai');
                                 ->get();
@@ -210,7 +210,7 @@ class RekapNilaiController extends Controller
                     'nim'               => $value->nim,
                     'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
                     // 'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
-                    // 'perevaluasi'       => $nilai_evaluasi,
+                    'perevaluasi'       => $nilai_evaluasi,
                     'nilai_pelanggaran' => @$nilai_pelanggaran,
                     'nilai_penghargaan' => @$nilai_penghargaan
                 );
@@ -218,7 +218,7 @@ class RekapNilaiController extends Controller
             
         }
 
-        dd($nilai_evaluasi);
+        // dd($nilai_evaluasi);
 
         return view('rekapnilai.index')
                 ->with('nilai_sah', $nilai_sah)
