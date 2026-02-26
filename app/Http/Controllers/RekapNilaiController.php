@@ -164,6 +164,8 @@ class RekapNilaiController extends Controller
                     'nilai'             => $total_nilai != 0 ? $total_nilai / @$total_soal : 0
                 );
             }
+
+            dd($nilai_evaluasi);
             
             // $nilai_softskill = $grand_total_soal != 0 
             //         ? $grand_total_nilai / $grand_total_soal 
