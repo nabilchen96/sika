@@ -158,14 +158,15 @@
                                         
                                         <td>
                                             @php
-                                                $total = 0;
-                                                $jumlah = count($item['perevaluasi'] ?? []);
-                                                foreach ($item['perevaluasi'] ?? [] as $pe) {
-                                                    $total += $pe['nilai'];
-                                                    echo $pe['nilai'];
-                                                }
-                                                $nilai2 = round($total, 2);
-                                            @endphp
+                                                // $total = 0;
+                                                // $jumlah = count($item['perevaluasi'] ?? []);
+                                                // foreach ($item['perevaluasi'] ?? [] as $pe) {
+                                                //     $total += $pe['nilai'];
+                                                //     echo $pe['nilai'];
+                                                // }
+                                                // $nilai2 = round($total, 2);
+                                                @endphp
+                                                {{ round(collect($item['perevaluasi'] ?? [])->sum('nilai'), 2) }}
                                             {{-- {{ $nilai2 }} --}}
                                         </td>
 
