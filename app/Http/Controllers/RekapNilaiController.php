@@ -210,7 +210,7 @@ class RekapNilaiController extends Controller
                     'nim'               => $value->nim,
                     'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
                     // 'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
-                    'perevaluasi'       => $nilai_evaluasi,
+                    'perevaluasi'       => count($nilai_evaluasi),
                     'nilai_pelanggaran' => @$nilai_pelanggaran,
                     'nilai_penghargaan' => @$nilai_penghargaan
                 );
@@ -218,7 +218,7 @@ class RekapNilaiController extends Controller
             
         }
 
-        // dd($nilai_evaluasi);
+        dd($data_nilai);
 
         return view('rekapnilai.index')
                 ->with('nilai_sah', $nilai_sah)
