@@ -219,7 +219,7 @@ class RekapNilaiController extends Controller
             
         }
 
-        dd($data_nilai);
+        // dd($data_nilai);
 
         return view('rekapnilai.index')
                 ->with('nilai_sah', $nilai_sah)

@@ -169,7 +169,7 @@
                                                 $nilai2 = 0;
                                                 
                                                 @endphp
-                                                {{ $jumlah }}
+                                                {{-- {{ $jumlah }} --}}
                                             {{-- {{ $nilai2 }} --}}
                                         </td>
 
