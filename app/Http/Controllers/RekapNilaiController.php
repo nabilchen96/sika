@@ -141,7 +141,8 @@ class RekapNilaiController extends Controller
                                 ->where('id_semester', @$_GET['id_semester'])
                                 ->first();
 
-            // $nilai = 0;                    
+            // $nilai = 0;    
+            $nilai_evaluasi = [];                
             foreach ($soal as $key => $s) {
 
                 $total_nilai     = 0;
