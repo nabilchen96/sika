@@ -154,6 +154,9 @@ class RekapNilaiController extends Controller
             $nilai = 0;                    
             foreach ($soal as $key => $s) {
 
+                $total_soal     = 0;
+                $total_nilai    = 0;
+
                 $perevaluasi = DB::table('penilaian_soft_skills')
                                 ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
                                 ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')

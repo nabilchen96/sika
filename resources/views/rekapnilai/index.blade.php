@@ -155,7 +155,7 @@
                                         <td>{{ $k+1 }}</td>
                                         <td>{{ $item['nama_mahasiswa'] }} <br> {{ $item['nim'] }}</td>
                                         <td>{{ $nilai1 = round(@$item['nilai_jasmani'], 2)}}</td>
-                                        <td>{{ $nilai2 = @$item['nilai_softskill'] }}</td>
+                                        <td>{{ $nilai2 = round(@$item['nilai_softskill'], 2) }}</td>
                                         <td>{{ $nilai3 = round(@$item['nilai_pelanggaran'], 2) }}</td>
                                         <td>{{ $nilai4 = round(@$item['nilai_penghargaan'], 2) }}</td>
                                         <td>
