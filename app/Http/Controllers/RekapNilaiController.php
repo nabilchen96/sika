@@ -159,6 +159,7 @@ class RekapNilaiController extends Controller
                 // $nilai = $nilai + ($perevaluasi/$s->nilai);
 
                 $perevaluasi = DB::table('penilaian_soft_skills')
+                                ->join('semesters', 'semesters.id_semester', '=', 'penilaian_soft_skills.id_semester')
                                 ->where('semesters.id_semester', @$_GET['id_semester'])
                                 ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
                                 ->value('nilai');
