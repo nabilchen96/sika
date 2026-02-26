@@ -157,20 +157,17 @@
                                         <td>{{ $nilai1 = round(@$item['nilai_jasmani'], 2)}}</td>
                                         
                                         <td>
+                                            
                                             @php
                                                 $total = 0;
                                                 $jumlah = count($item['perevaluasi'] ?? []);
                                                 foreach ($item['perevaluasi'] ?? [] as $pe) {
                                                     $total += $pe['nilai'];
-                                                    echo $pe['nilai'];
                                                 }
-                                                $nilai2 = round($total, 2);
-                                                
-                                                $nilai2 = 0;
-                                                
-                                                @endphp
-                                                {{-- {{ $jumlah }} --}}
-                                            {{-- {{ $nilai2 }} --}}
+                                                $nilai2 = $jumlah > 0 ? round($total / $jumlah, 2) : 0;
+                                            @endphp
+                                            {{ $nilai2 }}
+                                            
                                         </td>
 
                                         <td>{{ $nilai3 = round(@$item['nilai_pelanggaran'], 2) }}</td>
