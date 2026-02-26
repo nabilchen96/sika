@@ -163,7 +163,7 @@
                                                 foreach ($item['perevaluasi'] ?? [] as $pe) {
                                                     $total += $pe['nilai'];
                                                 }
-                                                $nilai2 = $jumlah > 0 ? round($total / $jumlah, 2) : 0;
+                                                $nilai2 = round($total, 2) : 0;
                                             @endphp
                                             {{ $nilai2 }}
                                         </td>
