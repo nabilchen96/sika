@@ -165,8 +165,9 @@
                                                 //     echo $pe['nilai'];
                                                 // }
                                                 // $nilai2 = round($total, 2);
+                                                $nilai2 = round(collect($item['perevaluasi'] ?? [])->sum('nilai'), 2);
                                                 @endphp
-                                                {{ round(collect($item['perevaluasi'] ?? [])->sum('nilai'), 2) }}
+                                                {{ $nilai2 }}
                                             {{-- {{ $nilai2 }} --}}
                                         </td>
 
