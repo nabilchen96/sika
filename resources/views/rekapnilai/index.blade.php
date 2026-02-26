@@ -165,10 +165,10 @@
                                                 //     echo $pe['nilai'];
                                                 // }
                                                 // $nilai2 = round($total, 2);
-                                                @foreach ($item['perevaluasi'] ?? [] as $pe)
+                                                foreach ($item['perevaluasi'] ?? [] as $pe)
                                                     {{ round($pe['nilai'], 2) }}
                                                     @if (!$loop->last) , @endif
-                                                @endforeach
+                                                endforeach
                                                 $nilai2 = 0;
                                                 
                                                 @endphp
