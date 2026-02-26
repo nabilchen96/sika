@@ -155,8 +155,19 @@
                                         <td>{{ $k+1 }}</td>
                                         <td>{{ $item['nama_mahasiswa'] }} <br> {{ $item['nim'] }}</td>
                                         <td>{{ $nilai1 = round(@$item['nilai_jasmani'], 2)}}</td>
-                                        {{-- <td>{{ $nilai2 = round(@$item['nilai_softskill'], 2) }}</td> --}}
-                                        <td>{{ $nilai2 = round(@$item['perevaluasi']['nilai'], 2) }}</td>
+                                        
+                                        <td>
+                                            @php
+                                                $total = 0;
+                                                $jumlah = count($item['perevaluasi'] ?? []);
+                                                foreach ($item['perevaluasi'] ?? [] as $pe) {
+                                                    $total += $pe['nilai'];
+                                                }
+                                                $nilai2 = $jumlah > 0 ? round($total / $jumlah, 2) : 0;
+                                            @endphp
+                                            {{ $nilai2 }}
+                                        </td>
+
                                         <td>{{ $nilai3 = round(@$item['nilai_pelanggaran'], 2) }}</td>
                                         <td>{{ $nilai4 = round(@$item['nilai_penghargaan'], 2) }}</td>
                                         <td>
@@ -211,8 +222,7 @@
                                                         </div>
                                                         @if (
                                                         @$item['nilai_jasmani'] == 0 ||
-                                                        @$item['perevaluasi']['nilai'] == 0
-                                                        // @$item['nilai_softskill'] == 0
+                                                        @$nilai2 == 0
                                                         // @$data_nilai[0]['nilai_pelanggaran'] == 0 ||
                                                         // @$data_nilai[0]['nilai_penghargaan'] == 0
                                                         )
@@ -236,9 +246,7 @@
                                                             <input type="hidden" name="nilai_samapta"
                                                                 value="{{ @$item['nilai_jasmani'] }}">
                                                             <input type="hidden" name="nilai_softskill"
-                                                                value="{{ @$item['perevaluasi']['nilai'] }}">
-                                                            {{-- <input type="hidden" name="nilai_softskill"
-                                                                value="{{ @$item['nilai_softskill'] }}"> --}}
+                                                                value="{{ @$nilai2 }}">
                                                             <input type="hidden" name="nilai_pelanggaran"
                                                                 value="{{ @$item['nilai_pelanggaran'] }}">
                                                             <input type="hidden" name="nilai_penghargaan"
