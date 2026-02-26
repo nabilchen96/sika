@@ -138,22 +138,22 @@ class RekapNilaiController extends Controller
                     ->groupBy('jenis_softskill')
                     ->get();
 
-        $perevaluasi = DB::table('penilaian_soft_skills')
-                        ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
-                        ->where('penilaian_soft_skills.id_semester', @$_GET['id_semester'])
-                        ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
-                        // ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
-                        ->sum('nilai');
-
-        $nilai = $perevaluasi ?? 0; // pakai += bukan =
-        $nilai_softskill =  $nilai / $soal->count();
-
         foreach ($data as $key => $value) {
 
             $nilai_jasmani = DB::table('penilaian_samaptas')
                                 ->where('id_mahasiswa', $value->id_mahasiswa)
                                 ->where('id_semester', @$_GET['id_semester'])
                                 ->first();
+
+            $perevaluasi = DB::table('penilaian_soft_skills')
+                        ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
+                        ->where('penilaian_soft_skills.id_semester', @$_GET['id_semester'])
+                        ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
+                        // ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
+                        ->sum('nilai');
+
+            $nilai = $perevaluasi ?? 0; // pakai += bukan =
+            $nilai_softskill =  $nilai / $soal->count();
 
             // $nilai = 0;                    
             // foreach ($soal as $key => $s) {
