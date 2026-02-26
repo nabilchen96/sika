@@ -154,12 +154,14 @@ class RekapNilaiController extends Controller
                                 ->where('semesters.id_semester', @$_GET['id_semester'])
                                 ->where('penilaian_soft_skills.id_mahasiswa', $value->id_mahasiswa)
                                 ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
-                                ->sum('nilai');
-
-                $nilai = $nilai + ($perevaluasi/$s->nilai);
+                                // ->sum('nilai');
+                                ->get();
+                $total_nilai    = $perevaluasi->sum('nilai');
+                $total_soal     = count($perevaluasi);
+                // $nilai = $nilai + ($perevaluasi/$s->nilai);
             }
             
-            $nilai_softskill =  $nilai / $soal->count('nilai');
+            $nilai_softskill =  $total_nilai != 0 ? $total_nilai / @$total_soal : 0;
 
             //nilai pelanggaran
             $nilai_pelanggaran = DB::table('catatan_pelanggarans')
