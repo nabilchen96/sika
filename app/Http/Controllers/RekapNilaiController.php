@@ -167,7 +167,7 @@ class RekapNilaiController extends Controller
                 $nilai = $perevaluasi;
             }
             
-            $nilai_softskill =  $nilai / $soal->count('nilai');
+            $nilai_softskill =  $nilai / $soal->count();
 
             //nilai pelanggaran
             $nilai_pelanggaran = DB::table('catatan_pelanggarans')
