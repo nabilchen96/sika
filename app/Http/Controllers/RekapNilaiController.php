@@ -128,17 +128,7 @@ class RekapNilaiController extends Controller
 
         }
 
-        // $soal   = DB::table('komponen_softskills')
-        //             ->select(
-        //                 'jenis_softskill',
-        //                 db::raw(
-        //                     'count(id_komponen_softskill) as nilai'
-        //                 )
-        //             )
-        //             ->groupBy('jenis_softskill')
-        //             ->get();
-
-         $soal = DB::table('komponen_softskills')
+        $soal = DB::table('komponen_softskills')
                             ->groupBy('jenis_softskill')
                             ->orderBy('jenis_softskill', 'ASC')
                             ->where('status', 'AKTIF')
@@ -165,13 +155,15 @@ class RekapNilaiController extends Controller
                                 ->where('komponen_softskills.jenis_softskill', $s->jenis_softskill)
                                 // ->sum('nilai');
                                 ->get();
-                $total_nilai    = $perevaluasi->sum('nilai');
-                $total_soal     = count($perevaluasi);
+                $grand_total_nilai += $perevaluasi->sum('nilai');
+                $grand_total_soal  += count($perevaluasi);
                 // $nilai = $nilai + ($perevaluasi/$s->nilai);
             }
             
-            $nilai_softskill =  $total_nilai != 0 ? $total_nilai / @$total_soal : 0;
-
+            $nilai_softskill = $grand_total_soal != 0 
+                    ? $grand_total_nilai / $grand_total_soal 
+                    : 0;
+                    
             //nilai pelanggaran
             $nilai_pelanggaran = DB::table('catatan_pelanggarans')
                                 ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
