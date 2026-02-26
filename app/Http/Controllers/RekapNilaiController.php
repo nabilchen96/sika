@@ -144,8 +144,8 @@ class RekapNilaiController extends Controller
             $nilai = 0;                    
             foreach ($soal as $key => $s) {
 
-                $total_soal     = 0;
-                $total_nilai    = 0;
+                $grand_total_nilai     = 0;
+                $grand_total_soal    = 0;
 
                 $perevaluasi = DB::table('penilaian_soft_skills')
                                 ->join('komponen_softskills','komponen_softskills.id_komponen_softskill','=','penilaian_soft_skills.id_komponen_softskill')
@@ -163,7 +163,7 @@ class RekapNilaiController extends Controller
             $nilai_softskill = $grand_total_soal != 0 
                     ? $grand_total_nilai / $grand_total_soal 
                     : 0;
-                    
+
             //nilai pelanggaran
             $nilai_pelanggaran = DB::table('catatan_pelanggarans')
                                 ->join('semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester')
