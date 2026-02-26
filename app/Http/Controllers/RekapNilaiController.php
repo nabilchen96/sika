@@ -203,14 +203,14 @@ class RekapNilaiController extends Controller
 
             if(@$_GET['id_semester']){
                 $data_nilai[] = array(
-                    'id_mahasiswa'      => $value->id_mahasiswa,
-                    'nama_mahasiswa'    => $value->nama_mahasiswa,
-                    'nim'               => $value->nim,
-                    'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
+                    // 'id_mahasiswa'      => $value->id_mahasiswa,
+                    // 'nama_mahasiswa'    => $value->nama_mahasiswa,
+                    // 'nim'               => $value->nim,
+                    // 'nilai_jasmani'     => @$nilai_jasmani->nilai_samapta,
                     // 'nilai_softskill'   => @$nilai_softskill ? $nilai_softskill : 0,
                     'perevaluasi'       => $nilai_evaluasi,
-                    'nilai_pelanggaran' => @$nilai_pelanggaran,
-                    'nilai_penghargaan' => @$nilai_penghargaan
+                    // 'nilai_pelanggaran' => @$nilai_pelanggaran,
+                    // 'nilai_penghargaan' => @$nilai_penghargaan
                 );
             }
             
