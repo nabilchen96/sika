@@ -162,10 +162,11 @@
                                                 $jumlah = count($item['perevaluasi'] ?? []);
                                                 foreach ($item['perevaluasi'] ?? [] as $pe) {
                                                     $total += $pe['nilai'];
+                                                    echo $pe['nilai'];
                                                 }
                                                 $nilai2 = round($total, 2);
                                             @endphp
-                                            {{ $nilai2 }}
+                                            {{-- {{ $nilai2 }} --}}
                                         </td>
 
                                         <td>{{ $nilai3 = round(@$item['nilai_pelanggaran'], 2) }}</td>
