@@ -128,15 +128,21 @@ class RekapNilaiController extends Controller
 
         }
 
-        $soal   = DB::table('komponen_softskills')
-                    ->select(
-                        'jenis_softskill',
-                        db::raw(
-                            'count(id_komponen_softskill) as nilai'
-                        )
-                    )
-                    ->groupBy('jenis_softskill')
-                    ->get();
+        // $soal   = DB::table('komponen_softskills')
+        //             ->select(
+        //                 'jenis_softskill',
+        //                 db::raw(
+        //                     'count(id_komponen_softskill) as nilai'
+        //                 )
+        //             )
+        //             ->groupBy('jenis_softskill')
+        //             ->get();
+
+         $soal = DB::table('komponen_softskills')
+                            ->groupBy('jenis_softskill')
+                            ->orderBy('jenis_softskill', 'ASC')
+                            ->where('status', 'AKTIF')
+                            ->get();
 
         foreach ($data as $key => $value) {
 
