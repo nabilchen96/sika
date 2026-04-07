@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// use DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -314,6 +315,34 @@ Route::get('/rekapnilaiexport/{id}', 'RekapNilaiController@export')->middleware(
 
 Route::get('isikuesioner', 'JawabanKuesionerController@index');
 Route::post('tambahisikuesioner', 'JawabanKuesionerController@store');
+
+Route::post('simpantestimoni', function () {
+
+    $nim = request('nim');
+    $testimoni = request('testimoni');
+
+    // dd($nim, $testimoni);
+
+    // validasi sederhana
+    if (!$nim || !$testimoni) {
+        return back()->with('error', 'NIM dan Testimoni wajib diisi');
+    }
+
+    $taruna = DB::table('tarunas')->where('nim', $nim)->first();
+
+    if (!$taruna) {
+        return back()->with('error', 'NIM tidak ditemukan');
+    }
+
+    DB::table('testimonis')->insert([
+        'id_mahasiswa' => $taruna->id_mahasiswa,
+        'testimoni' => $testimoni,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return back()->with('success', 'Testimoni berhasil disimpan');
+});
 
 Route::get('pengajuansurat', 'PengajuanSuratController@index')->middleware(['checkRole:pengasuh,admin,taruna,pusbangkar']);
 Route::get('/tambahpengajuansurat', 'PengajuanSuratController@create')->middleware(['checkRole:pengasuh,admin,taruna']);

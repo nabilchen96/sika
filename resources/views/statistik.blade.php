@@ -7,14 +7,14 @@
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                         aria-controls="home" aria-selected="true">Data Taruna</a>
                 </li>
-                <li class="nav-item" role="presentation">
+                {{-- <li class="nav-item" role="presentation">
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#penghargaan" role="tab"
                         aria-controls="profile" aria-selected="false">Penghargaan</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="dewan-tab" data-toggle="tab" href="#nonakademik" role="tab"
                         aria-controls="dewan" aria-selected="false">Nilai Non Akademik</a>
-                </li>
+                </li> --}}
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -30,6 +30,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div id="container2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="container3"></div>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +175,7 @@
     </div>
 @endsection
 @push('script')
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ asset('js/highcharts/highcharts.js') }}"></script>
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
     <script>
@@ -242,7 +249,8 @@
                 },
                 series: [{
                     name: "Taruna/Taruni",
-                    data: [jk.laki_laki, jk.perempuan]
+                    // data: [jk.laki_laki, jk.perempuan]
+                    data: [114, 50]
                 }],
             });
         }
@@ -291,7 +299,8 @@
                 },
                 series: [{
                     name: "Taruna/Taruni",
-                    data: [prodi.TRBU, prodi.PPKP, prodi.MBU]
+                    // data: [prodi.TRBU, prodi.PPKP, prodi.MBU]
+                    data: [53, 63, 48]
                 }],
             });
         }
