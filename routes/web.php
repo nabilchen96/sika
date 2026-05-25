@@ -172,6 +172,11 @@ Route::group(['middleware' => ['checkRole:admin,pusbangkar' ]], function () {
     Route::get('/statistikdetailkuesioner/{id}', 'DetailKuesionerController@statistik');
 
     Route::get('/lamaran-kerja', 'LamaranKerjaController@index');
+
+
+    Route::get('/testimoni', 'TestimoniController@index');
+    Route::get('/hapustestimoni/{id}', 'TestimoniController@destroy');
+    Route::get('/ubahstatustestimoni/{id}', 'TestimoniController@ubahStatus');
 });
 
 Route::group(['middleware' => ['checkMobileRole:admin,pusbangkar']], function(){
@@ -320,23 +325,82 @@ Route::post('simpantestimoni', function () {
 
     $nim = request('nim');
     $testimoni = request('testimoni');
+    $tempat_kerja = request('tempat_kerja');
 
-    // dd($nim, $testimoni);
+    // validasi input
+    if (!$nim || !$testimoni || !$tempat_kerja) {
 
-    // validasi sederhana
-    if (!$nim || !$testimoni) {
-        return back()->with('error', 'NIM dan Testimoni wajib diisi');
+        return back()->with('error', 'NIM, Testimoni dan Tempat Kerja wajib diisi');
     }
 
-    $taruna = DB::table('tarunas')->where('nim', $nim)->first();
+    // cek nim
+    $taruna = DB::table('tarunas')
+        ->where('nim', $nim)
+        ->first();
 
     if (!$taruna) {
+
         return back()->with('error', 'NIM tidak ditemukan');
     }
 
+    // upload foto
+    $foto = null;
+
+    if (request()->hasFile('foto')) {
+
+        $file = request()->file('foto');
+
+        // validasi file valid
+        if (!$file->isValid()) {
+
+            return back()->with('error', 'File upload gagal');
+        }
+
+        // validasi ekstensi
+        $allowedExtension = ['jpg', 'jpeg', 'png', 'webp'];
+
+        $extension = strtolower($file->getClientOriginalExtension());
+
+        if (!in_array($extension, $allowedExtension)) {
+
+            return back()->with('error', 'Format file harus JPG, JPEG, PNG atau WEBP');
+        }
+
+        // validasi mime type
+        $allowedMime = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        if (!in_array($file->getMimeType(), $allowedMime)) {
+
+            return back()->with('error', 'File bukan gambar yang valid');
+        }
+
+        // validasi ukuran file maksimal 2MB
+        if ($file->getSize() > 2 * 1024 * 1024) {
+
+            return back()->with('error', 'Ukuran file maksimal 2MB');
+        }
+
+        // nama file unik
+        $namaFile = time() . '_' . uniqid() . '.' . $extension;
+
+        // simpan file
+        $file->move(public_path('uploads/testimoni'), $namaFile);
+
+        $foto = $namaFile;
+    }
+
+    // simpan database
     DB::table('testimonis')->insert([
+
         'id_mahasiswa' => $taruna->id_mahasiswa,
         'testimoni' => $testimoni,
+        'tempat_kerja' => $tempat_kerja,
+        'foto' => $foto,
+
         'created_at' => now(),
         'updated_at' => now(),
     ]);

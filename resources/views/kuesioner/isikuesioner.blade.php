@@ -233,7 +233,7 @@
                     </h6>
 
                 </div>
-                <div class="d-md-flex">
+                <div class="d-md-flex row">
                     <?php
                     $data = DB::table('beritas')->orderBy('created_at', 'DESC')->where('kategori', '2')->limit(6)->get();
                     
@@ -274,7 +274,22 @@
 
                 </div>
                 <div>
-                    <?php $data = DB::table('beritas')->orderBy('created_at', 'DESC')->where('kategori', '2')->limit(6)->get(); ?>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            Terima kasih telah mengisi testimoni!, testimoni anda akan kami cek terlebih dahulu.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            Terjadi kesalahan, {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                     <button class="btn btn-sm btn-info mt-4" data-toggle="modal" data-target="#modaltestimoni">Tambah
                         Testimoni</button>
                     <!-- Modal -->
@@ -284,7 +299,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                 </div>
-                                <form method="POST" action="{{ url('simpantestimoni') }}">
+                                <form method="POST" enctype="multipart/form-data" action="{{ url('simpantestimoni') }}">
                                     @csrf
                                     <div class="modal-body">
                                         <h5 class="mb-5 modal-title" id="exampleModalLabel">
@@ -295,6 +310,17 @@
                                                 class="text-danger">*</sup></label>
                                             <input type="text" class="form-control" name="nim" id="nim"
                                                 required placeholder="Nomor Induk Alumni">
+                                        </div>
+                                        <div class="form-group">
+                                            <labelclass="col-form-label">Tempat Kerja Terbaru<sup
+                                                class="text-danger">*</sup></label>
+                                            <input type="text" class="form-control" name="tempat_kerja"
+                                                id="tempat_kerja" required placeholder="Tempat Kerja Terbaru">
+                                        </div>
+                                        <div class="form-group">
+                                            <labelclass="col-form-label">Foto Diri<sup class="text-danger">*</sup></label>
+                                            <input type="file" class="form-control" name="foto" id="foto"
+                                                required placeholder="Tempat Kerja Terbaru">
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Testimoni <sup
@@ -313,9 +339,11 @@
                     @php
                         $testimoni = DB::table('testimonis')
                             ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'testimonis.id_mahasiswa')
-                            ->select('tarunas.nama_mahasiswa', 'testimonis.*', 'tarunas.foto')
+                            ->select('tarunas.nama_mahasiswa', 'testimonis.*')
                             ->orderBy('created_at', 'DESC')
-                            ->limit(6)
+                            ->where('status', 'Aktif')
+                            ->inRandomOrder()
+                            ->limit(9)
                             ->get();
                     @endphp
                     <div class="row">
@@ -341,7 +369,7 @@
                                             <!-- Profile -->
                                             <div class="d-flex align-items-center mt-4">
                                                 <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white mr-3"
-                                                    style="background-image: url('{{ $t->foto }}'); 
+                                                    style="background-image: url('uploads/testimoni/{{ $t->foto }}'); 
                                                     width: 60px; 
                                                     height: 60px; 
                                                     background-size: cover; 
@@ -352,6 +380,7 @@
                                                 <div>
                                                     <div class="fw-bold">{{ $t->nama_mahasiswa }}
                                                     </div>
+                                                    <div style="font-size: 12px;">{{ $t->tempat_kerja }}</div>
                                                 </div>
                                             </div>
 

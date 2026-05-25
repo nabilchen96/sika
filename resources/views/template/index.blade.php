@@ -329,6 +329,12 @@
                         <span>Kuesioner</span>
                     </a>
                 </li>
+                <li class="nav-item @stack('testimoni')">
+                    <a class="nav-link" href="{{ url('testimoni') }}">
+                        <i class="fas fa-fw fa-question"></i>
+                        <span>Testimoni</span>
+                    </a>
+                </li>
                 <li class="nav-item @stack('lamaran-kerja')">
                     <a class="nav-link" href="{{ url('lamaran-kerja') }}">
                         <i class="fas fa-fw fa-user"></i>
