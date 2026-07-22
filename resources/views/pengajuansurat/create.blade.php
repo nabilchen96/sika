@@ -153,7 +153,7 @@
                 <div class="form-group row">
                     <label for="" class="col-sm-3 col-form-label">Lampiran</label>
                     <div class="col-sm-5">
-                        <input type="file" name="lampiran" placeholder="Lampiran" class="form-control" required>
+                        <input type="file" id="lampiran" name="lampiran" placeholder="Lampiran" class="form-control" required>
                     </div>
                 </div>
             `

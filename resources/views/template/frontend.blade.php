@@ -137,7 +137,7 @@
               <a class="nav-link" href="{{ url('statistik-front') }}">Statistik</a>
             </li>
             <li class="nav-item" style="width: 130px;">
-              <a class="nav-link @if(Request::is('isikuesioner')) active @endif"" href="{{ url('isikuesioner') }}">Tracer Study</a>
+              <a class="nav-link @if(Request::is('isikuesioner')) active @endif"" href="{{ url('isikuesioner') }}">Tracking Alumni</a>
             </li>
             {{-- <li class="nav-item btn-contact-us pl-4 pl-lg-0" style="margin-left: 20px;">
               <a href="{{ url('login') }}" class="btn btn-info">
