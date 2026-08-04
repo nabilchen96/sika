@@ -41,8 +41,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h2 class="font-weight-semibold m-4 text-left" data-aos="zoom-in" data-aos-delay="100">Sistem Informasi
-                        <br> Ketarunaan &
-                        Alumni
+                        <br> Ketarunaan Poltekbang Palembang
                     </h2>
                     <p class="text-left m-4">Sistem Pengelolaan data non akademik taruna, seperti perizinan, catatan sakit,
                         hukuman, pelanggaran, dan penilaian non akademik meliputi nilai samapta dan softskill</p>
