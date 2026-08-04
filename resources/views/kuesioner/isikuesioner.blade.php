@@ -71,7 +71,11 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="card-body card-kuesioner">
-                                        <div class="form-group mt-4">
+                                        <div class="alert alert-info">
+                                            Silahkan klik tautan berikut ini untuk mengisi kuesioner alumni Politeknik Penerbangan Palembang
+                                            <a href="https://tracerstudy.kemdiktisaintek.go.id/kuesioner">Isi Kuesioner</a>
+                                        </div>
+                                        {{-- <div class="form-group mt-4">
                                             <label for="exampleInputEmail1">Nomor Induk Alumni</label>
                                             <input type="text" name="nim" class="form-control"
                                                 style="background-color: white; border-radius: 10px;" required>
@@ -101,7 +105,7 @@
                                         <div class="form-group mt-1">
                                             <button type="submit" class="btn btn-sm btn-primary"><i
                                                     class="fas fa-search"></i>Cari</button>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
 
