@@ -401,8 +401,8 @@
                                         @endif
 
                                         <!-- Profile -->
-                                        {{-- <div class="d-flex align-items-center mt-auto">
-                                            <div class="mr-3"
+                                        <div class="d-flex align-items-center mt-auto">
+                                            {{-- <div class="mr-3"
                                                 style="
                                 background-image:url('uploads/testimoni/{{ $t->foto }}');
                                 width:60px;
