@@ -402,7 +402,7 @@
 
                                         <!-- Profile -->
                                         <div class="d-flex align-items-center mt-auto">
-                                            {{-- <div class="mr-3"
+                                            <div class="mr-3"
                                                 style="
                                 background-image:url('uploads/testimoni/{{ $t->foto }}');
                                 width:60px;
@@ -411,7 +411,7 @@
                                 background-position:center;
                                 border-radius:50%;
                             ">
-                                            </div> --}}
+                                            </div>
 
                                             <div>
                                                 <div class="font-weight-bold">
