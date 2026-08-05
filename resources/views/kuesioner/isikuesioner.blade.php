@@ -1,5 +1,22 @@
 @extends('template.frontend')
 @section('content')
+    <style>
+        .testimoni-card {
+            height: 100%;
+        }
+
+        .testimoni-content {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            /* maksimal 5 baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.8;
+            min-height: 145px;
+            /* samakan tinggi area text */
+        }
+    </style>
     <div class="content-wrapper">
         <div class="container">
 
@@ -359,44 +376,88 @@
                             ->get();
                     @endphp
                     <div class="row">
-
-
                         @foreach ($testimoni as $k => $t)
-                            <div class="col-lg-4 mt-5">
-                                <div>
-                                    <div class="card border-0 shadow-sm rounded-4">
-                                        <div class="card-body shadow pl-4 pr-4 pt-0">
+                            <div class="col-lg-4 mb-4">
+                                <div class="card border-0 shadow-sm rounded-4 testimoni-card h-100">
+                                    <div class="card-body d-flex flex-column px-4 pt-0">
 
-                                            <!-- Icon kutip -->
-                                            <div>
-                                                <span style="font-size: 100px;" class="fs-1 text-warning">“</span>
+                                        <!-- Icon -->
+                                        <div>
+                                            <span style="font-size:100px;" class="text-warning">“</span>
+                                        </div>
+
+                                        <!-- Testimoni -->
+                                        <p class="text-muted testimoni-content" style="margin-top:-50px;">
+                                            {{ $t->testimoni }}
+                                        </p>
+
+                                        @if (strlen($t->testimoni) > 200)
+                                            <div class="mb-3">
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#modalTestimoni{{ $k }}">
+                                                    Lihat Detail
+                                                </a>
+                                            </div>
+                                        @endif
+
+                                        <!-- Profile -->
+                                        <div class="d-flex align-items-center mt-auto">
+                                            <div class="mr-3"
+                                                style="
+                                background-image:url('uploads/testimoni/{{ $t->foto }}');
+                                width:60px;
+                                height:60px;
+                                background-size:cover;
+                                background-position:center;
+                                border-radius:50%;
+                            ">
                                             </div>
 
-                                            <!-- Isi testimoni -->
-                                            <p class="text-muted"
-                                                style="font-size: 14px; margin-top: -50px; line-height: 1.8;">
+                                            <div>
+                                                <div class="font-weight-bold">
+                                                    {{ $t->nama_mahasiswa }}
+                                                </div>
+                                                <small>{{ $t->tempat_kerja }}</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalTestimoni{{ $k }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Testimoni {{ $t->nama_mahasiswa }}
+                                            </h5>
+
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span>&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <div class="d-flex align-items-center mb-3">
+                                                <img src="{{ asset('uploads/testimoni/' . $t->foto) }}" width="70"
+                                                    height="70" class="rounded-circle mr-3" style="object-fit:cover">
+
+                                                <div>
+                                                    <strong>{{ $t->nama_mahasiswa }}</strong><br>
+                                                    <small>{{ $t->tempat_kerja }}</small>
+                                                </div>
+                                            </div>
+
+                                            <p style="line-height:2;">
                                                 {{ $t->testimoni }}
                                             </p>
 
-                                            <!-- Profile -->
-                                            <div class="d-flex align-items-center mt-4">
-                                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white mr-3"
-                                                    style="background-image: url('uploads/testimoni/{{ $t->foto }}'); 
-                                                    width: 60px; 
-                                                    height: 60px; 
-                                                    background-size: cover; 
-                                                    background-position: center; 
-                                                    border-radius: 50%;">
-                                                    {{-- 200x200 --}}
-                                                </div>
-                                                <div>
-                                                    <div class="fw-bold">{{ $t->nama_mahasiswa }}
-                                                    </div>
-                                                    <div style="font-size: 12px;">{{ $t->tempat_kerja }}</div>
-                                                </div>
-                                            </div>
-
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
