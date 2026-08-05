@@ -40,14 +40,15 @@
                         </div>
                     </div>
                 </div>
+                <div id="container" style="width:100%; height:500px;"></div>
                 <br><br>
 
                 <div class="content-header">
                     <h2>Tracer Study</h2>
-                    <h6 class="section-subtitle text-muted">
+                    {{-- <h6 class="section-subtitle text-muted">
                         Silahkan Login untuk Mengisi Data Kuesioner Alumni
                         <br>Politeknik Penerbangan Palembang
-                    </h6>
+                    </h6> --}}
                     <br><br>
                 </div>
 
@@ -72,7 +73,8 @@
                                 <div class="col-lg-6">
                                     <div class="card-body card-kuesioner">
                                         <div class="alert alert-info">
-                                            Silahkan klik tautan berikut ini untuk mengisi kuesioner alumni Politeknik Penerbangan Palembang
+                                            Silahkan klik tautan berikut ini untuk mengisi kuesioner alumni Politeknik
+                                            Penerbangan Palembang
                                             <a href="https://tracerstudy.kemdiktisaintek.go.id/kuesioner">Isi Kuesioner</a>
                                         </div>
                                         {{-- <div class="form-group mt-4">
@@ -303,7 +305,8 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                 </div>
-                                <form method="POST" enctype="multipart/form-data" action="{{ url('simpantestimoni') }}">
+                                <form method="POST" enctype="multipart/form-data"
+                                    action="{{ url('simpantestimoni') }}">
                                     @csrf
                                     <div class="modal-body">
                                         <h5 class="mb-5 modal-title" id="exampleModalLabel">
@@ -473,6 +476,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script>
         const counters = document.querySelectorAll('.counter');
 
@@ -505,6 +509,50 @@
             };
 
             updateCounter();
+        });
+    </script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Data Dummy Tahun 2023 - 2025'
+            },
+            xAxis: {
+                categories: ['2023', '2024', '2025'],
+                title: {
+                    text: 'Tahun'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Jumlah'
+                }
+            },
+            tooltip: {
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                    name: 'TRBU',
+                    data: [0, 44, 24]
+                },
+                {
+                    name: 'MBU',
+                    data: [44, 48, 48]
+                },
+                {
+                    name: 'PPKP',
+                    data: [24, 24, 45]
+                }
+            ]
         });
     </script>
 @endsection
