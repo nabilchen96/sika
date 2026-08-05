@@ -402,7 +402,7 @@
 
                                         <!-- Profile -->
                                         <div class="d-flex align-items-center mt-auto">
-                                            <div class="mr-3"
+                                            {{-- <div class="mr-3"
                                                 style="
                                 background-image:url('uploads/testimoni/{{ $t->foto }}');
                                 width:60px;
@@ -411,7 +411,7 @@
                                 background-position:center;
                                 border-radius:50%;
                             ">
-                                            </div>
+                                            </div> --}}
 
                                             <div>
                                                 <div class="font-weight-bold">
@@ -444,9 +444,9 @@
 
                                             <div class="d-flex align-items-center mb-3">
                                                 {{-- <img src="{{ asset('uploads/testimoni/' . $t->foto) }}" width="70"
-                                                    height="70" class="rounded-circle mr-3" style="object-fit:cover">
+                                                    height="70" class="rounded-circle mr-3" style="object-fit:cover"> --}}
 
-                                                <div> --}}
+                                                <div>
                                                     <strong>{{ $t->nama_mahasiswa }}</strong><br>
                                                     <small>{{ $t->tempat_kerja }}</small>
                                                 </div>
