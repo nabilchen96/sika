@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $taruna     = DB::table('tarunas')->count();
+        $taruna     = DB::table('tarunas')->where('status', 'Aktif')->count();
         $pengasuh   = DB::table('users')->where('role', 'pengasuh')->count();
         $semester   = DB::table('semesters')->where('is_semester_aktif', 1)->first();
         $hukuman    = DB::table('catatan_hukumen')

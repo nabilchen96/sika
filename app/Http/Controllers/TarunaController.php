@@ -145,7 +145,8 @@ class TarunaController extends Controller
 
             'wali_dihubungi'    => $request->input('wali_dihubungi'),
             'no_wali_dihubungi' => $request->input('no_wali_dihubungi'),
-            'hubungan_wali'     => $request->input('hubungan_wali')
+            'hubungan_wali'     => $request->input('hubungan_wali'),
+            'status'            => $request->input('status')
         ]);
 
         return back()->with(['sukses' => 'Update Data Berhasil']);

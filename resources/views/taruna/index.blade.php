@@ -36,6 +36,7 @@
                                     <th style="width: 20px">No</th>
                                     <th>Foto</th>
                                     <th>Nama Taruna</th>
+                                    <th>Status</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Tempat Lahir</th>
                                     <th>Tanggal Lahir</th>
@@ -100,6 +101,10 @@
                         render: function(data, type, row, meta) {
                           return `${row.nim} <br> ${row.nama_mahasiswa}`
                         }
+                    },
+                    {
+                        name: 'status',
+                        data: 'status'
                     },
                     {
                         data: 'jenis_kelamin',

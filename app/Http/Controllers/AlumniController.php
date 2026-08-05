@@ -52,6 +52,11 @@ class AlumniController extends Controller
                 'id_mahasiswa'  => $request->input('id_mahasiswa')[$i],
                 'tgl_lulus'     => $request->tgl_lulus
             ]);
+
+            Taruna::where('id_mahasiswa', $request->input('id_mahasiswa')[$i])
+            ->update([
+                'status' => 'Tidak Aktif'
+            ]);
         }
 
         return redirect('alumni')->with(['sukses' => 'Data Sukses Disimpan']);
