@@ -68,6 +68,7 @@ class HomeController extends Controller
                                 DB::raw("count(case when jenis_kelamin = 'P' then 1 end) as perempuan")
                                 
                             )
+                            ->where('status', 'Aktif')
                             ->get();
 
         $prodi          = DB::table('tarunas')
@@ -77,6 +78,7 @@ class HomeController extends Controller
                                 DB::raw("count(case when nama_program_studi = 'Manajemen Bandar Udara' then 1 end) as MBU"),
                                 
                             )
+                            ->where('status', 'Aktif')
                             ->get();
 
         $semester       = DB::table('tarunas')
@@ -85,6 +87,7 @@ class HomeController extends Controller
                                 'semester'
                             )
                             ->groupBy('semester')
+                            ->where('status', 'Aktif')
                             ->get();
 
 
@@ -101,11 +104,15 @@ class HomeController extends Controller
                             ->join(
                                 'pelanggarans', 'pelanggarans.id_pelanggaran', '=', 'catatan_pelanggarans.id_pelanggaran'
                             )
+                            ->join(
+                                'semesters', 'semesters.id_semester', '=', 'catatan_pelanggarans.id_semester'
+                            )
                             ->select(
                                 DB::raw('count(catatan_pelanggarans.id_pelanggaran) as total_pelanggaran'),
                                 'pelanggarans.pelanggaran'
                             )
                             ->groupBy('pelanggarans.id_pelanggaran')
+                            ->where('semesters.is_semester_aktif', 1)
                             ->limit(5)
                             ->get();
 
@@ -113,11 +120,15 @@ class HomeController extends Controller
                             ->join(
                                 'penghargaans', 'penghargaans.id_penghargaan', '=', 'catatan_penghargaans.id_penghargaan'
                             )
+                             ->join(
+                                'semesters', 'semesters.id_semester', '=', 'catatan_penghargaans.id_semester'
+                            )
                             ->select(
                                 DB::raw('count(catatan_penghargaans.id_penghargaan) as total_penghargaan'),
                                 'penghargaans.penghargaan'
                             )
                             ->groupBy('penghargaans.id_penghargaan')
+                            ->where('semesters.is_semester_aktif', 1)
                             ->limit(5)
                             ->get();
 

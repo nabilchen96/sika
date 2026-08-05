@@ -147,7 +147,7 @@
             </div>
         </div>
 
-        <div class="row mb-4">
+        {{-- <div class="row mb-4">
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     @else
         <div class="row">
 
