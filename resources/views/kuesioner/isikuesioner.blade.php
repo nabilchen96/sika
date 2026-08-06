@@ -50,7 +50,7 @@
                             <div class="card-body text-white d-flex justify-content-center align-items-center"
                                 style="height: 150px;">
                                 <div class="text-center">
-                                    <h1 class="counter" data-target="98,87" data-type="percent">0</h1>
+                                    <h1 class="counter" data-target="98.87" data-type="percent">0</h1>
                                     <h5 style="margin-top: -10px;">Success Rate</h5>
                                 </div>
                             </div>
