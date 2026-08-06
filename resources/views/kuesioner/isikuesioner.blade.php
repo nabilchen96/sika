@@ -28,7 +28,7 @@
                             <div class="card-body text-white d-flex justify-content-center align-items-center"
                                 style="height: 150px;">
                                 <div class="text-center">
-                                    <h1 class="counter" data-target="301" data-type="number">0</h1>
+                                    <h1 class="counter" data-target="355" data-type="number">0</h1>
                                     <h5 style="margin-top: -10px;">Alumni</h5>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                             <div class="card-body text-white d-flex justify-content-center align-items-center"
                                 style="height: 150px;">
                                 <div class="text-center">
-                                    <h1 class="counter" data-target="301" data-type="number">0</h1>
+                                    <h1 class="counter" data-target="351" data-type="number">0</h1>
                                     <h5 style="margin-top: -10px;">Bekerja</h5>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="card-body text-white d-flex justify-content-center align-items-center"
                                 style="height: 150px;">
                                 <div class="text-center">
-                                    <h1 class="counter" data-target="100" data-type="percent">0</h1>
+                                    <h1 class="counter" data-target="98,87" data-type="percent">0</h1>
                                     <h5 style="margin-top: -10px;">Success Rate</h5>
                                 </div>
                             </div>
@@ -583,10 +583,10 @@
                 type: 'column'
             },
             title: {
-                text: 'Data Alumni Politeknik Penerbangan Palembang Tahun 2023 - 2025'
+                text: 'Data Alumni Politeknik Penerbangan Palembang Tahun 2023 - 2026'
             },
             xAxis: {
-                categories: ['2023', '2024', '2025'],
+                categories: ['2023', '2024', '2025', '2026'],
                 title: {
                     text: 'Tahun'
                 }
@@ -608,15 +608,15 @@
             },
             series: [{
                     name: 'TRBU',
-                    data: [0, 44, 24]
+                    data: [0, 44, 24, 22]
                 },
                 {
                     name: 'MBU',
-                    data: [44, 48, 48]
+                    data: [44, 48, 48, 4]
                 },
                 {
                     name: 'PPKP',
-                    data: [24, 24, 45]
+                    data: [24, 24, 45, 28]
                 }
             ]
         });
