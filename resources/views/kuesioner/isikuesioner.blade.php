@@ -370,7 +370,7 @@
                             ->join('tarunas', 'tarunas.id_mahasiswa', '=', 'testimonis.id_mahasiswa')
                             ->select('tarunas.nama_mahasiswa', 'testimonis.*')
                             ->orderBy('created_at', 'DESC')
-                            ->where('status', 'Aktif')
+                            ->where('testimonis.status', 'Aktif')
                             ->inRandomOrder()
                             ->limit(9)
                             ->get();
