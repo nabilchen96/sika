@@ -131,12 +131,12 @@
                     </li>
                 @endif
                 @if (auth::user()->role == 'taruna')
-                    <li class="nav-item @stack('pengajuansurat')">
+                    {{-- <li class="nav-item @stack('pengajuansurat')">
                         <a class="nav-link" href="{{ url('pengajuansurat') }}">
                             <i class="fas fa-fw fa-layer-group"></i>
                             <span>Pengajuan Surat</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item @stack('catatan')">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                             aria-expanded="true" aria-controls="collapseTwo">
@@ -202,7 +202,7 @@
                                 <span>Taruna Pengasuh</span>
                             </a>
                         </li>
-                        <li class="nav-item @stack('pengajuansurat')">
+                        {{-- <li class="nav-item @stack('pengajuansurat')">
                             <a class="nav-link" href="{{ url('pengajuansurat') }}">
                                 <i class="fas fa-fw fa-layer-group"></i>
                                 <span>Pengajuan Surat
@@ -217,7 +217,7 @@
                                     @endif
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item @stack('catatan')">
                             <a class="nav-link collapsed" href="#" data-toggle="collapse"
                                 data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
