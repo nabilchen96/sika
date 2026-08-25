@@ -86,6 +86,7 @@ class CatatanHukumanController extends Controller
                     'catatan_hukumen.keterangan',
                     'catatan_hukumen.is_dikerjakan'
                 )
+                ->where('tarunas.status', 'Tidak Aktif')
                 ->orderBy('catatan_hukumen.is_dikerjakan', 'ASC')
                 ->get();
             }

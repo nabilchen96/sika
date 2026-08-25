@@ -60,19 +60,19 @@
                 </form>
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                           Nilai Sudah Disahkan
                       </a>
-                    </li>
-                    <li class="nav-item">
+                    </li> --}}
+                    {{-- <li class="nav-item">
                       <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                           Nilai Belum Disahkan
                       </a>
-                    </li>
+                    </li> --}}
                   </ul>
                   <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    {{-- <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="table-responsive mt-4">
                             <table class="table table-bordered table-striped" width="100%" id="dataTable" cellspacing="0">
                                 <thead>
@@ -129,8 +129,8 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    </div> --}}
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="table-responsive mt-4">
                             <table class="table table-bordered table-striped" width="100%" id="dataTable2" cellspacing="0">
                                 <thead>

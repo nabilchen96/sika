@@ -51,7 +51,7 @@ class CatatanPelanggaranController extends Controller
                             ->get();
             }
         }else{
-            $taruna = DB::table('tarunas')->get();
+            $taruna = DB::table('tarunas')->where('status', 'Tidak Aktif')->get();
         }
 
         $data = [];
