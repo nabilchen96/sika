@@ -235,11 +235,11 @@
                                     <a class="collapse-item @stack('catatanpenghargaan')"
                                         href="{{ url('catatanpenghargaan') }}">Catatan
                                         Penghargaan</a>
-                                    <a class="collapse-item @stack('catatansakit')"
+                                    {{-- <a class="collapse-item @stack('catatansakit')"
                                         href="{{ url('catatansakit') }}">Catatan Sakit</a>
                                     <a class="collapse-item @stack('catatanperizinan')"
                                         href="{{ url('catatanperizinan') }}">Catatan
-                                        Perizinan</a>
+                                        Perizinan</a> --}}
                                 </div>
                             </div>
                         </li>

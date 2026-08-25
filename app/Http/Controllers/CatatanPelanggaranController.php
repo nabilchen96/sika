@@ -41,7 +41,7 @@ class CatatanPelanggaranController extends Controller
                                 foreach($grup_kordinasi  as $k) {
                                     $q->orWhere('asuhans.id_pengasuh', $k->id);
                                 }
-                            })           
+                            })         
                             ->get();
             }else{
                 $taruna = DB::table('asuhans')
@@ -51,7 +51,7 @@ class CatatanPelanggaranController extends Controller
                             ->get();
             }
         }else{
-            $taruna = DB::table('tarunas')->where('status', 'Tidak Aktif')->get();
+            $taruna = DB::table('tarunas')->where('status', 'Aktif')->get();
         }
 
         $data = [];
