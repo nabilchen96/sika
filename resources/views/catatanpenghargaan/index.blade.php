@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">SK Penghargaan</label>
-                                        <input type="text" class="form-control" name="sk_penghargaan" required>
+                                        <input type="text" placeholder="SK Penghargaan" class="form-control" name="sk_penghargaan" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Tanggal Penghargaan</label>
@@ -65,12 +65,12 @@
                                         <label for="recipient-name" class="col-form-label">Keterangan</label>
                                         <textarea name="keterangan" class="form-control" id="keterangan" cols="30" rows="5"></textarea>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label class="col-form-label">Template Penghargaan</label>
                                         <select class="form-control" id="form-control" name="template_penghargaan">
                                             <?php
                                                 
-                                                $template = DB::table('templates')->where('kategori', '3')->get();
+                                                // $template = DB::table('templates')->where('kategori', '3')->get();
 
                                             ?>
                                             <option value="">--Pilih Template Penghargaan--</option>
@@ -78,7 +78,8 @@
                                                 <option value="{{ $item->id_template }}">{{ $item->judul_template }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -141,7 +142,7 @@
                                 <th>Bidang Penghargaan</th>
                                 <th>Poin Penghargaan</th>
                                 @if (auth::user()->role != 'taruna')
-                                <th width="10"></th>
+                                {{-- <th width="10"></th> --}}
                                 <th width="10"></th>
                                 <th width="10"></th>
                                 @endif
@@ -156,11 +157,11 @@
                             <td>{{ $item->bidang_penghargaan }}</td>
                             <td>{{ $item->poin_penghargaan }}</td>
                             @if (auth::user()->role != 'taruna')
-                            <td>
+                            {{-- <td>
                                 <a href="{{ url('sertifikat-penghargaan') }}/{{ $item->id_catatan_penghargaan }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-file-pdf text-white"></i>
                                 </a>
-                            </td>
+                            </td> --}}
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#edit" data-array="{{ $data }}"
                                     data-i="{{ $key }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
@@ -244,12 +245,12 @@
                                             <label for="recipient-name" class="col-form-label">Keterangan</label>
                                             <textarea name="keterangan" class="form-control" id="keterangan" cols="30" rows="5"></textarea>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label class="col-form-label">Template Penghargaan</label>
                                             <select class="form-control" id="template_penghargaan" name="template_penghargaan">
                                                 <?php
                                                     
-                                                    $template = DB::table('templates')->where('kategori', '3')->get();
+                                                    // $template = DB::table('templates')->where('kategori', '3')->get();
     
                                                 ?>
                                                 <option value="">--Pilih Template Penghargaan--</option>
@@ -257,7 +258,7 @@
                                                     <option value="{{ $item->id_template }}">{{ $item->judul_template }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
