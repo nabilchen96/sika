@@ -58,6 +58,12 @@
                     </div>
                 </div>
                 <div id="container" style="width:100%; height:500px;"></div>
+                <section class="mt-4 mb-5" aria-label="Peta sebaran alumni">
+                    <iframe src="{{ route('peta-alumni.index', ['embed' => 1]) }}"
+                        title="Peta Sebaran Alumni Politeknik Penerbangan Palembang"
+                        loading="lazy"
+                        style="display:block; width:100%; height:780px; border:0;"></iframe>
+                </section>
                 <br><br>
 
                 <div class="content-header">
