@@ -429,3 +429,10 @@ Route::get('/editberita/{id}', 'BeritaController@edit')->middleware(['checkRole:
 Route::post('/updateberita', 'BeritaController@update')->middleware(['checkRole:pengasuh,admin,pusbangkar']);
 
 Route::post('/changepassword', 'Auth\ResetPasswordController@changepassword')->middleware(['checkRole:pengasuh,admin,pusbangkar,taruna']);
+
+Route::get('/peta-alumni', 'PetaAlumniController@index')->name('peta-alumni.index');
+Route::get('/peta-alumni/data', 'PetaAlumniController@data')->name('peta-alumni.data');
+Route::middleware(['auth', 'checkRole:admin'])->group(function () {
+    Route::get('/peta-alumni/admin', 'PetaAlumniController@admin')->name('peta-alumni.admin');
+    Route::post('/peta-alumni/admin', 'PetaAlumniController@store')->name('peta-alumni.store');
+});
